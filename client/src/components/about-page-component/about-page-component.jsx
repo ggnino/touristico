@@ -18,7 +18,7 @@ function AboutPage(props) {
 			window.location.reload();
 		}
 		axios
-			.get('/api/v1/users/guides')
+			.get('api/v1/users/guides')
 			.then((res) => {
 				// hide loader component
 				setHide((h) => {
