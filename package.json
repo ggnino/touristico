@@ -2,6 +2,10 @@
 	"name": "touristico",
 	"version": "1.0.0",
 	"description": "tour site",
+	"engines": {
+		"node": "^18.2.0",
+		"npm": "^8.9.2"
+	},
 	"main": "server.js",
 	"scripts": {
 		"start": "nodemon server.js",
