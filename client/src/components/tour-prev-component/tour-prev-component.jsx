@@ -71,6 +71,7 @@ function TourPrev() {
 					});
 				})
 				.catch((err) => {
+					console.log(err);
 					setHide((h) => {
 						return {
 							...h,
