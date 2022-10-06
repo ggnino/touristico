@@ -1,0 +1,53 @@
+.list {
+	display: flex;
+	flex-direction: column;
+	justify-content: initial;
+	align-items: center;
+	width: 80%;
+	border: 5px solid blue;
+	padding: 0 3rem;
+	border-radius: 0.5rem;
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-width: thin;
+
+	&-group {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		font-size: 3rem;
+		padding: 3rem;
+
+		&:not(:last-child) {
+			border-bottom: 5px solid blue;
+		}
+
+		span {
+			cursor: pointer;
+		}
+
+		&:hover {
+			& > div {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+
+		&-icons {
+			position: absolute;
+			right: 0;
+			opacity: 0;
+			visibility: hidden;
+			padding: 0.5rem;
+			:not(:last-child) {
+				margin-right: 2rem;
+			}
+			img {
+				width: 30%;
+				cursor: pointer;
+			}
+		}
+	}
+}

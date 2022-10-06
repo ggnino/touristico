@@ -1,0 +1,196 @@
+@use '../../utils/styles/variables.scss' as *;
+.tour {
+	.map-container {
+		height: 50rem;
+		width: 100%;
+		flex-shrink: 0;
+
+		p {
+			color: black;
+		}
+	}
+	&.page-layout {
+		background-image: linear-gradient(
+				to bottom,
+				rgba(0, 0, 0, 0.8),
+				rgba(0, 0, 0, 0.8)
+			),
+			linear-gradient(to bottom, $myColor-3, $myColor-3);
+		::-webkit-scrollbar {
+			width: 0.6rem;
+		}
+		::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		::-webkit-scrollbar-thumb {
+			background-color: $myColor-3;
+			border-radius: 2rem;
+			border: $myColor-3;
+		}
+	}
+	&-content {
+		overflow-y: scroll;
+		padding: 0 1rem;
+		justify-content: initial;
+
+		&-title {
+			text-align: center;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-image: linear-gradient(
+					to bottom,
+					rgba(0, 0, 0, 0.5),
+					rgba(0, 0, 0, 0.5)
+				),
+				linear-gradient(to bottom, rgba(black, 0.8), rgba($myColor-3, 0.8));
+
+			clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 95%);
+			z-index: 4;
+			flex-shrink: 0;
+			h1 {
+				font-size: 8rem;
+				color: $myColor-3;
+				border: 2px solid $myColor-3;
+				background-color: black;
+				padding: 1rem;
+				border-radius: 5rem;
+				box-shadow: 0 0 2rem rgba($myColor-3, 1);
+				z-index: 5;
+			}
+		}
+		&-info {
+			display: flex;
+			flex-direction: row;
+			font-size: 3rem;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			margin-bottom: 5rem;
+
+			h3 {
+				margin: 2rem;
+			}
+			&-facts {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				border-right: 0.5rem solid $myColor-3;
+
+				ul {
+					list-style: none;
+
+					li {
+						margin-bottom: 2rem;
+						&:last-child {
+							span {
+								padding: 0.5rem;
+								text-decoration: underline;
+								cursor: pointer;
+								em {
+									font-family: cursive;
+								}
+							}
+						}
+					}
+				}
+			}
+			&-guides {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				align-items: center;
+				width: 70%;
+
+				& > .user-icon > p {
+					font-size: 1.5rem;
+					font-style: italic;
+				}
+			}
+
+			&-description {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				padding: 0 1rem;
+				p {
+					font-size: 3rem;
+					padding: 2rem;
+					height: 100%;
+				}
+			}
+		}
+
+		&-imgs {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: nowrap;
+			margin-top: 5rem;
+
+			img {
+				width: 50%;
+				overflow: auto;
+			}
+		}
+	}
+}
+.marker {
+	background-image: url('../../imgs/pin.png');
+	background-size: cover;
+	width: 4rem;
+	height: 4rem;
+	cursor: pointer;
+}
+@media screen and (max-width: 1782px) {
+	.tour {
+		&-content {
+			&-info-description {
+				p {
+					font-size: 2.5rem;
+				}
+			}
+		}
+	}
+}
+@media screen and (max-width: 1182px) {
+	.tour {
+		&-content {
+			&-title h1 {
+				font-size: 5rem;
+			}
+			&-info {
+				flex-direction: column;
+				font-size: 2rem;
+				&-facts {
+					border: none;
+				}
+				h3 {
+					font-size: 3rem;
+				}
+				&-description {
+					p {
+						font-size: 1.6rem;
+					}
+				}
+				&-guides {
+					pointer-events: none;
+					.user-icon p {
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+}

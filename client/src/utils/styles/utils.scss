@@ -1,0 +1,118 @@
+@use './variables.scss' as *;
+.my-form {
+	display: flex;
+	justify-content: i;
+	align-items: center;
+	flex-direction: column;
+	border-radius: 1rem;
+	padding: 1rem;
+	// height: 50%;
+	// width: 30%;
+	// margin-top: 6rem;
+	// margin-left: 4rem;
+	// margin-right: 4rem;
+	// margin-bottom: 4rem;
+	background-color: black;
+	border: 12px double $myColor-4;
+}
+.my-formgroup {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	position: relative;
+	margin: auto 4rem;
+}
+
+.my-label {
+	position: absolute;
+	font-size: 1.2rem;
+	color: black;
+	cursor: auto;
+	margin-left: 0.1rem;
+	line-height: 1rem;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(1.5rem) translateX(1.5rem);
+	transition: all 0.2s;
+	padding: 0.5rem;
+}
+
+.my-input {
+	width: auto;
+	font-size: 3rem;
+	padding: 1.5rem 0.8rem 0.2rem;
+	border-radius: 0.5rem;
+	transition: all 0.2s;
+	outline: 4px solid transparent;
+	margin-bottom: 3rem;
+
+	&:active,
+	&:focus {
+		outline: 4px solid $myColor-1;
+		box-shadow: 0 0 5rem $myColor-1;
+	}
+	&:invalid {
+		outline: 4px solid $myColor-5;
+		box-shadow: 0 0 5rem $myColor-5;
+	}
+	&:not(:placeholder-shown),
+	&:focus {
+		& ~ label {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0) translateX(0);
+		}
+	}
+	&:focus:placeholder-shown,
+	&:focus::-webkit-input-placeholder {
+		color: transparent;
+	}
+}
+
+.my-heading {
+	font-size: 5rem;
+	margin-bottom: 2rem;
+	padding: 2rem;
+	text-align: center;
+}
+.text-gradient {
+	background-image: linear-gradient(
+		to right,
+		$myColor-1,
+		$myColor-2,
+		$myColor-3,
+		$myColor-4,
+		$myColor-5
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	color: transparent;
+	padding-right: 1.4rem;
+}
+.file {
+	text-align: center;
+	font-size: 2rem;
+	padding: 3rem 0;
+
+	&:active,
+	&:focus {
+		outline: 4px solid transparent;
+		box-shadow: 0 0 5rem transparent;
+	}
+
+	& ~ label {
+		color: inherit;
+		font-size: 1.5rem;
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.load {
+	position: absolute;
+	font-size: 5rem;
+	color: $myColor-3;
+	top: 50vh;
+}

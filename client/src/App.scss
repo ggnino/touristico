@@ -1,0 +1,76 @@
+@use './utils/styles/layout.scss';
+@use './utils/styles/utils.scss';
+@use './utils/styles/variables.scss' as *;
+
+@import url('https://use.typekit.net/dnf2vzq.css');
+@import url('https://fonts.googleapis.com/css2?family=Damion&family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer:ital@0;1&display=swap');
+
+// Global settings
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	box-sizing: border-box;
+	font-size: 62.5%; // setting rem
+	scroll-behavior: smooth;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	scrollbar-width: thin;
+	scrollbar-color: $myColor-1 black;
+	::-webkit-scrollbar {
+		width: 0.6rem;
+	}
+
+	::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		background-color: black;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: $myColor-1;
+		border: $myColor-1;
+		border-radius: 2rem;
+	}
+}
+
+body {
+	color: $myColor-2;
+}
+
+p {
+	text-align: justify;
+}
+
+p,
+li {
+	font-family: 'IM Fell Great Primer', serif;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a,
+span,
+button {
+	font-family: 'Kaushan Script', cursive;
+}
+span {
+	cursor: default;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: 'Damion', cursive;
+	cursor: default;
+}
+//  a{
+//
+//
+// }

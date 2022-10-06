@@ -1,0 +1,84 @@
+@use '../../utils/styles/variables.scss' as *;
+
+.modal {
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.9);
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background-size: cover;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 500;
+
+	&-content-form {
+		border: 3px solid $myColor-5;
+		border: 12px double $myColor-5;
+		box-shadow: 0 0 4rem $myColor-5;
+		padding: 6rem;
+		margin: 0 auto 8rem auto;
+		&.my-form {
+			width: 25%;
+
+			justify-content: space-between;
+			overflow-y: auto;
+			scrollbar-color: $myColor-5 black;
+			scrollbar-width: thin;
+
+			& > .my-heading {
+				margin-bottom: 0;
+			}
+		}
+		&-formgroup {
+			& > .my-input {
+				margin-bottom: 3rem;
+			}
+			& ~ div > .book {
+				&::after {
+					background-color: $myColor-1;
+				}
+				&:hover {
+					color: $myColor-1;
+					// border-color: @myColor-2;
+				}
+			}
+		}
+	}
+}
+.close {
+	position: relative;
+	transition: all 0.2s;
+	transform: scale(0.6);
+	padding: 1rem;
+	z-index: 1000;
+
+	&-wrapper {
+		transition: all 0.2s;
+		position: absolute;
+		top: 4rem;
+		right: 10rem;
+		width: 5rem;
+		cursor: pointer;
+
+		&:hover {
+			& > img {
+				transform: scale(0.8);
+				background-color: $myColor-2;
+			}
+
+			filter: drop-shadow(0 0 2rem $myColor-5);
+		}
+	}
+	width: 4rem;
+	border: 2px solid $myColor-5;
+	&:hover {
+		border: 2px solid $myColor-2;
+		background-color: $myColor-2;
+	}
+	border-radius: 50%;
+	background-color: $myColor-5;
+}

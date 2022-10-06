@@ -1,0 +1,39 @@
+@use '../../utils/styles/variables.scss' as *;
+
+.userTours {
+	&-heading {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 80%;
+		padding: 0 3rem;
+		position: relative;
+		&-add {
+			position: absolute;
+			font-size: 2rem;
+			right: 0;
+			padding: 0;
+			border-radius: 5rem;
+			background-color: transparent;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			width: fit-content;
+
+			&.btn::after {
+				background-color: green;
+			}
+			&.btn:hover {
+				color: green;
+			}
+
+			img {
+				position: relative;
+				transition: all 0.4s;
+				width: 15%;
+				margin-right: 0.5rem;
+			}
+		}
+	}
+}

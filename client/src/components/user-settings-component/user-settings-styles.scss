@@ -1,0 +1,35 @@
+@use '../../utils/styles/variables.scss' as *;
+.settings {
+	&-content {
+		&-form {
+			&-formgroup {
+				& > .my-input {
+					width: 23rem;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.settings {
+		&-content {
+			&-form {
+				&-formgroup {
+					margin: 0 2rem;
+				}
+			}
+		}
+	}
+}
+@media screen and (max-width: 420px) {
+	.settings {
+		&-content {
+			&-form {
+				&-formgroup {
+					margin: 0;
+				}
+			}
+		}
+	}
+}

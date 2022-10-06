@@ -1,0 +1,41 @@
+@use '../../utils/styles/variables.scss' as *;
+.user-form {
+	&.my-form {
+		border: none;
+		width: 100%;
+		height: auto;
+	}
+	&.my-heading {
+		margin-bottom: 4rem;
+	}
+	p {
+		font-size: 2rem;
+	}
+	& > :not(:last-child) > .my-input {
+		margin-bottom: 3rem;
+	}
+
+	& > div > .btn.home.book {
+		background-image: linear-gradient(
+			to right,
+			$myColor-1,
+			$myColor-1,
+			$myColor-2,
+			$myColor-3,
+			$myColor-4,
+			$myColor-5
+		);
+
+		&::after {
+			background-image: linear-gradient(
+				to right,
+				$myColor-1,
+				$myColor-1,
+				$myColor-2,
+				$myColor-3,
+				$myColor-4,
+				$myColor-5
+			);
+		}
+	}
+}

@@ -1,0 +1,341 @@
+@use '../../utils/styles/variables.scss' as *;
+.tour-prev {
+	position: relative;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+		linear-gradient(
+			to bottom,
+			$myColor-2,
+			rgba($myColor-2, 0.4),
+			rgba($myColor-3, 0.7),
+			rgba($myColor-3, 0.7),
+			$myColor-3,
+			$myColor-3
+		),
+		url('../../imgs/bg2.jpg') no-repeat;
+	background-size: cover;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	transition: all 0.5s;
+	// border-bottom: 2px solid $myColor-4;
+	padding-top: 5rem;
+	padding-bottom: 5rem;
+	margin-top: -20rem;
+
+	&.title {
+		position: absolute;
+		top: 25rem;
+		left: 0;
+		background: none;
+		border: none;
+		color: $myColor-3;
+		transform: skewY(0deg);
+	}
+	& ~ div > .info {
+		width: 100%;
+		transform: translateY(10rem);
+		margin-bottom: 10rem;
+		&:hover {
+			color: $myColor-3;
+		}
+		&::after {
+			background-color: $myColor-3;
+		}
+	}
+	&-content {
+		position: relative;
+		display: flex;
+		justify-content: space-around;
+		align-items: flex-end;
+		flex-direction: row;
+		margin: 10rem auto 0rem auto;
+		z-index: 25;
+		width: 100%;
+
+		&-cards {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+			margin: 0.5rem;
+			flex-shrink: 1;
+			flex-basis: 50rem;
+			box-shadow: 0 0 4rem rgba(0, 0, 0, 0.8);
+			border-radius: 2rem;
+			width: 100%;
+			cursor: pointer;
+			h2 {
+				opacity: 0;
+				font-size: 4rem;
+				position: absolute;
+				// top: 28rem;
+				bottom: 0rem;
+				right: 0rem;
+				transition: all 0.5s;
+				background-color: $myColor-1;
+				padding: 0 1rem;
+				cursor: pointer;
+			}
+			span {
+				cursor: pointer;
+			}
+			&:hover {
+				box-shadow: 0 0 4rem rgba($myColor-3, 0.8);
+
+				& > div {
+					background: linear-gradient(
+						to bottom,
+						rgba($myColor-1, 0.7),
+						rgba($myColor-1, 0.7)
+					);
+				}
+				& > #two {
+					background: linear-gradient(
+						to bottom,
+						rgba($myColor-4, 0.7),
+						rgba($myColor-4, 0.7)
+					);
+					& ~ ul {
+						li:first-child {
+							border-top: 2px solid $myColor-4;
+						}
+						li:not(:last-child) {
+							border-bottom: 2px solid $myColor-4;
+						}
+					}
+				}
+				& > #three {
+					background: linear-gradient(
+						to bottom,
+						rgba($myColor-5, 0.7),
+						rgba($myColor-5, 0.7)
+					);
+					& ~ ul {
+						li:first-child {
+							border-top: 2px solid $myColor-5;
+						}
+						li:not(:last-child) {
+							border-bottom: 2px solid $myColor-5;
+						}
+					}
+				}
+				ul {
+					li:first-child {
+						border-top: 2px solid $myColor-1;
+					}
+					li:not(:last-child) {
+						border-bottom: 2px solid $myColor-1;
+					}
+				}
+
+				h2 {
+					opacity: 1;
+				}
+			}
+
+			ul {
+				width: 100%;
+				background-color: black;
+				list-style: none;
+				text-align: center;
+				transition: all 0.5s 0.2s;
+				border-bottom-left-radius: 2rem;
+				border-bottom-right-radius: 2rem;
+				li {
+					padding: 2rem;
+					font-size: 3rem;
+					&:first-child {
+						border-top: 2px solid $myColor-3;
+					}
+					&:not(:last-child) {
+						border-bottom: 2px solid $myColor-3;
+					}
+				}
+			}
+
+			p {
+				font-size: 3rem;
+				padding: 0.5rem;
+			}
+		}
+	}
+
+	a.tour-prev-content {
+		width: 20%;
+	}
+}
+#two {
+	h2 {
+		background-color: $myColor-4;
+	}
+}
+#three {
+	h2 {
+		background-color: $myColor-5;
+	}
+}
+.img-holder {
+	position: relative;
+	width: 100%;
+	border-top-left-radius: 2rem;
+	border-top-right-radius: 2rem;
+
+	img {
+		border-top-left-radius: 2rem;
+		border-top-right-radius: 2rem;
+		position: relative;
+		z-index: -1;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 2280px) {
+	.tour-prev {
+		&-content {
+			& ~ div > .info {
+				transform: translateY(7rem);
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1580px) {
+	.tour-prev {
+		&-content {
+			&-cards {
+				ul {
+					li {
+						font-size: 2rem;
+					}
+				}
+				h2 {
+					font-size: 3rem;
+				}
+			}
+		}
+		a.tour-prev-content {
+			width: 25%;
+			// margin: 0rem;
+			// padding: 0;
+		}
+	}
+}
+
+@media screen and (max-width: 1182px) {
+	.tour-prev {
+		&.title {
+			top: 30rem;
+		}
+		padding: 0;
+		&-content {
+			a.tour-prev-content {
+				width: 80%;
+			}
+			& ~ div > .info {
+				margin-top: 5rem;
+				margin-bottom: 5rem;
+				transform: translateY(0rem);
+			}
+			width: 70%;
+			// margin: 0;
+			flex-direction: column;
+			align-items: center;
+			&:first-child {
+				margin-top: 25rem;
+			}
+			&-cards {
+				& > div {
+					background: linear-gradient(
+						to bottom,
+						rgba($myColor-1, 0.7),
+						rgba($myColor-1, 0.7)
+					);
+				}
+				& > #two {
+					background: linear-gradient(
+						to bottom,
+						rgba($myColor-4, 0.7),
+						rgba($myColor-4, 0.7)
+					);
+					& ~ ul {
+						li:first-child {
+							border-top: 2px solid $myColor-4;
+						}
+						li:not(:last-child) {
+							border-bottom: 2px solid $myColor-4;
+						}
+					}
+				}
+
+				& > #three {
+					background: linear-gradient(
+						to bottom,
+						rgba($myColor-5, 0.7),
+						rgba($myColor-5, 0.7)
+					);
+					& ~ ul {
+						li:first-child {
+							border-top: 2px solid $myColor-5;
+						}
+						li:not(:last-child) {
+							border-bottom: 2px solid $myColor-5;
+						}
+					}
+				}
+				h2 {
+					font-size: 4rem;
+					opacity: 1;
+				}
+				ul {
+					li:first-child {
+						border-top: 2px solid $myColor-1;
+					}
+					li:not(:last-child) {
+						border-bottom: 2px solid $myColor-1;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 787px) {
+	.tour-prev {
+		a.tour-prev-content {
+			width: 100%;
+		}
+		&.title {
+			font-size: 3rem;
+		}
+		&-content {
+			flex-direction: column;
+			align-items: center;
+			&:first-child {
+				margin-top: 25rem;
+			}
+		}
+	}
+}
+@media screen and (max-width: 606px) {
+	.tour-prev {
+		&-content {
+			&-cards {
+				h2 {
+					font-size: 2rem;
+				}
+			}
+			ul {
+				li {
+					font-size: 1.6rem;
+				}
+			}
+		}
+	}
+}
+@media screen and (max-width: 480px) {
+	.tour-prev {
+	}
+}

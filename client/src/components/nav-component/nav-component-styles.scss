@@ -1,0 +1,88 @@
+@use '../..//utils/styles/variables.scss' as *;
+.nav {
+	position: fixed;
+	width: 100%;
+	z-index: 200;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	// transition: all 0.02s;
+
+	&-logo {
+		h1 {
+			cursor: pointer;
+		}
+
+		padding: 1rem;
+		margin: 1rem;
+	}
+	&.light li {
+		color: black;
+	}
+	li:hover,
+	&.light li:hover {
+		a {
+			&#pp {
+				color: $myColor-1;
+			}
+			&#to {
+				color: $myColor-3;
+			}
+
+			&#con {
+				color: $myColor-2;
+			}
+			&#crr {
+				color: $myColor-4;
+			}
+			&#lgl {
+				color: $myColor-5;
+			}
+			text-decoration: underline;
+		}
+	}
+
+	ul {
+		// width: 100%;
+		list-style: none;
+
+		li {
+			display: inline-block;
+			font-size: 2rem;
+			margin: 1rem;
+			padding: 0.5rem;
+			color: $myColor-2;
+		}
+	}
+}
+@media screen and (max-width: 750px) {
+	.nav {
+		flex-direction: column;
+
+		&-logo {
+			margin: 0;
+			padding-bottom: 0;
+		}
+	}
+}
+@media screen and (max-width: 508px) {
+	.nav {
+		ul {
+			width: 100%;
+			text-align: center;
+			li {
+				font-size: 1.6rem;
+			}
+		}
+	}
+}
+@media screen and (max-width: 442px) {
+	.nav {
+		ul {
+			li {
+				margin-bottom: 0;
+			}
+		}
+	}
+}

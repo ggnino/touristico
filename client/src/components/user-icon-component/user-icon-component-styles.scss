@@ -1,0 +1,61 @@
+.user-icon {
+	position: relative;
+	// display: flex;
+	// flex-direction: column;
+	// align-items: center;
+	// justify-content: center;
+	border-radius: 50%;
+	// border: 2px solid red;
+
+	img {
+		position: relative;
+		width: 100%;
+		transition: all 0.2s;
+		border-radius: 50%;
+		border: 2px solid black;
+		box-shadow: 0 2rem 2rem black;
+	}
+	p {
+		position: absolute;
+		text-align: center;
+		width: 89%;
+		// height: 50%;
+		font-size: 2rem;
+		// top: 0;
+		bottom: 0;
+		left: 0.3rem;
+		right: 0;
+		margin: 0 auto;
+		padding-top: 4rem;
+		padding-bottom: 1rem;
+		background-color: rgba(black, 1);
+		opacity: 0;
+		transition: all 0.5s;
+		border-bottom-left-radius: 50%;
+		border-bottom-right-radius: 50%;
+
+		clip-path: polygon(
+			100% 50%,
+			100% 80%,
+			100% 100%,
+			0% 100%,
+			100% 10%,
+			0% 100%,
+			0% 50%
+		);
+	}
+	&:hover {
+		img {
+			filter: blur(0.2rem) brightness(100%);
+		}
+		p {
+			opacity: 1;
+		}
+	}
+}
+.no-hover {
+	pointer-events: none;
+	img {
+		box-shadow: none;
+	}
+}
