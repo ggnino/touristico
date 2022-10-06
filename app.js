@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'production') {
 // Set req limiter
 app.use('/api', limiter);
 // Set static folder
-app.use(express.static(`${__dirname}/public`));
+// app.use(express.static(`${__dirname}/client/public`));
 // Body parser
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10kb' }));
