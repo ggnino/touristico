@@ -23,7 +23,12 @@ const limiter = rateLimit({
 });
 
 ////////////////////Global middlware\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-app.use(cors({ origin: true }));
+app.use(
+	cors({
+		origin: '*',
+		credentials: true,
+	})
+);
 
 // Set security http headers
 app.use(helmet());
