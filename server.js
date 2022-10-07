@@ -9,8 +9,6 @@ const DB = process.env.DATABASE.replace(
 	process.env.DATABASE_PASSWORD
 );
 if (process.env._ && process.env._.indexOf('heroku') !== -1) {
-	console.log(process.env.NODE_ENV);
-	console.log(app);
 	console.log("I'm in Heroku!");
 }
 // Connect to database

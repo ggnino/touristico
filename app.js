@@ -26,7 +26,7 @@ const limiter = rateLimit({
 app.use(cors({ origin: true }));
 
 // Set security http headers
-// app.use(helmet());
+app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -66,14 +66,11 @@ app.use(
 // 	console.log(req.cookies);
 // 	next();
 // });
+
 // Routes
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
-app.use('*', (req, res, next) => {
-	next(new AppError(`Can not find ${req.originalUrl} on this server.`, 404));
-});
-app.use(globalErrHandler);
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
 	// Set static folder
@@ -83,4 +80,9 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	});
 }
+app.use('*', (req, res, next) => {
+	next(new AppError(`Can not find ${req.originalUrl} on this server.`, 404));
+});
+app.use(globalErrHandler);
+
 module.exports = app;
