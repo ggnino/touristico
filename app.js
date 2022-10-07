@@ -23,12 +23,7 @@ const limiter = rateLimit({
 });
 
 ////////////////////Global middlware\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-app.use(
-	cors({
-		origin: '*',
-		credentials: true,
-	})
-);
+app.use(cors({ origin: true }));
 
 // Set security http headers
 // app.use(helmet());
@@ -50,7 +45,7 @@ if (process.env.NODE_ENV === 'production') {
 // Set req limiter
 app.use('/api', limiter);
 // Set static folder
-// app.use(express.static(`${__dirname}/client/public`));
+// app.use(express.static(`${__dirname}/public`));
 // Body parser
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10kb' }));
