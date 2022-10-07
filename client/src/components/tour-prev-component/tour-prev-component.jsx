@@ -62,6 +62,7 @@ function TourPrev() {
 			axios
 				.get('/api/v1/tours')
 				.then((response) => {
+					console.log(55, response);
 					setTours(response.data.Tours);
 					setHide((h) => {
 						return {
