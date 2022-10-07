@@ -32,15 +32,6 @@ app.use(cors({ origin: true }));
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-	// Set static folder
-	app.use(express.static('client/build'));
-
-	app.use('/', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-	});
-}
 
 // Set req limiter
 app.use('/api', limiter);
@@ -83,4 +74,13 @@ app.use('*', (req, res, next) => {
 	next(new AppError(`Can not find ${req.originalUrl} on this server.`, 404));
 });
 app.use(globalErrHandler);
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+	// Set static folder
+	app.use(express.static('client/build'));
+
+	app.use('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}
 module.exports = app;
