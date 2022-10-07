@@ -48,7 +48,7 @@ app.use('/api', limiter);
 // app.use(express.static(`${__dirname}/public`));
 // Body parser
 // app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json());
 
 app.use(cookieParser());
 // Data sanitization against NoSQL query injection
@@ -70,11 +70,11 @@ app.use(
 	})
 );
 // Test middleware
-app.use((req, res, next) => {
-	console.log('Hello from the middleware 👋');
-	console.log(req.cookies);
-	next();
-});
+// app.use((req, res, next) => {
+// 	console.log('Hello from the middleware 👋');
+// 	console.log(req.cookies);
+// 	next();
+// });
 // Routes
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/tours', tourRouter);
