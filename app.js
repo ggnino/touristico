@@ -26,7 +26,7 @@ const limiter = rateLimit({
 app.use(cors({ origin: true }));
 
 // Set security http headers
-app.use(helmet());
+// app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -71,6 +71,7 @@ app.use(
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
 	// Set static folder
