@@ -34,7 +34,6 @@ function UserForm(props) {
 	useEffect(() => {
 		//  on login page hide password confirm element
 		if (window.location.pathname === '/login') {
-			console.log('OOOOOOOO');
 			setUserFormStyle((s) => {
 				return {
 					...s,

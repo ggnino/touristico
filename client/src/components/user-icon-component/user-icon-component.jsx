@@ -9,6 +9,7 @@ function UserIcon(props) {
 			className={props.id === 'guides' ? 'user-icon' : 'user-icon no-hover'}
 			tabIndex={0}
 			key={props.k ? props.k + props.id : props.id}
+			style={props.display ? { display: props.display } : { display: '' }}
 		>
 			<img
 				src={

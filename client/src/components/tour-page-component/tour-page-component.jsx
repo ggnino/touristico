@@ -137,7 +137,6 @@ function TourPage() {
 								err: '',
 							};
 						});
-						console.log(err);
 					}
 				})();
 			}

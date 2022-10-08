@@ -24,11 +24,11 @@ function Button(props) {
 	useEffect(() => {
 		if (props.icon) {
 			setBtnStyle({ display: '' });
-		}
+		} else setBtnStyle({ display: 'none' });
 		if (settings.light) {
 			light.current = 'btn-light';
 		} else light.current = '';
-	}, [props.icon, setBtnStyle, settings.light]);
+	}, [props.icon, setBtnStyle, settings.light, props.msg]);
 
 	// Render component
 	return (

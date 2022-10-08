@@ -39,7 +39,6 @@ function TourReview(props) {
 							err: '',
 						};
 					});
-					console.log(err);
 				});
 		// cancel request on component unmount
 		return () => {

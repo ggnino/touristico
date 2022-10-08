@@ -9,6 +9,7 @@ function UserProfile(props) {
 	const state = useContext(MyContext);
 	// Destructuring state
 	const { font, textColor, user } = state;
+
 	// Render component
 	return (
 		<>

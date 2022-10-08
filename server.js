@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 // Set path for .env variable
-if (process.env.NODE_ENV === 'development')
+if (process.env.NODE_ENV !== 'production') {
 	dotenv.config({ path: './config.env' });
+}
+
 const app = require('./app');
 const DB = process.env.DATABASE.replace(
 	'<password>',
 	process.env.DATABASE_PASSWORD
 );
-if (process.env._ && process.env._.indexOf('heroku') !== -1) {
-	console.log("I'm in Heroku!");
-}
+
 // Connect to database
 mongoose
 	.connect(DB, {

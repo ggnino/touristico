@@ -287,9 +287,6 @@ function PageLayout() {
 			}
 		>
 			<div
-				onScroll={(e) => {
-					console.log('PPP', window.scrollY);
-				}}
 				className={pageLayoutStyle.class2}
 				style={
 					path.current === '/home'

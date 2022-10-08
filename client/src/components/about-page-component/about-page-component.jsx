@@ -32,7 +32,6 @@ function AboutPage(props) {
 				setGuides([...res.data.tourGuides]);
 			})
 			.catch((err) => {
-				console.log(err);
 				// hide loader component
 				setHide((h) => {
 					return {

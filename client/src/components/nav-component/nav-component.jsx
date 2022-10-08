@@ -49,7 +49,7 @@ function Nav() {
 			});
 		}
 
-		if (path.current !== '/') {
+		if (path.current !== '/' && path.current !== '/home') {
 			setNavStyle((style) => {
 				return {
 					...style,
@@ -59,7 +59,6 @@ function Nav() {
 		}
 
 		if (path.current === '/signup') {
-			console.log('AKI!!!!!!!!');
 			setNavStyle((s) => {
 				return {
 					...s,
