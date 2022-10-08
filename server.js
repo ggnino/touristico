@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 // Set path for .env variable
 if (process.env.NODE_ENV !== 'production') {
+	console.log('herewego');
 	dotenv.config({ path: './config.env' });
 }
 

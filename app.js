@@ -26,7 +26,7 @@ const limiter = rateLimit({
 app.use(cors({ origin: true }));
 
 // Set security http headers
-app.use(helmet());
+// app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
