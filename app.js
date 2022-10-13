@@ -37,7 +37,7 @@ const styleSrcUrls = [
 	'https://api.tiles.mapbox.com/',
 	'https://fonts.googleapis.com/',
 	'https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css ',
-	'https://use.typekit.net/dnf2vzq.css',
+	'https://*.typekit.net/*',
 ];
 const connectSrcUrls = [
 	'https://api.mapbox.com/',
@@ -48,7 +48,7 @@ const connectSrcUrls = [
 const fontSrcUrls = [
 	'fonts.googleapis.com',
 	'fonts.gstatic.com',
-	'https://use.typekit.net/af/*',
+	'*.typekit.net/af/*',
 ];
 app.use(
 	helmet.contentSecurityPolicy({
