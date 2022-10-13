@@ -37,7 +37,7 @@ const styleSrcUrls = [
 	'https://api.tiles.mapbox.com/',
 	'https://fonts.googleapis.com/',
 	'https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css ',
-	// 'https://use.typekit.net/dnf2vzq.css',
+	'https://use.typekit.net/dnf2vzq.css',
 	'*.typekit.net/*',
 ];
 const connectSrcUrls = [
@@ -57,11 +57,11 @@ app.use(
 			// defaultSrc: ["'self'"],
 			connectSrc: ["'self'", ...connectSrcUrls],
 			scriptSrc: ["'self'", ...scriptSrcUrls],
-			// scriptSrcAttr: ['none'],
+			scriptSrcAttr: ["'none'"],
 			styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-			// workerSrc: ["'self'", 'blob:'],
-			// objectSrc: ['none'],
-			// imgSrc: ["'self'", 'blob:', 'data:'],
+			workerSrc: ["'self'", 'blob:'],
+			objectSrc: ["'none'"],
+			imgSrc: ["'self'", 'blob:', 'data:'],
 			fontSrc: ["'self'", ...fontSrcUrls],
 		},
 	})
