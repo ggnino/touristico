@@ -43,7 +43,7 @@ const connectSrcUrls = [
 	'https://b.tiles.mapbox.com/',
 	'https://events.mapbox.com/',
 ];
-// const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
@@ -53,6 +53,8 @@ app.use(
 			styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
 			workerSrc: ["'self'", 'blob:'],
 			objectSrc: [],
+			imgSrc: ["'self'", 'blob:', 'data:'],
+			fontSrc: ["'self'", ...fontSrcUrls],
 		},
 	})
 );
