@@ -14,18 +14,18 @@ const {
 	resize,
 } = require('../utils/handlerFunctions');
 
-const multerStorage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, path.join(`${__dirname}/../client/public/imgs/users`));
-	},
-	filename: (req, file, cb) => {
-		const ext = file.mimetype.split('/')[1];
-		console.log(file);
-		cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-	},
-});
+// const multerStorage = multer.diskStorage({
+// 	destination: (req, file, cb) => {
+// 		cb(null, path.join(`${__dirname}/../client/public/imgs/users`));
+// 	},
+// 	filename: (req, file, cb) => {
+// 		const ext = file.mimetype.split('/')[1];
+// 		console.log(file);
+// 		cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+// 	},
+// });
 
-// const multerStorage = multer.memoryStorage();
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
 	if (file.mimetype.startsWith('image')) {

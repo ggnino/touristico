@@ -124,7 +124,7 @@ exports.resize = catchAsync(async (req, res, next) => {
 		// resize user image
 		// const me = await sharp(req.file.filename).metadata();
 
-		const me = await sharp(req.file.path)
+		const a = await sharp(req.file.buffer)
 			.resize(128, 128)
 			.toFormat('jpeg')
 			.jpeg({ quality: 95 })
@@ -133,7 +133,6 @@ exports.resize = catchAsync(async (req, res, next) => {
 		// }
 		// Add filename to req.body
 		req.body.photo = req.file.filename;
-		console.log('mybody', me);
 	}
 	// resize multiple images
 	else if (req.files) {
