@@ -38,7 +38,7 @@ const styleSrcUrls = [
 	'https://fonts.googleapis.com/',
 	'https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css ',
 	'https://use.typekit.net/dnf2vzq.css',
-	// '*.typekit.net/*',
+	'*.typekit.net/*',
 ];
 const connectSrcUrls = [
 	'https://api.mapbox.com/',
@@ -57,9 +57,10 @@ app.use(
 			defaultSrc: ["'self'"],
 			connectSrc: ["'self'", ...connectSrcUrls],
 			scriptSrc: ["'self'", ...scriptSrcUrls],
+			scriptSrcAttr: ['none'],
 			styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
 			workerSrc: ["'self'", 'blob:'],
-			objectSrc: [],
+			objectSrc: ['none'],
 			imgSrc: ["'self'", 'blob:', 'data:'],
 			fontSrc: ["'self'", ...fontSrcUrls],
 		},
