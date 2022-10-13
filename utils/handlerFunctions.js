@@ -79,9 +79,8 @@ exports.getOne = (Model) =>
 		if (Model.modelName === 'Tour') docQuery.populate('reviews');
 
 		// execute query
-		console.log('here!!!');
 		const doc = await docQuery;
-
+		console.log(doc);
 		// throw err that catchAsync will catch and pass to the global err handler
 		if (!doc) throw new AppError(`Can not find document with that id.`, 404);
 
@@ -114,18 +113,27 @@ exports.getAll = (Model) =>
 	});
 // handler for resizing images
 exports.resize = catchAsync(async (req, res, next) => {
+	console.log('dale111');
 	// resize a single image
 	if (req.file) {
 		// user image name
 		req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+		console.log('dale', req.file);
+
+		// if (req.file.buffer) {
 		// resize user image
-		await sharp(req.file.buffer)
+		// const me = await sharp(req.file.filename).metadata();
+
+		const me = await sharp(req.file.path)
 			.resize(128, 128)
 			.toFormat('jpeg')
 			.jpeg({ quality: 95 })
 			.toFile(`${__dirname}/../client/public/imgs/users/${req.file.filename}`);
+
+		// }
 		// Add filename to req.body
 		req.body.photo = req.file.filename;
+		console.log('mybody', me);
 	}
 	// resize multiple images
 	else if (req.files) {

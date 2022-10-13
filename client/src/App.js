@@ -515,6 +515,7 @@ function App() {
 		// element title
 		const title = e.target.title;
 		e.preventDefault();
+		console.log(title);
 		// info component btn clicked
 		if (title === '/about') {
 			// set ref to true
@@ -560,12 +561,13 @@ function App() {
 					Object.keys(input).forEach((prop) => {
 						if (prop.includes('password')) pws[prop] = input[prop];
 						else if (input[prop]) {
-							if (prop === 'photo')
+							if (prop === 'photo') {
+								console.log('photo!');
 								fd.append(prop, input[prop], input[prop].name);
-							else fd.append(prop, input[prop]);
+							} else fd.append(prop, input[prop]);
 						}
 					});
-
+					console.log('formData', fd);
 					try {
 						// user passwird was updated
 						if (pws['password']) {
@@ -762,19 +764,20 @@ function App() {
 
 	// useEffect hook for navbar styling
 	useEffect(() => {
-		console.log(window.visualViewport.height);
 		// user is logged in
 		if (auth.isLoggedIn) {
+			console.log('render', auth.isLoggedIn, settings);
 			// set default navbar styling
-			setStyle((style) => {
-				return {
-					...style,
-					borderBottom: `4px solid ${styleVars.color5}`,
-					boxShadow: `0 0 2rem ${styleVars.color5}`,
-					color: 'inherit',
-					displayItems: 'none',
-				};
-			});
+			if (settings.defaultColor)
+				setStyle((style) => {
+					return {
+						...style,
+						borderBottom: `4px solid ${styleVars.color5}`,
+						boxShadow: `0 0 2rem ${styleVars.color5}`,
+						color: 'inherit',
+						displayItems: 'none',
+					};
+				});
 			// user saved color settings blue
 			if (settings.blue) {
 				setStyle((style) => {
@@ -873,6 +876,16 @@ function App() {
 					};
 				});
 			}
+		} else if (!auth.isLoggedIn) {
+			console.log('color changed');
+
+			setStyle((style) => {
+				return {
+					...style,
+					class: 'nav',
+					displayItems: '',
+				};
+			});
 		}
 		// user saved theme settings light
 		if (settings.light) {

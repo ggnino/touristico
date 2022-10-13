@@ -17,6 +17,7 @@ function Nav() {
 		settings,
 		font,
 		textColor,
+		setTextColor,
 		onHoverNav,
 		mainRefs,
 		auth,
@@ -39,21 +40,28 @@ function Nav() {
 			);
 		}
 		// Set navbar styling by path
-		if (path.current !== '/home') {
+		if (path.current !== '/' && !settings.light) {
+			// console.log('clicked!', settings);
+			setNavStyle((style) => {
+				return {
+					...style,
+					backgroundColor: 'black',
+				};
+			});
+		}
+		if (auth.isLoggedIn) {
+			setNavStyle((style) => {
+				return {
+					...style,
+					displayItems: 'none',
+				};
+			});
+		} else if (path.current !== '/home') {
 			setNavStyle((style) => {
 				return {
 					...style,
 					displayItems: '',
 					class: 'nav',
-				};
-			});
-		}
-
-		if (path.current !== '/' && path.current !== '/home') {
-			setNavStyle((style) => {
-				return {
-					...style,
-					backgroundColor: 'black',
 				};
 			});
 		}
@@ -68,6 +76,7 @@ function Nav() {
 				};
 			});
 		} else if (path.current === '/login') {
+			console.log('RED', path);
 			setNavStyle((style) => {
 				return {
 					...style,
@@ -111,9 +120,137 @@ function Nav() {
 		} else if (font === 'aviano-future') {
 			styleFont.current = { fam: 'ff-good-headline-web-pro-com', s: 'italic' };
 		}
+		// user is logged in
+		if (auth.isLoggedIn) {
+			console.log('render', auth.isLoggedIn, settings);
+			// set default navbar styling
+
+			setNavStyle((style) => {
+				return {
+					...style,
+					borderBottom: `4px solid ${styleVars.color5}`,
+					boxShadow: `0 0 2rem ${styleVars.color5}`,
+					color: 'inherit',
+					displayItems: 'none',
+				};
+			});
+			// user saved color settings blue
+			if (settings.blue) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						borderBottom: `4px solid #16697A`,
+						boxShadow: `0 0 2rem #16697A`,
+					};
+				});
+			}
+			// user saved color settings purple
+			else if (settings.purple) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						borderBottom: `4px solid #820263`,
+						boxShadow: `0 0 2rem #820263`,
+					};
+				});
+			}
+			// user saved color settings yellow
+			else if (settings.yellow) {
+				console.log('YELOOW');
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						borderBottom: `4px solid #FFD400`,
+						boxShadow: `0 0 2rem #FFD400`,
+					};
+				});
+			}
+			// user saved color settings red
+			else if (settings.red) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						borderBottom: `4px solid #960200`,
+						boxShadow: `0 0 2rem #960200`,
+					};
+				});
+			}
+			// user saved color settings green
+			else if (settings.green) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						borderBottom: `4px solid #B5F44A`,
+						boxShadow: `0 0 2rem #B5F44A`,
+					};
+				});
+			}
+			// user saved color settings grey
+			else if (settings.grey) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						borderBottom: `4px solid #525252`,
+						boxShadow: `0 0 2rem #525252`,
+					};
+				});
+			}
+			// user saved color settings default
+			else if (settings.defaultColor) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						borderBottom: `4px solid ${styleVars.color5}`,
+						boxShadow: `0 0 2rem ${styleVars.color5}`,
+					};
+				});
+			}
+			// user saved theme settings light
+			if (settings.light) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						backgroundColor: 'white',
+						class: 'nav light',
+					};
+				});
+			}
+			// user saved theme settings dark
+			else if (settings.dark) {
+				setNavStyle((style) => {
+					return {
+						...style,
+						color: textColor,
+						class: 'nav',
+					};
+				});
+			}
+		} else if (!auth.isLoggedIn) {
+			console.log('color changed');
+
+			setNavStyle((style) => {
+				return {
+					...style,
+					// borderBottom: `4px solid ${styleVars.color5}`,
+					// boxShadow: `0 0 2rem ${styleVars.color5}`,
+					// color: 'inherit',
+					class: 'nav',
+					displayItems: '',
+				};
+			});
+		}
 	}, [
 		setNavStyle,
 		settings,
+		setTextColor,
 		textColor,
 		mainRefs.head,
 		mainRefs.info,

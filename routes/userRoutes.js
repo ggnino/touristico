@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const multer = require('multer');
 
 router.route('/guides').get(userController.getGuides);
 

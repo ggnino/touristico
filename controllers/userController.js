@@ -14,25 +14,28 @@ const {
 	resize,
 } = require('../utils/handlerFunctions');
 
-// const multerStorage = multer.diskStorage({
-// 	destination: (req, file, cb) => {
-// 		cb(null, `${__dirname}/../client/public/imgs/users`);
-// 	},
-// 	filename: (req, file, cb) => {
-// 		const ext = file.mimetype.split('/')[1];
+const multerStorage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, path.join(`${__dirname}/../client/public/imgs/users`));
+	},
+	filename: (req, file, cb) => {
+		const ext = file.mimetype.split('/')[1];
+		console.log(file);
+		cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+	},
+});
 
-// 		cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-// 	},
-// });
-
-const multerStorage = multer.memoryStorage();
+// const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
 	if (file.mimetype.startsWith('image')) {
 		cb(null, true);
 	} else cb(new AppError('File must be a image. Reupload please.', 400), false);
 };
-const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+const upload = multer({
+	storage: multerStorage,
+	fileFilter: multerFilter,
+});
 
 exports.uploadUserPhoto = upload.single('photo');
 
@@ -58,24 +61,10 @@ exports.getGuides = catchAsync(async (req, res) => {
 		tourGuides,
 	});
 });
-// exports.getUserImage = (req, res) => {
-// 	console.log(req.params.image);
-// 	console.log(__dirname);
 
-// 	// doc.photo = file;
-
-// 	res.status(200).sendFile(
-// 		path.resolve(`${__dirname}/../upload/users/${req.params.image}`),
-
-// 		(err) => {
-// 			if (err) {
-// 				console.log(111111111, err);
-// 			} else console.log('SENT!');
-// 		}
-// 	);
-// };
 // route handler for updating user info
 exports.updateMe = catchAsync(async (req, res) => {
+	console.log('not here');
 	// throw error if user tried to update credentials in this route
 	if (req.body.password || req.body.passwordConfirm) {
 		throw new AppError(
@@ -90,7 +79,7 @@ exports.updateMe = catchAsync(async (req, res) => {
 			403
 		);
 	}
-
+	console.log('CULO');
 	// find user by ID and update
 	const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
 		new: true,
@@ -99,7 +88,7 @@ exports.updateMe = catchAsync(async (req, res) => {
 	// throw error if user not found
 	if (!updatedUser) throw new AppError('Cant find that user.', 404);
 	//photo name
-
+	console.log(updatedUser);
 	if (req.body.photo) {
 		res.status(200).json({
 			status: 'success',

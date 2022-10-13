@@ -28,15 +28,16 @@ app.use(cors({ origin: true }));
 // Set security http headers
 // app.use(helmet());
 
-// Development logging
 if (process.env.NODE_ENV === 'development') {
+	// Development logging
 	app.use(morgan('dev'));
+	// Set static folder
+	app.use(express.static(`${__dirname}/client/public`));
 }
 
 // Set req limiter
 app.use('/api', limiter);
-// Set static folder
-// app.use(express.static(`${__dirname}/client/public`));
+
 // Body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10kb' }));
