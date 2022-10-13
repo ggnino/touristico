@@ -37,7 +37,7 @@ const styleSrcUrls = [
 	'https://api.tiles.mapbox.com/',
 	'https://fonts.googleapis.com/',
 	'https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css ',
-	'https://*.typekit.net/*',
+	'*.typekit.net/*',
 ];
 const connectSrcUrls = [
 	'https://api.mapbox.com/',
