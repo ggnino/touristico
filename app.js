@@ -56,13 +56,13 @@ app.use(
 		directives: {
 			defaultSrc: ["'self'"],
 			connectSrc: ["'self'", ...connectSrcUrls],
-			scriptSrc: ["'self'", ...scriptSrcUrls],
+			scriptSrc: ["'self'", 'data:', ...scriptSrcUrls],
 			scriptSrcAttr: ["'none'"],
 			styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
 			workerSrc: ["'self'", 'blob:'],
 			objectSrc: ["'none'"],
 			imgSrc: ["'self'", 'blob:', 'data:'],
-			fontSrc: ["'self'", ...fontSrcUrls],
+			fontSrc: ["'self'", 'data:', ...fontSrcUrls],
 		},
 	})
 );
