@@ -14,9 +14,11 @@ function UserRewards(props) {
 	const light = useRef('');
 	// useEffect hook for styling
 	useEffect(() => {
+		// textColor is black
 		if (textColor === 'black') {
+			// set bg color
 			light.current = 'white';
-		} else light.current = 'black';
+		} else light.current = 'black'; // set bg color
 	}, [textColor]);
 	// Render component
 	return (

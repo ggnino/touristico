@@ -13,10 +13,6 @@ function AboutPage(props) {
 	const { hide, setHide, setAuth, guides, setGuides, mainRefs } = state;
 	// useEffect hook for retrieving tour guides
 	useEffect(() => {
-		// user came from info component
-		if (mainRefs.mio) {
-			window.location.reload();
-		}
 		axios
 			.get('api/v1/users/guides')
 			.then((res) => {

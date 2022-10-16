@@ -1,14 +1,14 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import { isExpired } from 'react-jwt';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { MyContext } from '../../utils/functions/context';
 
 function PageLayout() {
-	const [style, setStyle] = useState({ boxShadow: '', border: '' });
-
+	// useContext hook for state
 	const state = useContext(MyContext);
+	// useNavigate hook for redirecting
 	const redirect = useNavigate();
-
+	// destructuring state
 	const {
 		pageLayoutStyle,
 		setPageLayoutStyle,
@@ -25,16 +25,21 @@ function PageLayout() {
 		setFont,
 		modalDis,
 		setUserMenu,
+		path,
+		setPath,
+		setHide,
+		style,
+		setStyle,
 	} = state;
+	// Reference variable for an event
 	const moveCheck = useRef(null);
-	const path = useRef(null);
+	const location = useLocation();
 	// useEffect hook for styling
 	useEffect(() => {
-		// current path
-		path.current = window.location.pathname;
 		// if user is in home page
-		if (path.current === '/home') {
+		if (path === '/home' && auth.isLoggedIn) {
 			// set user settings
+			// default color
 			if (settings.defaultColor) {
 				setUserBorder('#db0000');
 				setStyle((style) => {
@@ -45,7 +50,9 @@ function PageLayout() {
 						boxShadow: ``,
 					};
 				});
-			} else if (settings.green) {
+			}
+			// apply green color
+			else if (settings.green) {
 				setUserBorder('#B5F44A');
 				setStyle((style) => {
 					return {
@@ -55,7 +62,9 @@ function PageLayout() {
 						boxShadow: `0 0 2rem #B5F44A`,
 					};
 				});
-			} else if (settings.yellow) {
+			}
+			// apply yellow color
+			else if (settings.yellow) {
 				setUserBorder('#FFD400');
 				setStyle((style) => {
 					return {
@@ -65,7 +74,9 @@ function PageLayout() {
 						boxShadow: `0 0 2rem #FFD400`,
 					};
 				});
-			} else if (settings.red) {
+			}
+			// apply red color
+			else if (settings.red) {
 				setUserBorder('#960200');
 				setStyle((style) => {
 					return {
@@ -75,7 +86,9 @@ function PageLayout() {
 						boxShadow: `0 0 2rem #960200`,
 					};
 				});
-			} else if (settings.blue) {
+			}
+			// apply blue color
+			else if (settings.blue) {
 				setUserBorder('#16697A');
 				setStyle((style) => {
 					return {
@@ -85,7 +98,9 @@ function PageLayout() {
 						boxShadow: `0 0 2rem #16697A`,
 					};
 				});
-			} else if (settings.purple) {
+			}
+			// apply purple color
+			else if (settings.purple) {
 				setUserBorder('#820263');
 				setStyle((style) => {
 					return {
@@ -95,7 +110,9 @@ function PageLayout() {
 						boxShadow: `0 0 2rem #820263`,
 					};
 				});
-			} else if (settings.grey) {
+			}
+			// apply grey color
+			else if (settings.grey) {
 				setUserBorder('#525252');
 				setStyle((style) => {
 					return {
@@ -106,6 +123,7 @@ function PageLayout() {
 					};
 				});
 			}
+			// apply light theme
 			if (settings.light) {
 				setLayoutDisplay((l) => {
 					return {
@@ -120,7 +138,9 @@ function PageLayout() {
 						backgroundColor: 'white',
 					};
 				});
-			} else if (settings.dark) {
+			}
+			// apply dark theme
+			else if (settings.dark) {
 				setLayoutDisplay((l) => {
 					return {
 						display: 'none',
@@ -136,8 +156,9 @@ function PageLayout() {
 				});
 			}
 		}
-		// hide login component from user homepoge
+		// if user logged in and login component is displaying
 		if (auth.isLoggedIn && pageLayoutStyle.class2.includes('login')) {
+			// hide login component from user homepage display
 			setLayoutDisplay((d) => {
 				return {
 					...d,
@@ -147,7 +168,8 @@ function PageLayout() {
 			});
 		}
 		// user is logged in, set user background
-		if (auth.isLoggedIn) {
+		else if (auth.isLoggedIn) {
+			// set user background style
 			setLayoutDisplay((d) => {
 				return {
 					...d,
@@ -155,18 +177,38 @@ function PageLayout() {
 				};
 			});
 		}
-		// hide user homepage if not logged in
-		else if (!auth.isLoggedIn && path.current === '/home') {
+		// hide user homepage if not logged in and display error
+		else if (!auth.isLoggedIn && path === '/home') {
+			// display error message
+			setHide((h) => {
+				return {
+					...h,
+					err: '',
+				};
+			});
+
+			// set layout for error
 			setLayoutDisplay((d) => {
 				return {
 					...d,
-					display: 'none',
+					display: '',
 					backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), linear-gradient(to bottom, ${userBorder}, ${userBorder})`,
 				};
 			});
 		}
-		// current path is tour/s page
-		if (path.current.includes('tours')) {
+		// clear any styles from auth page
+		else if (!auth.isLoggedIn && !path.includes('/home')) {
+			// clear any background style
+			setLayoutDisplay((d) => {
+				return {
+					...d,
+					display: '',
+					backgroundImage: ``,
+				};
+			});
+		}
+		// if path is tours or tour page
+		if (path.includes('tours')) {
 			// set tours styling classes
 			setPageLayoutStyle((s) => {
 				return {
@@ -176,27 +218,26 @@ function PageLayout() {
 				};
 			});
 		} else {
-			// set current page styling classses
+			// apply proper styles if path do not match
+			if (window.location.pathname !== path) setPath(window.location.pathname);
+			// set page styling classses
 			setPageLayoutStyle((s) => {
 				return {
 					...s,
-					class1: `container ${path.current.slice(
-						1,
-						path.current.length
-					)} page-layout`,
-					class2: `${path.current.slice(
-						1,
-						path.current.length
-					)}-content content-layout`,
+					class1: `container ${path.slice(1, path.length)} page-layout`,
+					class2: `${path.slice(1, path.length)}-content content-layout`,
 				};
 			});
 		}
-		// current path is user home page
-		if (path.current === '/home') {
+		// path is user home page
+		if (auth.isLoggedIn && !moveCheck.current) {
 			// event for authentication
 			moveCheck.current = () => {
 				// If web token expired reset state and log out
-				if (isExpired(auth.jwt)) {
+				if (
+					(auth.jwt && isExpired(auth.jwt)) ||
+					(location.state && isExpired(location.state.jwt))
+				) {
 					// reset layout state
 					setLayoutDisplay((l) => {
 						return {
@@ -236,22 +277,38 @@ function PageLayout() {
 					setAuth((a) => {
 						return { ...a, isLoggedIn: false, expired: true, jwt: '' };
 					});
+
 					// reset text color state
 					setTextColor('');
 					// reset font state
 					setFont('');
 					// reset user border state
 					setUserBorder('');
+					// set path to login page
+					setPath('/login');
 					// redirect back to login page
-					redirect('/login');
+					redirect('/login', { replace: true });
 				}
 			};
 		}
-		// remove event
-		if (auth.expired === true) {
-			moveCheck.current = () => {};
-		}
+		return () => {
+			// if authenticatin has expired
+			if (auth.expired === true) {
+				// remove event
+				moveCheck.current = () => {};
+				// reset expiration
+				setAuth((a) => {
+					return {
+						...a,
+						expired: false,
+					};
+				});
+			}
+		};
 	}, [
+		location,
+		path,
+		setPath,
 		setUserMenu,
 		modalDis,
 		auth,
@@ -267,7 +324,10 @@ function PageLayout() {
 		setTextColor,
 		textColor,
 		setFont,
+		setHide,
+		setStyle,
 	]);
+
 	// Render component
 	return (
 		<div
@@ -276,7 +336,7 @@ function PageLayout() {
 			style={
 				pageLayoutStyle.class1.includes('login')
 					? layoutDisplay
-					: path.current === '/home' && !auth.isLoggedIn
+					: path === '/home' && !auth.isLoggedIn
 					? layoutDisplay
 					: {
 							display: '',
@@ -289,9 +349,7 @@ function PageLayout() {
 			<div
 				className={pageLayoutStyle.class2}
 				style={
-					path.current === '/home'
-						? style
-						: { overflow: pageLayoutStyle.overflow }
+					path === '/home' ? style : { overflow: pageLayoutStyle.overflow }
 				}
 			>
 				<Outlet />

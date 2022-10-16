@@ -14,16 +14,14 @@ function TourPrev() {
 	const { tours, setTours, setHide, setMainRefs } = state;
 	// reference variable for retrieving data
 	const dif = useRef(null);
-	const chrome = useRef(false);
+
 	// threshold percentage for useInView hook
 	const threshold = useRef(0.1);
 	// Adjust threshold by viewport
 	if (window.visualViewport.width > 1400) {
-		chrome.current = true;
 		threshold.current = 0.065;
 	}
 	if (window.visualViewport.width < 1200) {
-		console.log(window.visualViewport);
 		threshold.current = 0.035;
 	}
 	if (window.visualViewport.height === 900) {
@@ -43,26 +41,33 @@ function TourPrev() {
 	useEffect(() => {
 		// Chechking to see if component in user view
 		if (inView) {
+			// set component to true
 			setMainRefs((r) => {
 				return {
 					...r,
 					tour: inView,
 				};
 			});
-		} else
+		}
+		// set component to false
+		else
 			setMainRefs((r) => {
 				return {
 					...r,
-					tour: false,
+					tour: inView,
 				};
 			});
 		// checks to see if tour data has been retrieved
 		if (!dif.current) {
+			// retrieved
 			dif.current = 1;
+			// get request
 			axios
 				.get('/api/v1/tours')
 				.then((response) => {
+					// set tour info
 					setTours(response.data.Tours);
+					// hide any err messages
 					setHide((h) => {
 						return {
 							...h,
@@ -71,7 +76,7 @@ function TourPrev() {
 					});
 				})
 				.catch((err) => {
-					console.log(err);
+					// display err message
 					setHide((h) => {
 						return {
 							...h,
@@ -103,6 +108,7 @@ function TourPrev() {
 										to={`/tours/${tour.slug}`}
 										state={tour}
 										key={`${tour.name} ${index}`}
+										// onClick={clicker}
 									>
 										<div
 											key={`${tour.name}-${index}`}

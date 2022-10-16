@@ -16,19 +16,30 @@ function Button(props) {
 		input,
 		btnStyle,
 		setBtnStyle,
+		path,
 	} = state;
 
 	// reference variable for btn class light
 	const light = useRef('');
 	// useEffect hook for btn styling
 	useEffect(() => {
+		// if theres icon to display
 		if (props.icon) {
+			// display button icon
 			setBtnStyle({ display: '' });
-		} else setBtnStyle({ display: 'none' });
+		}
+		// hide button icon
+		else setBtnStyle({ display: 'none' });
+		// if light theme selected
 		if (settings.light) {
+			// display light theme button class
 			light.current = 'btn-light';
-		} else light.current = '';
-	}, [props.icon, setBtnStyle, settings.light, props.msg]);
+		}
+		// no button light theme class
+		else light.current = '';
+		// not userpage remove any light theme
+		if (path !== '/home') light.current = '';
+	}, [path, props.icon, setBtnStyle, settings.light, props.msg]);
 
 	// Render component
 	return (
@@ -43,11 +54,12 @@ function Button(props) {
 					: () => {}
 			}
 			tabIndex="0"
-			title="oo"
+			title="button-container"
 		>
 			{(userMenu.menuItem4 !== 'none' && props.msg !== 'Save') ||
 			props.link === 'user-profile' ||
-			props.msg === 'Book Now' ? (
+			props.msg === 'Book Now' ||
+			props.msg === 'Redee' ? (
 				<button
 					onMouseEnter={props.hover}
 					onMouseLeave={props.hover}
@@ -79,9 +91,13 @@ function Button(props) {
 				</button>
 			) : (
 				<HashLink
-					onClick={props.msg === 'Continue' ? clicker : () => {}}
+					onClick={
+						props.msg === 'Continue' || props.msg === 'Redeem'
+							? clicker
+							: () => {}
+					}
 					to={props.link === 'settings' ? '' : props.link}
-					state={window.location.pathname === '/tours' ? props.tour : null}
+					state={path.includes('/tours') ? props.tour : null}
 					onMouseEnter={props.hover}
 					onMouseLeave={props.hover}
 					className={`btn ${light.current} ${props.class}`}
@@ -102,6 +118,8 @@ function Button(props) {
 									(input.email === '' && input.name === '') ||
 									(input.email !== '' && input.name === ''))
 							? { visibility: 'hidden', opacity: 0 }
+							: props.msg === 'Redeem'
+							? { cursor: 'default' }
 							: { fontFamily: font }
 					}
 					tabIndex={0}

@@ -29,6 +29,8 @@ function TourPage() {
 		setIsMountedTourPage,
 		myTour,
 		setMyTour,
+		path,
+		setPath,
 	} = state;
 	// Destructuring mapbox settings
 	const { bg, setBg, lat, setLat, lng, setLng, zoom, locations } =
@@ -42,15 +44,32 @@ function TourPage() {
 	// useEffect hook for retrieving tour data
 	useEffect(() => {
 		const controller = new AbortController();
-		if (location.state) setMyTour(location.state);
+		// if location.state is valid
+		if (location.state) {
+			// set tour page info
+			setMyTour(location.state);
+		}
+		// if path do not match
+		if (
+			window.location.pathname !== path ||
+			(myTour && !path.includes(myTour.slug))
+		) {
+			// set path
+			setPath(window.location.pathname);
+			// set component mount
+			setIsMountedTourPage(true);
+		}
+
 		// component mounted
 		if (isMountedTourPage) {
-			let tourLocations = null;
+			// variables
+			let theTour = null; // for actual tour
+			let tourLocations = null; // for tour locations
+
 			// mapbox not set up yet
 			if (!map.current) {
 				(async () => {
 					try {
-						let theTour = null;
 						// no tour info, retrieve tour info
 						if (!myTour) {
 							// show loader component
@@ -74,6 +93,7 @@ function TourPage() {
 							// arr for tour locations
 							tourLocations = theTour.locations.map((l) => l);
 						} else tourLocations = myTour.locations.map((l) => l);
+
 						// tour data is ready but not mapbox
 						if (theTour && !map.current) {
 							// set latitude coordinates for tour locations
@@ -130,6 +150,7 @@ function TourPage() {
 						// scroll behavior while scrolling into view
 						element.current.scrollIntoView({ behavior: 'smooth' });
 					} catch (err) {
+						// hide loader and show err message
 						setHide((h) => {
 							return {
 								...h,
@@ -141,16 +162,17 @@ function TourPage() {
 				})();
 			}
 		}
-		// cancel any requests on component unmount
+		// component unmount
 		return () => {
-			const controller = new AbortController();
+			// cancel any pending requests
 			controller.abort();
+			// set component unmount
 			setIsMountedTourPage(false);
 		};
 	}, [
 		setIsMountedTourPage,
 		setMyTour,
-		location.state,
+		location,
 		bg,
 		lat,
 		lng,
@@ -163,8 +185,10 @@ function TourPage() {
 		myTour,
 		isMountedTourPage,
 		setHide,
+		path,
+		setPath,
 	]);
-
+	// render component
 	return (
 		<>
 			{myTour ? (
@@ -179,7 +203,6 @@ function TourPage() {
 								  }
 								: {}
 						}
-						id="top"
 					>
 						<h1>{myTour ? myTour.name : 'Tour Name'}</h1>
 					</div>

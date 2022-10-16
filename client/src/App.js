@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import MainPage from './components/main-page-component/main-page-component.jsx';
 import './App.scss';
 import AboutPage from './components/about-page-component/about-page-component.jsx';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import BenefitsPage from './components/benefits-page-component/benefits-page-component.jsx';
 import Signup from './components/signup-component/signup-component.jsx';
@@ -14,13 +14,14 @@ import PageLayout from './components/page-layout-component/page-layout-component
 import Nav from './components/nav-component/nav-component.jsx';
 import UserPage from './components/user-page-component/user-page-component.jsx';
 import { isExpired } from 'react-jwt';
-import styleVars from './utils/styles/variables.scss';
 import img1 from './imgs/close.png';
 import img2 from './imgs/close2.png';
 import img3 from './imgs/add.png';
 import img4 from './imgs/add-hover.png';
 
 function App() {
+	// variable for location
+	const loc = useLocation();
 	/***************  Error set up *******************/
 
 	// useState hook for displaying loader component and err component
@@ -70,8 +71,6 @@ function App() {
 	const [bg, setBg] = useState({ img: '', img2: '', img3: '', img4: '' });
 	// useState hook for tour page mount
 	const [isMountedTourPage, setIsMountedTourPage] = useState(true);
-	// useState hook for tour review mount
-	const [isMountedTR, setIsMountedTR] = useState(true);
 	// useState hook for setting tour reviews
 	const [reviews, SetReviews] = useState({});
 
@@ -89,7 +88,7 @@ function App() {
 		footer: null,
 	});
 	// useState hook for navbar items
-	const [style, setStyle] = useState({
+	const [navStyle, setNavStyle] = useState({
 		backgroundColor: '',
 		borderBottom: '',
 		boxShadow: '',
@@ -98,7 +97,7 @@ function App() {
 		class: 'nav',
 		displayItems: '',
 	});
-
+	const [path, setPath] = useState(window.location.pathname);
 	/***************  User settings set up *******************/
 
 	// useState hook for userBorder
@@ -131,7 +130,6 @@ function App() {
 		passwordConfirm: '',
 		expired: false,
 		jwt: '',
-		sent: false,
 	});
 	// useState hook for usermenu styling
 	const [userMenu, setUserMenu] = useState({
@@ -166,6 +164,7 @@ function App() {
 		class2: 'content-layout',
 		overflow: '',
 	});
+	const [style, setStyle] = useState({ boxShadow: '', border: '' });
 	// useState hook for pagelayout styling
 	const [layoutDisplay, setLayoutDisplay] = useState({
 		display: '',
@@ -247,9 +246,9 @@ function App() {
 		// mouse enter event
 		if (event === 'mouseenter') {
 			// set user color
-			setStyle((style) => {
+			setNavStyle((navStyle) => {
 				return {
-					...style,
+					...navStyle,
 					color: userBorder,
 				};
 			});
@@ -257,9 +256,9 @@ function App() {
 		// mouse leave event
 		else if (event === 'mouseleave') {
 			// remove user color
-			setStyle((style) => {
+			setNavStyle((navStyle) => {
 				return {
-					...style,
+					...navStyle,
 					color: 'inherit',
 				};
 			});
@@ -515,35 +514,66 @@ function App() {
 		// element title
 		const title = e.target.title;
 		e.preventDefault();
-		console.log(title);
-		// info component btn clicked
-		if (title === '/about') {
-			// set ref to true
-			setMainRefs((r) => {
-				return { ...r, mio: true };
+
+		// user clicked log out button
+		if (title === 'logOut') {
+			// set authentication
+			setAuth((auth) => {
+				return {
+					...auth,
+					isLoggedIn: false,
+					expired: true,
+					jwt: '',
+				};
 			});
-		}
-		// book now component clicked
-		if (title === 'book') {
-			// redirect to signup page with user input
-			redirect('/signup', { state: { name: input.name, email: input.email } });
-		}
-		// signup component clicked
-		if (title === '/signup') {
-			// set navbar styling
+			// clear any user defined settings
 			setStyle((style) => {
 				return {
 					...style,
-					borderBottom: `4px solid ${styleVars.color4}`,
-					boxShadow: `0 0 2rem ${styleVars.color4}`,
-					color: styleVars.color4,
+					boxShadow: '',
+					borderLeft: '',
+					borderRight: '',
 				};
 			});
+
+			// clear user boder
+			setUserBorder('');
+			// clear user font
+			setFont('');
+			// clear user text color
+			setTextColor('');
+			// set path to homepage
+			setPath('/');
+			// redirect to homepage
+			redirect('/', { replace: true });
 		}
+		// user clicked on more tours button
+		if (title === 'tours') {
+			// set path to tours page
+			setPath('/tours');
+		}
+		// user clicked on info component button
+		if (title === '/about') {
+			// set path to about us page
+			setPath('/about');
+		}
+		// user clicked the book now component button
+		if (title === 'book') {
+			console.log('Continue.....lol');
+			// set path to signup page
+			setPath('/signup');
+			// redirect to signup page with user input
+			redirect('/signup', {
+				state: { name: input.name, email: input.email },
+				// replace: true,
+			});
+		}
+
 		// Check if the click event was triggered in user profile
 		if (title === 'user-profile') {
 			// Check if the button text is save
 			if (e.target.outerText === 'Save') {
+				console.log('Continue.....ppppppppp');
 				// Variables
 				const pws = {};
 				let fd = new FormData();
@@ -567,7 +597,7 @@ function App() {
 							} else fd.append(prop, input[prop]);
 						}
 					});
-					console.log('formData', fd);
+
 					try {
 						// user passwird was updated
 						if (pws['password']) {
@@ -592,10 +622,8 @@ function App() {
 						setAuth((s) => {
 							return {
 								...s,
-								jwt: s.jwt,
 								isLoggedIn: true,
 								expired: false,
-								sent: true,
 							};
 						});
 					} catch (err) {
@@ -620,21 +648,24 @@ function App() {
 			for (let prop in settings) {
 				if (settings[prop]) userSettings[prop] = settings[prop];
 			}
-			// update user settings
-			await axios.patch(`api/v1/users/updateMe`, {
-				userSettings,
-			});
+			try {
+				// update user settings
+				await axios.patch(`api/v1/users/updateMe`, {
+					userSettings,
+				});
+			} catch (err) {
+				console.log(err);
+			}
+
+			redirect('/home', { state: { ...loc.state, userSettings } });
 			// set authentication
-			setAuth((a) => {
-				return { ...a, isLoggedIn: true, jwt: a.jwt, expired: false };
-			});
+			// setAuth((a) => {
+			// 	return { ...a, isLoggedIn: true, jwt: loc.state.jwt || a.jwt };
+			// });
 		}
+
 		// sign up component btn clicked
-		if (
-			window.location.pathname === '/signup' &&
-			title !== '/signup' &&
-			title !== 'book'
-		) {
+		if (path === '/signup' && title !== '/signup' && title !== 'book') {
 			try {
 				// destructuring user input
 				const { name, email, password, passwordConfirm } = input;
@@ -656,10 +687,16 @@ function App() {
 					};
 				});
 				// clear any err messages
-				if (auth.expired)
+				if (auth.expired || !auth.err) {
+					console.log('nothere');
+					setHide((h) => {
+						return { ...h, err: 'none' };
+					});
 					setAuth((a) => {
 						return { ...a, expired: '' };
 					});
+				}
+				setPath('/login');
 				// redirect to login page
 				redirect('/login', { replace: true });
 			} catch (err) {
@@ -674,56 +711,13 @@ function App() {
 			}
 		}
 		// on login page
-		else if (window.location.pathname === '/login') {
+		else if (path === '/login') {
+			let res = null;
 			try {
 				// logging in user
-				const res = await axios.post('api/v1/users/login', {
+				res = await axios.post('api/v1/users/login', {
 					email: input.email,
 					password: input.password,
-				});
-				// set authentication
-				setAuth((s) => {
-					return {
-						...s,
-						isLoggedIn: true,
-						jwt: res.data.token,
-						expired: isExpired(res.data.token),
-					};
-				});
-				// reset user input
-				setInput((i) => {
-					return {
-						...i,
-						name: '',
-						email: '',
-						password: '',
-						passwordConfirm: '',
-					};
-				});
-				// any saved user settings
-				if (res.data.user.userSettings) {
-					// set user settings
-					setSettings((s) => {
-						return { ...s, ...res.data.user.userSettings };
-					});
-					// any saved font not default
-					if (res.data.user.userSettings.default !== true)
-						setFont(res.data.user.userSettings.default);
-				}
-				// set user border with default color
-				else setUserBorder('#db0000');
-				// set user data
-				setUser({
-					name: res.data.user.name,
-					email: res.data.user.email,
-					photo: res.data.user.photo,
-					role: res.data.user.role,
-				});
-				// redirect to user homepage
-				redirect('/home');
-				// hide any input errors
-				setHide((h) => {
-					return { ...h, err: 'none' };
 				});
 			} catch (err) {
 				// send error info
@@ -735,6 +729,63 @@ function App() {
 					return { ...h, err: '' };
 				});
 			}
+			// set authentication
+			setAuth((s) => {
+				return {
+					...s,
+					isLoggedIn: true,
+					jwt: res.data.token,
+					expired: isExpired(res.data.token),
+				};
+			});
+			// reset user input
+			setInput((i) => {
+				return {
+					...i,
+					name: '',
+					email: '',
+					password: '',
+					passwordConfirm: '',
+				};
+			});
+			// any saved user settings
+			if (res.data.user.userSettings) {
+				// set user settings
+				setSettings((s) => {
+					return { ...s, ...res.data.user.userSettings };
+				});
+				// any saved font not default
+				if (res.data.user.userSettings.default !== true)
+					setFont(res.data.user.userSettings.default);
+			}
+
+			// set user data
+			setUser({
+				name: res.data.user.name,
+				email: res.data.user.email,
+				photo: res.data.user.photo,
+				role: res.data.user.role,
+			});
+
+			setPath('/home');
+			// redirect to user homepage
+			redirect('/home', {
+				state: {
+					name: res.data.user.name,
+					email: res.data.user.email,
+					photo: res.data.user.photo,
+					role: res.data.user.role,
+					jwt: res.data.token,
+					userSettings: res.data.user.userSettings,
+					expired: isExpired(res.data.token),
+				},
+				replace: true,
+			});
+			if (auth.expired)
+				// hide any input errors
+				setHide((h) => {
+					return { ...h, err: 'none' };
+				});
 		}
 		// modal was clicked open
 		else if (title === '#openModal') {
@@ -762,144 +813,184 @@ function App() {
 		}
 	};
 
-	// useEffect hook for navbar styling
-	useEffect(() => {
-		// user is logged in
-		if (auth.isLoggedIn) {
-			console.log('render', auth.isLoggedIn, settings);
-			// set default navbar styling
-			if (settings.defaultColor)
-				setStyle((style) => {
-					return {
-						...style,
-						borderBottom: `4px solid ${styleVars.color5}`,
-						boxShadow: `0 0 2rem ${styleVars.color5}`,
-						color: 'inherit',
-						displayItems: 'none',
-					};
-				});
-			// user saved color settings blue
-			if (settings.blue) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						borderBottom: `4px solid #16697A`,
-						boxShadow: `0 0 2rem #16697A`,
-					};
-				});
-			}
-			// user saved color settings purple
-			else if (settings.purple) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						borderBottom: `4px solid #820263`,
-						boxShadow: `0 0 2rem #820263`,
-					};
-				});
-			}
-			// user saved color settings yellow
-			else if (settings.yellow) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						borderBottom: `4px solid #FFD400`,
-						boxShadow: `0 0 2rem #FFD400`,
-					};
-				});
-			}
-			// user saved color settings red
-			else if (settings.red) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						borderBottom: `4px solid #960200`,
-						boxShadow: `0 0 2rem #960200`,
-					};
-				});
-			}
-			// user saved color settings green
-			else if (settings.green) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						borderBottom: `4px solid #B5F44A`,
-						boxShadow: `0 0 2rem #B5F44A`,
-					};
-				});
-			}
-			// user saved color settings grey
-			else if (settings.grey) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						borderBottom: `4px solid #525252`,
-						boxShadow: `0 0 2rem #525252`,
-					};
-				});
-			}
-			// user saved color settings default
-			else if (settings.defaultColor) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						borderBottom: `4px solid ${styleVars.color5}`,
-						boxShadow: `0 0 2rem ${styleVars.color5}`,
-					};
-				});
-			}
-			// user saved theme settings light
-			if (settings.light) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						backgroundColor: 'white',
-						class: 'nav light',
-					};
-				});
-			}
-			// user saved theme settings dark
-			else if (settings.dark) {
-				setStyle((style) => {
-					return {
-						...style,
-						color: textColor,
-						class: 'nav',
-					};
-				});
-			}
-		} else if (!auth.isLoggedIn) {
-			console.log('color changed');
-
-			setStyle((style) => {
+	// onClick handler for user settings selection
+	const selClicker = (e) => {
+		const title = e.target.value;
+		// user selected the dark option
+		if (title === 'dark') {
+			setSettings((s) => {
 				return {
-					...style,
-					class: 'nav',
-					displayItems: '',
+					...s,
+					light: false,
+					dark: true,
+					selectionval3: e.target.value,
 				};
 			});
 		}
-		// user saved theme settings light
-		if (settings.light) {
-			// set font color black
-			setTextColor('black');
-		} // user saved theme settings dark
-		else if (settings.dark)
-			// set font color light
-			setTextColor('');
-	}, [textColor, auth.isLoggedIn, settings]);
+		// user selected the light option
+		if (title === 'light') {
+			setSettings((s) => {
+				return {
+					...s,
+					light: true,
+					dark: false,
+					selectionval3: e.target.value,
+				};
+			});
+		}
+		// user selected color blue
+		if (title === 'blue') {
+			setSettings((s) => {
+				return {
+					...s,
+					blue: true,
+					defaultColor: false,
+					purple: false,
+					red: false,
+					green: false,
+					yellow: false,
+					grey: false,
+					selectionval: e.target.value,
+				};
+			});
+		}
+		// user selected color default
+		else if (title === 'defaultColor') {
+			setSettings((s) => {
+				return {
+					...s,
+					blue: false,
+					defaultColor: true,
+					purple: false,
+					red: false,
+					green: false,
+					yellow: false,
+					grey: false,
+					selectionval: e.target.value,
+				};
+			});
+		}
+		// user selected color purple
+		if (title === 'purple') {
+			setSettings((s) => {
+				return {
+					...s,
+					blue: false,
+					defaultColor: false,
+					purple: true,
+					red: false,
+					green: false,
+					yellow: false,
+					grey: false,
+					selectionval: e.target.value,
+				};
+			});
+		}
+		// user selected color red
+		if (title === 'red') {
+			setSettings((s) => {
+				return {
+					...s,
+					blue: false,
+					defaultColor: false,
+					purple: false,
+					red: true,
+					green: false,
+					yellow: false,
+					grey: false,
+					selectionval: e.target.value,
+				};
+			});
+		}
+		// user selected color green
+		if (title === 'green') {
+			setSettings((s) => {
+				return {
+					...s,
+					blue: false,
+					defaultColor: false,
+					purple: false,
+					red: false,
+					green: true,
+					yellow: false,
+					grey: false,
+					selectionval: e.target.value,
+				};
+			});
+		}
+		// user selected color yellow
+		if (title === 'yellow') {
+			setSettings((s) => {
+				return {
+					...s,
+					blue: false,
+					defaultColor: false,
+					purple: false,
+					red: false,
+					green: false,
+					yellow: true,
+					grey: false,
+					selectionval: e.target.value,
+				};
+			});
+		}
+		// user selected color grey
+		if (title === 'grey') {
+			setSettings((s) => {
+				return {
+					...s,
+					blue: false,
+					defaultColor: false,
+					purple: false,
+					red: false,
+					green: false,
+					yellow: false,
+					grey: true,
+					selectionval: e.target.value,
+				};
+			});
+		}
+		// user selected font smooth
+		if (title === 'smooth') {
+			setFont('aviano-future');
+			setSettings((s) => {
+				return {
+					...s,
+					default: 'aviano-future',
+					selectionval2: e.target.value,
+				};
+			});
+		}
+		// user selected font default
+		if (title === 'default') {
+			setFont('');
+			setSettings((s) => {
+				return {
+					...s,
+					default: true,
+					selectionval2: e.target.value,
+				};
+			});
+		}
+		// user selected font touristico
+		if (title === 'touristico') {
+			setFont('bookmania');
+			setSettings((s) => {
+				return {
+					...s,
+					default: 'bookmania',
+					selectionval2: e.target.value,
+				};
+			});
+		}
+	};
+
 	// Render app
 	return (
 		<MyContext.Provider
 			value={{
+				path,
+				setPath,
 				btnStyle,
 				setBtnStyle,
 				myTour,
@@ -910,11 +1001,8 @@ function App() {
 				onHoverBtnImg,
 				userMenuClicker,
 				hoverEffectUserPage,
-
 				userFormStyle,
 				setUserFormStyle,
-				isMountedTR,
-				setIsMountedTR,
 				reviews,
 				SetReviews,
 				mapBoxSettings: {
@@ -938,8 +1026,8 @@ function App() {
 				setGuides,
 				mainRefs,
 				setMainRefs,
-				navStyle: style,
-				setNavStyle: setStyle,
+				navStyle,
+				setNavStyle,
 				pageLayoutStyle,
 				setPageLayoutStyle,
 				hide,
@@ -968,6 +1056,9 @@ function App() {
 				user,
 				setUser,
 				onChange,
+				style,
+				setStyle,
+				selClicker,
 			}}
 		>
 			<Nav />

@@ -10,9 +10,7 @@ function UserForm(props) {
 	// Destructuring state
 	const {
 		settings,
-		setSettings,
 		font,
-		setFont,
 		textColor,
 		userBorder,
 		input,
@@ -25,6 +23,8 @@ function UserForm(props) {
 		userFormStyle,
 		setUserFormStyle,
 		userMenu,
+		path,
+		selClicker,
 	} = state;
 
 	// reference variables
@@ -33,7 +33,7 @@ function UserForm(props) {
 	// useEffect hook for userForm styling
 	useEffect(() => {
 		//  on login page hide password confirm element
-		if (window.location.pathname === '/login') {
+		if (path === '/login') {
 			setUserFormStyle((s) => {
 				return {
 					...s,
@@ -47,7 +47,7 @@ function UserForm(props) {
 			});
 		}
 		// on user homepage
-		else if (window.location.pathname === '/home') {
+		else if (path === '/home') {
 			// if viewing user profile component
 			if (props.class === 'user-profile' && userMenu.menuItem !== 'none') {
 				// show email and password confirm elements
@@ -120,6 +120,7 @@ function UserForm(props) {
 			});
 		}
 	}, [
+		path,
 		props.class,
 		props.display,
 		userFormStyle.modTitle,
@@ -130,185 +131,12 @@ function UserForm(props) {
 		auth.expired,
 		userMenu,
 	]);
-	// onClick handler for user settings selection
-	const selClicker = (e) => {
-		const title = e.target.value;
-		// user selected the dark option
-		if (title === 'dark') {
-			setSettings((s) => {
-				return {
-					...s,
-					light: false,
-					dark: true,
-					selectionval3: e.target.value,
-				};
-			});
-		}
-		// user selected the light option
-		if (title === 'light') {
-			setSettings((s) => {
-				return {
-					...s,
-					light: true,
-					dark: false,
-					selectionval3: e.target.value,
-				};
-			});
-		}
-		// user selected color blue
-		if (title === 'blue') {
-			setSettings((s) => {
-				return {
-					...s,
-					blue: true,
-					defaultColor: false,
-					purple: false,
-					red: false,
-					green: false,
-					yellow: false,
-					grey: false,
-					selectionval: e.target.value,
-				};
-			});
-		}
-		// user selected color default
-		else if (title === 'defaultColor') {
-			setSettings((s) => {
-				return {
-					...s,
-					blue: false,
-					defaultColor: true,
-					purple: false,
-					red: false,
-					green: false,
-					yellow: false,
-					grey: false,
-					selectionval: e.target.value,
-				};
-			});
-		}
-		// user selected color purple
-		if (title === 'purple') {
-			setSettings((s) => {
-				return {
-					...s,
-					blue: false,
-					defaultColor: false,
-					purple: true,
-					red: false,
-					green: false,
-					yellow: false,
-					grey: false,
-					selectionval: e.target.value,
-				};
-			});
-		}
-		// user selected color red
-		if (title === 'red') {
-			setSettings((s) => {
-				return {
-					...s,
-					blue: false,
-					defaultColor: false,
-					purple: false,
-					red: true,
-					green: false,
-					yellow: false,
-					grey: false,
-					selectionval: e.target.value,
-				};
-			});
-		}
-		// user selected color green
-		if (title === 'green') {
-			setSettings((s) => {
-				return {
-					...s,
-					blue: false,
-					defaultColor: false,
-					purple: false,
-					red: false,
-					green: true,
-					yellow: false,
-					grey: false,
-					selectionval: e.target.value,
-				};
-			});
-		}
-		// user selected color yellow
-		if (title === 'yellow') {
-			setSettings((s) => {
-				return {
-					...s,
-					blue: false,
-					defaultColor: false,
-					purple: false,
-					red: false,
-					green: false,
-					yellow: true,
-					grey: false,
-					selectionval: e.target.value,
-				};
-			});
-		}
-		// user selected color grey
-		if (title === 'grey') {
-			setSettings((s) => {
-				return {
-					...s,
-					blue: false,
-					defaultColor: false,
-					purple: false,
-					red: false,
-					green: false,
-					yellow: false,
-					grey: true,
-					selectionval: e.target.value,
-				};
-			});
-		}
-		// user selected font smooth
-		if (title === 'smooth') {
-			setFont('aviano-future');
-			setSettings((s) => {
-				return {
-					...s,
-					default: 'aviano-future',
-					selectionval2: e.target.value,
-				};
-			});
-		}
-		// user selected font default
-		if (title === 'default') {
-			setFont('');
-			setSettings((s) => {
-				return {
-					...s,
-					default: true,
-					selectionval2: e.target.value,
-				};
-			});
-		}
-		// user selected font touristico
-		if (title === 'touristico') {
-			setFont('bookmania');
-			setSettings((s) => {
-				return {
-					...s,
-					default: 'bookmania',
-					selectionval2: e.target.value,
-				};
-			});
-		}
-	};
+
 	// Render component
 	return (
 		<form
 			onKeyDown={(e) => {
-				if (
-					window.location.pathname === '/login' ||
-					window.location.pathname === '/signup'
-				) {
+				if (path === '/login' || path === '/signup') {
 					if (e.code === 'Enter' || e.code === 'NumpadEnter') clicker(e);
 				}
 			}}
@@ -780,7 +608,7 @@ function UserForm(props) {
 			<div
 				className="my-formgroup"
 				style={
-					window.location.pathname === '/home'
+					path === '/home'
 						? { display: userFormStyle.display }
 						: { display: 'none' }
 				}

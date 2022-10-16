@@ -2,20 +2,19 @@ import React, { useContext, useEffect } from 'react';
 import { MyContext } from '../../utils/functions/context';
 import UserForm from '../user-form-component/user-form-component';
 import './login-page-component-styles.scss';
-import styleVars from '../../utils/styles/variables.scss';
 
 function LoginPage() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { navStyle } = state;
+	const { navStyle, path, setPath, hide } = state;
 	// useEffect hook for styling
 	useEffect(() => {
-		// reload page if navbar not correct
-		if (navStyle.borderBottom.includes(styleVars.color4)) {
-			window.location.reload();
-		}
-	}, [navStyle]);
+		// if path does not match actual window path
+		if (window.location.pathname !== path)
+			// set login path
+			setPath('/login');
+	}, [navStyle, path, setPath, hide]);
 	// Render component
 	return (
 		<>

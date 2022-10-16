@@ -27,13 +27,6 @@ function Signup() {
 					};
 				});
 			}
-			// reload page if nevbar bodercolor not correct
-			else if (
-				input.name === name &&
-				navStyle.borderBottom.includes('#db0000')
-			) {
-				window.location.reload();
-			}
 		}
 	}, [setInput, input, navStyle, location]);
 	// Render component

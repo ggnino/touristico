@@ -64,7 +64,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 // route handler for /login
 exports.login = catchAsync(async (req, res, next) => {
-	console.log('wow', req.body);
 	// Destruct user email and password from req.body
 	const { email, password } = req.body;
 
@@ -86,7 +85,6 @@ exports.login = catchAsync(async (req, res, next) => {
 			401
 		);
 	}
-	console.log('aqui');
 
 	// send response
 	sendToken(user, 200, res);

@@ -17,13 +17,16 @@ function BookNow() {
 	useEffect(() => {
 		// Chechking to see if component in user view
 		if (inView) {
+			// set component to true
 			setMainRefs((r) => {
 				return {
 					...r,
 					book: inView,
 				};
 			});
-		} else
+		}
+		// set component to false
+		else
 			setMainRefs((r) => {
 				return {
 					...r,
