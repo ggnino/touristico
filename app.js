@@ -46,10 +46,10 @@ const connectSrcUrls = [
 	'https://events.mapbox.com/',
 ];
 const fontSrcUrls = [
+	'https://*.typekit.net/af/*',
 	'fonts.googleapis.com',
 	'fonts.gstatic.com',
 	'https://use.typekit.net/af/*',
-	'https://*.typekit.net/af/*',
 ];
 app.use(
 	helmet.contentSecurityPolicy({
