@@ -49,7 +49,7 @@ const fontSrcUrls = [
 	'https://*.typekit.net/af/*',
 	'https://fonts.googleapis.com/',
 	'https://fonts.gstatic.com/',
-	'https://use.typekit.net/af/*',
+	// 'https://use.typekit.net/af/*',
 ];
 app.use(
 	helmet.contentSecurityPolicy({
