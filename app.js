@@ -26,7 +26,6 @@ const limiter = rateLimit({
 app.use(cors({ origin: true }));
 
 // Set security http headers
-// app.use(helmet());
 
 const scriptSrcUrls = [
 	'https://api.tiles.mapbox.com/',
@@ -50,6 +49,7 @@ const fontSrcUrls = [
 	'fonts.googleapis.com',
 	'fonts.gstatic.com',
 	'*.typekit.net/af/*',
+	'https://use.typekit.net/af/*',
 ];
 app.use(
 	helmet.contentSecurityPolicy({
