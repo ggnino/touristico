@@ -36,8 +36,8 @@ const styleSrcUrls = [
 	'https://api.tiles.mapbox.com/',
 	'https://fonts.googleapis.com/',
 	'https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css ',
-	'https://*.typekit.net/*',
-	'https://use.typekit.net/dnf2vzq.css',
+	'https://*.typekit.net/',
+	// 'https://use.typekit.net/dnf2vzq.css',
 ];
 const connectSrcUrls = [
 	'https://api.mapbox.com/',
@@ -46,23 +46,22 @@ const connectSrcUrls = [
 	'https://events.mapbox.com/',
 ];
 const fontSrcUrls = [
-	'https://*.typekit.net/af/*',
+	'https://*.typekit.net/',
 	'https://fonts.googleapis.com/',
 	'https://fonts.gstatic.com/',
-	// 'https://use.typekit.net/af/*',
 ];
 app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
 			defaultSrc: ["'self'"],
 			connectSrc: ["'self'", ...connectSrcUrls],
-			scriptSrc: ["'self'", 'data:', ...scriptSrcUrls],
+			scriptSrc: ["'self'", ...scriptSrcUrls],
 			scriptSrcAttr: ["'none'"],
 			styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
 			workerSrc: ["'self'", 'blob:'],
 			objectSrc: ["'none'"],
 			imgSrc: ["'self'", 'blob:', 'data:'],
-			fontSrc: ["'self'", 'data:', ...fontSrcUrls],
+			fontSrc: ["'self'", ...fontSrcUrls],
 		},
 	})
 );
