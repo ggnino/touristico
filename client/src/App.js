@@ -559,7 +559,6 @@ function App() {
 		}
 		// user clicked the book now component button
 		if (title === 'book') {
-			console.log('Continue.....lol');
 			// set path to signup page
 			setPath('/signup');
 			// redirect to signup page with user input
@@ -658,10 +657,6 @@ function App() {
 			}
 
 			redirect('/home', { state: { ...loc.state, userSettings } });
-			// set authentication
-			// setAuth((a) => {
-			// 	return { ...a, isLoggedIn: true, jwt: loc.state.jwt || a.jwt };
-			// });
 		}
 
 		// sign up component btn clicked
@@ -718,7 +713,63 @@ function App() {
 				res = await axios.post('api/v1/users/login', {
 					email: input.email,
 					password: input.password,
+				}); // set authentication
+				setAuth((s) => {
+					return {
+						...s,
+						isLoggedIn: true,
+						jwt: res.data.token,
+						expired: isExpired(res.data.token),
+					};
 				});
+				// reset user input
+				setInput((i) => {
+					return {
+						...i,
+						name: '',
+						email: '',
+						password: '',
+						passwordConfirm: '',
+					};
+				});
+				// any saved user settings
+				if (res.data.user.userSettings) {
+					// set user settings
+					setSettings((s) => {
+						return { ...s, ...res.data.user.userSettings };
+					});
+					// any saved font not default
+					if (res.data.user.userSettings.default !== true)
+						setFont(res.data.user.userSettings.default);
+				}
+
+				// set user data
+				setUser({
+					name: res.data.user.name,
+					email: res.data.user.email,
+					photo: res.data.user.photo,
+					role: res.data.user.role,
+				});
+
+				setPath('/home');
+				// redirect to user homepage
+				redirect('/home', {
+					state: {
+						name: res.data.user.name,
+						email: res.data.user.email,
+						photo: res.data.user.photo,
+						role: res.data.user.role,
+						jwt: res.data.token,
+						userSettings: res.data.user.userSettings,
+						expired: isExpired(res.data.token),
+					},
+					replace: true,
+				});
+				if (auth.expired)
+					// hide any input errors
+					setHide((h) => {
+						return { ...h, err: 'none' };
+					});
 			} catch (err) {
 				// send error info
 				setAuth((s) => {
@@ -729,63 +780,6 @@ function App() {
 					return { ...h, err: '' };
 				});
 			}
-			// set authentication
-			setAuth((s) => {
-				return {
-					...s,
-					isLoggedIn: true,
-					jwt: res.data.token,
-					expired: isExpired(res.data.token),
-				};
-			});
-			// reset user input
-			setInput((i) => {
-				return {
-					...i,
-					name: '',
-					email: '',
-					password: '',
-					passwordConfirm: '',
-				};
-			});
-			// any saved user settings
-			if (res.data.user.userSettings) {
-				// set user settings
-				setSettings((s) => {
-					return { ...s, ...res.data.user.userSettings };
-				});
-				// any saved font not default
-				if (res.data.user.userSettings.default !== true)
-					setFont(res.data.user.userSettings.default);
-			}
-
-			// set user data
-			setUser({
-				name: res.data.user.name,
-				email: res.data.user.email,
-				photo: res.data.user.photo,
-				role: res.data.user.role,
-			});
-
-			setPath('/home');
-			// redirect to user homepage
-			redirect('/home', {
-				state: {
-					name: res.data.user.name,
-					email: res.data.user.email,
-					photo: res.data.user.photo,
-					role: res.data.user.role,
-					jwt: res.data.token,
-					userSettings: res.data.user.userSettings,
-					expired: isExpired(res.data.token),
-				},
-				replace: true,
-			});
-			if (auth.expired)
-				// hide any input errors
-				setHide((h) => {
-					return { ...h, err: 'none' };
-				});
 		}
 		// modal was clicked open
 		else if (title === '#openModal') {
