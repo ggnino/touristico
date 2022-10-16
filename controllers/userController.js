@@ -12,49 +12,28 @@ const {
 	getOne,
 	getAll,
 	resize,
+	upload,
 } = require('../utils/handlerFunctions');
-
-// const multerStorage = multer.diskStorage({
-// 	destination: (req, file, cb) => {
-// 		cb(null, path.join(`${__dirname}/../client/public/imgs/users`));
-// 	},
-// 	filename: (req, file, cb) => {
-// 		const ext = file.mimetype.split('/')[1];
-// 		console.log(file);
-// 		cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-// 	},
-// });
-
-const multerStorage = multer.memoryStorage();
-
-const multerFilter = (req, file, cb) => {
-	if (file.mimetype.startsWith('image')) {
-		cb(null, true);
-	} else cb(new AppError('File must be a image. Reupload please.', 400), false);
-};
-const upload = multer({
-	storage: multerStorage,
-	fileFilter: multerFilter,
-});
-
+// middleware for uploading a single image
 exports.uploadUserPhoto = upload.single('photo');
-
+// middleware for resizing image
 exports.resizePhoto = resize;
-
-// set user ID middleware
+// middleware for setting user id
 exports.getMe = (req, res, next) => {
-	console.log(777, req.user);
+	// set user ID middleware
 	req.params.id = req.user._id;
 	// next middleware in the stack
 	next();
 };
-
+// route handler for getting all tour guides
 exports.getGuides = catchAsync(async (req, res) => {
+	// find users by their roles lead-guides
 	const leadGuides = await User.find({ role: 'lead-guide' });
+	// find users by their roles guides
 	const guides = await User.find({ role: 'guide' });
-
+	// arr holding all guides
 	const tourGuides = [...leadGuides, ...guides];
-
+	// send response
 	res.status(200).json({
 		status: 'success',
 		result: tourGuides.length,
@@ -79,7 +58,7 @@ exports.updateMe = catchAsync(async (req, res) => {
 			403
 		);
 	}
-	console.log('CULO');
+
 	// find user by ID and update
 	const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
 		new: true,

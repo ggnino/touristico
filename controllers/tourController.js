@@ -11,23 +11,15 @@ const {
 	getOne,
 	getAll,
 	resize,
+	upload,
 } = require('../utils/handlerFunctions');
 
-const multerStorage = multer.memoryStorage();
-
-const multerFilter = (req, file, cb) => {
-	if (file.mimetype.startsWith('image')) {
-		cb(null, true);
-	} else cb(new AppError('File must be a image. Reupload please.', 400), false);
-};
-const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-
-//exports.uploadTourImages = upload.array('images', 4);
+// middleware for uploading multiple tour images
 exports.uploadTourImages = upload.fields([
 	{ name: 'imageCover', maxCount: 1 },
 	{ name: 'images', maxCount: 3 },
 ]);
-
+// middleware for resizing images
 exports.resizePhoto = resize;
 
 // middleware for the best 5 cheap tours route

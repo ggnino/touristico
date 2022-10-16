@@ -4,6 +4,7 @@ const catchAsync = require('./catchAsync');
 const sharp = require('sharp');
 const fs = require('fs');
 const con = require('../controllers/authController');
+const multer = require('multer');
 // handler for deleting one document
 exports.deleteOne = (Model) =>
 	catchAsync(async (req, res) => {
@@ -80,7 +81,7 @@ exports.getOne = (Model) =>
 
 		// execute query
 		const doc = await docQuery;
-		console.log(doc);
+
 		// throw err that catchAsync will catch and pass to the global err handler
 		if (!doc) throw new AppError(`Can not find document with that id.`, 404);
 
@@ -113,24 +114,23 @@ exports.getAll = (Model) =>
 	});
 // handler for resizing images
 exports.resize = catchAsync(async (req, res, next) => {
-	console.log('dale111');
 	// resize a single image
 	if (req.file) {
 		// user image name
 		req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 		console.log('dale', req.file);
 
-		// if (req.file.buffer) {
-		// resize user image
-		// const me = await sharp(req.file.filename).metadata();
+		if (req.file.buffer) {
+			// resize user image
 
-		const a = await sharp(req.file.buffer)
-			.resize(128, 128)
-			.toFormat('jpeg')
-			.jpeg({ quality: 95 })
-			.toFile(`${__dirname}/../client/public/imgs/users/${req.file.filename}`);
-
-		// }
+			await sharp(req.file.buffer)
+				.resize(128, 128)
+				.toFormat('jpeg')
+				.jpeg({ quality: 95 })
+				.toFile(
+					`${__dirname}/../client/public/imgs/users/${req.file.filename}`
+				);
+		}
 		// Add filename to req.body
 		req.body.photo = req.file.filename;
 	}
@@ -166,3 +166,17 @@ exports.resize = catchAsync(async (req, res, next) => {
 
 	next();
 });
+// function for filter files
+const multerFilter = (req, file, cb) => {
+	// checking to see if uploaded file is an image
+	if (file.mimetype.startsWith('image')) {
+		// send true
+		cb(null, true);
+	}
+	// send error
+	else cb(new AppError('File must be a image. Reupload please.', 400), false);
+};
+// multer storage for uploading
+const multerStorage = multer.memoryStorage();
+// upload function
+exports.upload = multer({ storage: multerStorage, fileFilter: multerFilter });

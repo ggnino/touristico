@@ -572,7 +572,6 @@ function App() {
 		if (title === 'user-profile') {
 			// Check if the button text is save
 			if (e.target.outerText === 'Save') {
-				console.log('Continue.....ppppppppp');
 				// Variables
 				const pws = {};
 				let fd = new FormData();
@@ -591,7 +590,6 @@ function App() {
 						if (prop.includes('password')) pws[prop] = input[prop];
 						else if (input[prop]) {
 							if (prop === 'photo') {
-								console.log('photo!');
 								fd.append(prop, input[prop], input[prop].name);
 							} else fd.append(prop, input[prop]);
 						}

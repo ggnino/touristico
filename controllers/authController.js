@@ -91,13 +91,14 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 // route middleware for protecting routes
 exports.protect = catchAsync(async (req, res, next) => {
+	// check for jwt
 	if (req.cookies.jwt) {
-		// token = req.cookies.jwt;
+		// decode paylod from jwt
 		const decodedPayLoad = await promisify(jwt.verify)(
 			req.cookies.jwt,
 			process.env.JWT_SECRET
 		);
-
+		// find user by id
 		const currentUser = await User.findById(decodedPayLoad.id);
 		// throw error for invalid token
 		if (!currentUser)
@@ -107,19 +108,12 @@ exports.protect = catchAsync(async (req, res, next) => {
 			throw new AppError(
 				'User changed password, recently. Please log in again.',
 				401
-			); // Access granted
+			);
+		// Access granted
 		req.user = currentUser;
 		// next middleware in the stack
-
 		next();
 	} else throw new AppError('Access denied! Not logged in.', 401);
-	// // throw error if no token
-	// if (!token) {
-	//
-	// }
-	// decode the payload by verifying web token
-
-	// find user by the id in the decoded payload
 });
 // route middleware for user permissions
 exports.restrictTo = (...roles) => {
