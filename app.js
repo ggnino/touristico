@@ -47,8 +47,8 @@ const connectSrcUrls = [
 ];
 const fontSrcUrls = [
 	'https://*.typekit.net/af/*',
-	'fonts.googleapis.com',
-	'fonts.gstatic.com',
+	'https://fonts.googleapis.com/',
+	'https://fonts.gstatic.com/',
 	'https://use.typekit.net/af/*',
 ];
 app.use(
