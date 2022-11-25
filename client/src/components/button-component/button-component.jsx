@@ -91,6 +91,7 @@ function Button(props) {
 				</button>
 			) : (
 				<HashLink
+					role={'button'}
 					onClick={
 						props.msg === 'Continue' || props.msg === 'Redeem'
 							? clicker

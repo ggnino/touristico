@@ -53,7 +53,9 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
-
+a:focus-visible {
+	outline: none;
+}
 a,
 span,
 button {
@@ -70,7 +72,3 @@ h4 {
 	font-family: 'Damion', cursive;
 	cursor: default;
 }
-//  a{
-//
-//
-// }

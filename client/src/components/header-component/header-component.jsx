@@ -21,16 +21,13 @@ function HeaderComponent() {
 	// useEffect hook for observing component
 	useEffect(() => {
 		// Chechking to see if component in user view
-		if (inView) {
-			// set component to true
+		if (inView)
 			setMainRefs((r) => {
 				return {
 					...r,
 					head: inView,
 				};
 			});
-		}
-		// set component to false
 		else
 			setMainRefs((r) => {
 				return {
@@ -41,21 +38,20 @@ function HeaderComponent() {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<div className="header" ref={ref}>
+		<header role={'banner'} className="header" ref={ref}>
 			<div className="bg-video">
 				<video src={img1 || ''} autoPlay muted loop></video>
 			</div>
 			<h1 className="header-greeting text-gradient">Welcome</h1>
 
 			<h2>Your next adventure awaits!</h2>
-			<div>
-				<Button
-					msg={'Discover our tours'}
-					class={'home text-gradient'}
-					link={'#tour-prev'}
-				/>
-			</div>
-		</div>
+
+			<Button
+				msg={'Discover our tours'}
+				class={'home text-gradient'}
+				link={'#tour-prev'}
+			/>
+		</header>
 	);
 }
 export default HeaderComponent;

@@ -7,13 +7,10 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	// transition: all 0.02s;
+	transition: all 0.2s;
 
 	&-logo {
-		h1 {
-			cursor: pointer;
-		}
-
+		font-size: 3rem;
 		padding: 1rem;
 		margin: 1rem;
 	}
@@ -44,8 +41,9 @@
 	}
 
 	ul {
-		// width: 100%;
+		max-width: 95%;
 		list-style: none;
+		text-align: center;
 
 		li {
 			display: inline-block;
@@ -62,25 +60,10 @@
 
 		&-logo {
 			margin: 0;
-			padding-bottom: 0;
 		}
-	}
-}
-@media screen and (max-width: 508px) {
-	.nav {
 		ul {
-			width: 100%;
-			text-align: center;
 			li {
 				font-size: 1.6rem;
-			}
-		}
-	}
-}
-@media screen and (max-width: 442px) {
-	.nav {
-		ul {
-			li {
 				margin-bottom: 0;
 			}
 		}

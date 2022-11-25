@@ -262,8 +262,8 @@ function Nav() {
 
 	// Render component
 	return (
-		<div className={navStyle.class} style={navStyle}>
-			<div className="nav-logo ">
+		<nav role={'navigation'} className={navStyle.class} style={navStyle}>
+			<div className="nav-logo">
 				<a
 					href="/"
 					onClick={(e) => {
@@ -271,7 +271,7 @@ function Nav() {
 						return;
 					}}
 				>
-					<h1
+					<h2
 						className="text-gradient"
 						style={
 							path === '/home' && auth.isLoggedIn
@@ -280,7 +280,7 @@ function Nav() {
 						}
 					>
 						Touristico
-					</h1>
+					</h2>
 				</a>
 			</div>
 
@@ -388,7 +388,7 @@ function Nav() {
 					</a>
 				</li>
 			</ul>
-		</div>
+		</nav>
 	);
 }
 
