@@ -14,11 +14,8 @@
 			border-left: 4px solid $myColor-5;
 			border-right: 4px solid $myColor-5;
 			box-shadow: 0 0 4rem rgba($myColor-5, 1);
-			// justify-content: center;
 		}
-		.my-heading {
-			// margin-bottom: 10rem;
-		}
+
 		&-form {
 			border: 12px double $myColor-5;
 
@@ -30,7 +27,7 @@
 			}
 
 			&-formgroup {
-				& ~ div > .book {
+				& ~ .book {
 					margin-bottom: 3rem;
 					&::after {
 						background-color: $myColor-5;
@@ -43,58 +40,22 @@
 		}
 	}
 }
-@media screen and (max-height: 720px) {
+@media screen and (max-width: 720px) {
 	.login {
-		&.page-layout {
-			height: 100%;
-		}
 		&-content {
-			.my-heading {
-				margin-top: 12rem;
-				margin-bottom: 0;
-				padding-bottom: 0.5rem;
+			padding: 3rem;
+			&.content-layout {
+				justify-content: center;
 			}
 			&-form {
-				.my-heading {
-					margin: 0;
+				&.my-form {
+					padding: 0;
 				}
-			}
-		}
-	}
-}
 
-@media screen and (max-width: 750px) {
-	.login {
-		&-content {
-			.my-heading {
-				font-size: 3rem;
-				margin-bottom: 0rem;
-			}
-
-			&-form {
 				&-formgroup {
-					margin: auto 2rem;
-					.my-input {
-						font-size: 1.6rem;
+					input {
+						font-size: 2rem;
 					}
-					& ~ div > .book {
-						font-size: 3rem;
-					}
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 420px) {
-	.login {
-		&-content {
-			.my-heading {
-				font-size: 3rem;
-				margin-top: 12rem;
-			}
-			&-form {
-				.my-heading {
-					margin: 0;
 				}
 			}
 		}

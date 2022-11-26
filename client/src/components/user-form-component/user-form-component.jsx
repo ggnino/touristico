@@ -185,7 +185,7 @@ function UserForm(props) {
 			</h2>
 			<ErrorComponent />
 
-			<div
+			<fieldset
 				style={{ display: userFormStyle.display4 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 				onClick={selClicker}
@@ -254,8 +254,8 @@ function UserForm(props) {
 				>
 					Color:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display4 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 				onClick={selClicker}
@@ -308,8 +308,8 @@ function UserForm(props) {
 				>
 					Font:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display4 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 				onClick={selClicker}
@@ -359,8 +359,8 @@ function UserForm(props) {
 				>
 					Theme:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{
 					display:
 						userFormStyle.display2 === 'none' ? userFormStyle.display3 : '',
@@ -413,9 +413,9 @@ function UserForm(props) {
 				>
 					Name:
 				</label>
-			</div>
+			</fieldset>
 
-			<div
+			<fieldset
 				style={{ display: userFormStyle.display }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -465,8 +465,8 @@ function UserForm(props) {
 				>
 					Email:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={
 					props.class === 'user-profile' ? { display: '' } : { display: 'none' }
 				}
@@ -513,8 +513,8 @@ function UserForm(props) {
 				>
 					Current Password:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -558,9 +558,9 @@ function UserForm(props) {
 				>
 					Password:
 				</label>
-			</div>
+			</fieldset>
 
-			<div
+			<fieldset
 				style={{ display: userFormStyle.display2 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -604,8 +604,8 @@ function UserForm(props) {
 				>
 					Confirm Password:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				className="my-formgroup"
 				style={
 					path === '/home'
@@ -643,8 +643,8 @@ function UserForm(props) {
 				>
 					My Photo:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -686,8 +686,8 @@ function UserForm(props) {
 				>
 					Duration:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -729,8 +729,8 @@ function UserForm(props) {
 				>
 					Max Group Size:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -772,8 +772,8 @@ function UserForm(props) {
 				>
 					Difficulty:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -815,8 +815,8 @@ function UserForm(props) {
 				>
 					Ratings Average:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -858,8 +858,8 @@ function UserForm(props) {
 				>
 					Ratings Quantity:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -901,8 +901,8 @@ function UserForm(props) {
 				>
 					Price:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -944,8 +944,8 @@ function UserForm(props) {
 				>
 					Summary:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -987,8 +987,8 @@ function UserForm(props) {
 				>
 					Description:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -1020,8 +1020,8 @@ function UserForm(props) {
 				>
 					Images:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -1063,8 +1063,8 @@ function UserForm(props) {
 				>
 					Start Dates:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -1106,8 +1106,8 @@ function UserForm(props) {
 				>
 					Locations:
 				</label>
-			</div>
-			<div
+			</fieldset>
+			<fieldset
 				style={{ display: userFormStyle.display3 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
@@ -1152,7 +1152,7 @@ function UserForm(props) {
 				>
 					Guides:
 				</label>
-			</div>
+			</fieldset>
 			<Button
 				msg={
 					userFormStyle.btn ||

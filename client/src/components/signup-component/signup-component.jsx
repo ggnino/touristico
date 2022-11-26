@@ -32,7 +32,7 @@ function Signup() {
 	// Render component
 	return (
 		<>
-			<h1 className="my-heading">Hi, new user!</h1>
+			<h2 className="my-heading">Hi, new user!</h2>
 			<UserForm class={'signup'} />
 		</>
 	);

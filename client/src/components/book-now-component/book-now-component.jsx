@@ -45,12 +45,16 @@ function BookNow() {
 					<h2>BOOK NOW!</h2>
 					<fieldset className="booking-content-form-group">
 						<input id="name" type="text" name="name" placeholder="Name:" />
-						<label htmlFor="name">Name:</label>
+						<label id="m" htmlFor="name">
+							Name:
+						</label>
 					</fieldset>
 
 					<fieldset className="booking-content-form-group">
 						<input id="email" type="email" name="email" placeholder="Email:" />
-						<label htmlFor="email">Email:</label>
+						<label id="m" htmlFor="email">
+							Email:
+						</label>
 					</fieldset>
 					<fieldset className="booking-content-form-group">
 						<input

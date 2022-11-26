@@ -18,7 +18,7 @@ function LoginPage() {
 	// Render component
 	return (
 		<>
-			<h1 className="my-heading">Welcome back!</h1>
+			<h2 className="my-heading">Welcome back!</h2>
 			<UserForm class={'login'} />
 		</>
 	);

@@ -8,26 +8,20 @@
 			),
 			linear-gradient(to bottom, $myColor-4, #ed4903);
 	}
+
 	&-content {
+		padding: 2.5rem;
 		&.content-layout {
 			border-left: 4px solid $myColor-4;
 			border-right: 4px solid $myColor-4;
 			box-shadow: 0 0 4rem rgba($myColor-4, 1);
-			justify-content: center;
-			// height: 100%;
-			// width: auto;
-			// height: auto;
-		}
-		&.my-heading {
-			margin: 10rem;
 		}
 
 		&-form {
-			.my-heading {
-				margin: 0;
-			}
+			min-width: 20%;
+
 			&-formgroup {
-				& ~ div > .btn {
+				& ~ .btn {
 					&.book {
 						margin-bottom: 2rem;
 						&::after {
@@ -43,88 +37,18 @@
 		}
 	}
 }
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 810px) {
 	.signup {
 		&-content {
-			.my-heading {
-				margin-top: 6rem;
+			&.content-layout {
+				justify-content: end;
 			}
 			&-form {
-				.my-heading {
-					margin: 0;
+				&-formgroup ~ .btn.book {
+					font-size: 3rem;
 				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 900px) {
-	.signup {
-		&-content {
-			.my-heading {
-				font-size: 3rem;
-				margin-top: 10rem;
-			}
-			&-form {
-				.my-heading {
-					margin: 0;
-				}
-				.my-input {
-					font-size: 2rem;
-				}
-
-				&-formgroup {
-					margin: auto 2rem;
-					& ~ div > .btn {
-						&.book {
-							font-size: 3rem;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 420px) {
-	.signup {
-		&-content {
-			.my-heading {
-				font-size: 2rem;
-			}
-			&-form {
-				.my-heading {
-					padding-top: 0;
-					margin: 0;
-				}
-				.my-input {
+				input {
 					font-size: 1.6rem;
-				}
-
-				&-formgroup {
-					margin: auto 2rem;
-					& ~ div > .btn {
-						&.book {
-							font-size: 2rem;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-@media screen and (max-height: 820px) {
-	.signup {
-		&.page-layout {
-			height: 100%;
-		}
-		&-content {
-			.my-heading {
-				margin-top: 12rem;
-				margin-bottom: 0;
-				padding-bottom: 0.5rem;
-			}
-			&-form {
-				.my-heading {
-					margin: 0;
 				}
 			}
 		}
