@@ -43,24 +43,21 @@ function Button(props) {
 
 	// Render component
 	return (
-		<div
-			onClick={
-				window.location.pathname === '/benefits' ||
-				window.location.pathname === '/login' ||
-				window.location.pathname === '/signup' ||
-				window.location.pathname === '/home' ||
-				window.location.pathname === '/'
-					? clicker
-					: () => {}
-			}
-			tabIndex="0"
-			title="button-container"
-		>
+		<>
 			{(userMenu.menuItem4 !== 'none' && props.msg !== 'Save') ||
 			props.link === 'user-profile' ||
 			props.msg === 'Book Now' ||
 			props.msg === 'Redee' ? (
 				<button
+					onClick={
+						window.location.pathname === '/benefits' ||
+						window.location.pathname === '/login' ||
+						window.location.pathname === '/signup' ||
+						window.location.pathname === '/home' ||
+						window.location.pathname === '/'
+							? clicker
+							: () => {}
+					}
 					onMouseEnter={props.hover}
 					onMouseLeave={props.hover}
 					className={`btn ${light.current} ${props.class}`}
@@ -141,7 +138,7 @@ function Button(props) {
 					{props.msg || 'Discover our tours'}
 				</HashLink>
 			)}
-		</div>
+		</>
 	);
 }
 

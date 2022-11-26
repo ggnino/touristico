@@ -23,16 +23,14 @@ function MainPage() {
 	}, [path, setPath]);
 	// Render component
 	return (
-		<>
-			<div className="container">
-				<HeaderComponent />
-				<InfoComponent />
-				<TourPrev />
-				<Review />
-				<BookNow />
-				<Footer />
-			</div>
-		</>
+		<main className="container">
+			<HeaderComponent />
+			<InfoComponent />
+			<TourPrev />
+			<Review />
+			<BookNow />
+			<Footer />
+		</main>
 	);
 }
 

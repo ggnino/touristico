@@ -38,7 +38,7 @@ function HeaderComponent() {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<header role={'banner'} className="header" ref={ref}>
+		<header role={'banner'} className="container header" ref={ref}>
 			<div className="bg-video">
 				<video src={img1 || ''} autoPlay muted loop></video>
 			</div>

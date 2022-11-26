@@ -43,7 +43,7 @@ function InfoComponent() {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<div className="container info-comp" ref={ref}>
+		<section className="container info-comp" ref={ref}>
 			<div className="info-comp title">
 				<h2>
 					Traveling has never felt so{' '}
@@ -51,11 +51,10 @@ function InfoComponent() {
 				</h2>
 			</div>
 			<div className="info-comp-content">
-				<ul>
-					<li>
+				<div className="info-comp-content-articles">
+					<article>
 						<h3>Explore the world</h3>
-					</li>
-					<li>
+
 						<p>
 							Planet Earth sure is vast, majestic and beautiful. There is many
 							ways to explore the world, but what better way than in one of our
@@ -65,11 +64,10 @@ function InfoComponent() {
 							guides, who not only inform you and assist you; but makes sure the
 							vibes are just right!
 						</p>
-					</li>
-					<li>
+					</article>
+					<article>
 						<h3>Have an adventure of a lifetime</h3>
-					</li>
-					<li>
+
 						<p>
 							At <span className="emphasis text-gradient">Touristico </span>{' '}
 							tours, you can get some alone time and be one with nature. Our
@@ -79,18 +77,29 @@ function InfoComponent() {
 							many locations across the world, we guarantee you will get to know
 							the world around you better!
 						</p>
-					</li>
-					<li>
-						<Button msg={'Learn more'} class={'info'} link={'/about'} />
-					</li>
-				</ul>
+					</article>
+					<Button msg={'Learn more'} class={'info'} link={'/about'} />
+				</div>
+
 				<div className="info-comp-content-imgs">
-					<img id="sec" src={img2} alt="" />
-					<img id="main" src={img1} alt="tours" />
-					<img id="tr" src={img3} alt="" />
+					<img
+						id="snowyImg"
+						src={img2}
+						alt="A tourist walking up snowy mountain on skis."
+					/>
+					<img
+						id="waterfallImg"
+						src={img1}
+						alt="A beautiful waterfall shot of a tour."
+					/>
+					<img
+						id="hotBallonImg"
+						src={img3}
+						alt="Weather ballons traveling in the sky."
+					/>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }
 
