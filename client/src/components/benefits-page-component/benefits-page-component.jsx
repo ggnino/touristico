@@ -11,17 +11,11 @@ function BenefitsPage(props) {
 	// Render component
 	return (
 		<>
-			<div
-				className="benefits-content-info"
-				style={{ display: props.style }}
-				onClick={(e) => {
-					window.location.reload();
-				}}
-			>
-				<h1 className="my-heading">
+			<div className="benefits-content-info" style={{ display: props.style }}>
+				<h2 className="my-heading">
 					Love traveling? Love saving on traveling more? Say hello to our
 					membership program.
-				</h1>
+				</h2>
 				<Button
 					msg={'Touristico Rewards'}
 					class={'home text-gradient'}
@@ -37,7 +31,7 @@ function BenefitsPage(props) {
 				</p>
 			</div>
 
-			<div
+			<article
 				className="benefits-content-rewards"
 				style={{ display: props.style }}
 			>
@@ -66,8 +60,8 @@ function BenefitsPage(props) {
 						additional member-only perks.
 					</p>
 				</div>
-			</div>
-			<div
+			</article>
+			<article
 				className=" benefits-content-membership"
 				style={{ display: props.style }}
 			>
@@ -80,8 +74,8 @@ function BenefitsPage(props) {
 				<h2 className="my-heading">
 					Instantly enjoy Member Prices as soon as you join!
 				</h2>
-			</div>
-			<div
+			</article>
+			<article
 				className="benefits-content-membership"
 				style={{ display: props.style }}
 			>
@@ -96,7 +90,7 @@ function BenefitsPage(props) {
 					How far can <em className="text-gradient">Touristico Rewards</em> take
 					you?
 				</h2>
-			</div>
+			</article>
 		</>
 	);
 }

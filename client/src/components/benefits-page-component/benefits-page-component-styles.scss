@@ -54,7 +54,7 @@
 			flex-direction: row;
 			justify-content: center;
 			align-items: center;
-			flex-basis: 80%;
+			// flex-basis: 80%;
 			width: 100%;
 			padding: 1rem;
 			border-top: 2px solid black;
@@ -69,7 +69,7 @@
 				justify-content: center;
 				align-items: center;
 				width: 100%;
-				height: 70rem;
+				min-height: 70rem;
 				border-radius: 1rem;
 				border: 2px solid black;
 				box-shadow: 0 0 0.8rem rgba(black, 1);
@@ -95,7 +95,7 @@
 
 			img {
 				padding: 0.5rem;
-				width: 50%;
+				min-width: 50%;
 				height: 100%;
 				margin: 2rem;
 				border-radius: 1rem;
@@ -107,92 +107,29 @@
 		}
 	}
 }
-@media screen and (max-width: 1900px) {
+
+@media screen and (max-width: 1026px) {
 	.benefits {
 		&-content {
-			&-rewards {
-				&-reward {
-					height: 50rem;
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 1200px) {
-	.benefits {
-		.my-heading,
-		.btn {
-			font-size: 3rem;
-		}
-		&-content {
-			&-rewards {
-				&-reward {
-					height: 40rem;
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 916px) {
-	.benefits {
-		&-content {
-			p {
-				font-size: 1.6rem;
-			}
 			&-info {
-				& > div {
-					margin: 3rem;
+				.my-heading {
+					position: relative;
+					padding-top: 15rem;
+					font-size: 3rem;
+				}
+				.btn {
+					font-size: 3rem;
 				}
 			}
 			&-rewards {
 				flex-direction: column;
 				&-reward {
-					img {
-						position: relative;
-						width: 10%;
-						margin: 0 auto;
-					}
-
-					height: 40rem;
+					min-height: 40rem;
 				}
 			}
 			&-membership {
 				img {
 					width: 100%;
-				}
-				.my-heading {
-					margin-bottom: 0;
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 470px) {
-	.benefits {
-		&-content {
-			.my-heading {
-				font-size: 2.5rem;
-			}
-			&-info {
-				.my-heading {
-					padding-top: 14rem;
-					font-size: 2rem;
-					margin-bottom: 0;
-				}
-				& > div {
-					margin: 2rem 0;
-				}
-			}
-			&-rewards {
-				.my-heading {
-					font-size: 3rem;
-				}
-				&-reward {
-					img {
-						position: relative;
-						width: 10%;
-						margin: 0 auto;
-					}
 				}
 			}
 		}

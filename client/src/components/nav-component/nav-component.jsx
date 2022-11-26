@@ -263,8 +263,9 @@ function Nav() {
 	// Render component
 	return (
 		<nav role={'navigation'} className={navStyle.class} style={navStyle}>
-			<div className="nav-logo">
+			<div className="nav-logo" tabIndex={0}>
 				<a
+					tabIndex={0}
 					href="/"
 					onClick={(e) => {
 						setPath('/');
@@ -285,7 +286,7 @@ function Nav() {
 			</div>
 
 			<ul>
-				<li style={{ display: navStyle.displayItems }}>
+				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
 							path === '/about'
@@ -301,7 +302,7 @@ function Nav() {
 						About Us
 					</a>
 				</li>
-				<li style={{ display: navStyle.displayItems }}>
+				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
 							path === '/benefits'
@@ -317,7 +318,7 @@ function Nav() {
 						Our Benefits
 					</a>
 				</li>
-				<li style={{ display: navStyle.displayItems }}>
+				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
 							path.includes('tour')
@@ -334,7 +335,7 @@ function Nav() {
 					</a>
 				</li>
 
-				<li style={{ display: navStyle.displayItems }}>
+				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
 							path === '/signup'
@@ -350,7 +351,7 @@ function Nav() {
 						Sign Up
 					</a>
 				</li>
-				<li style={{ display: navStyle.displayItems }}>
+				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
 							path === '/login'
@@ -366,7 +367,7 @@ function Nav() {
 						Login
 					</a>
 				</li>
-				<li>
+				<li tabIndex={0}>
 					<a
 						onMouseLeave={onHoverNav}
 						onMouseEnter={onHoverNav}

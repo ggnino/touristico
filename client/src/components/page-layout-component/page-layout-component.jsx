@@ -346,14 +346,15 @@ function PageLayout() {
 					  }
 			}
 		>
-			<div
+			<section
+				tabIndex={0}
 				className={pageLayoutStyle.class2}
 				style={
 					path === '/home' ? style : { overflow: pageLayoutStyle.overflow }
 				}
 			>
 				<Outlet />
-			</div>
+			</section>
 		</div>
 	);
 }
