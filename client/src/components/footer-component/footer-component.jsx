@@ -5,7 +5,7 @@ import img1 from '../../imgs/brand.png';
 function Footer() {
 	// Render component
 	return (
-		<div className="footer">
+		<footer className="footer">
 			<div className="footer-content">
 				<ul>
 					<li>
@@ -34,16 +34,16 @@ function Footer() {
 						</a>
 					</li>
 				</ul>
-				<img src={img1} alt="" />
+				<img src={img1} alt="The company logo for touristico tours." />
 				<p>
 					Built by Guillermo Gonzalez for demonstration purposes only. For
 					custom design options or any other questions contact me{' '}
 					<a href="mailto:ggnino18@gmail.com" rel="noreferrer" target="_blank">
 						here.
-					</a>{' '}
+					</a>
 				</p>
 			</div>
-		</div>
+		</footer>
 	);
 }
 

@@ -45,12 +45,12 @@ function BookNow() {
 					<h2>BOOK NOW!</h2>
 					<fieldset className="booking-content-form-group">
 						<input id="name" type="text" name="name" placeholder="Name:" />
-						<label for="name">Name:</label>
+						<label htmlFor="name">Name:</label>
 					</fieldset>
 
 					<fieldset className="booking-content-form-group">
 						<input id="email" type="email" name="email" placeholder="Email:" />
-						<label for="email">Email:</label>
+						<label htmlFor="email">Email:</label>
 					</fieldset>
 					<fieldset className="booking-content-form-group">
 						<input
@@ -62,7 +62,7 @@ function BookNow() {
 							defaultValue={1}
 							id="group"
 						/>
-						<label id="m" for="group">
+						<label id="m" htmlFor="group">
 							Group-size:
 						</label>
 						<Button msg={'Continue'} class={'book'} link={'/signup'} />
