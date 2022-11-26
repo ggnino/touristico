@@ -36,27 +36,23 @@ function BookNow() {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<div className="booking" ref={ref}>
+		<section className="booking" ref={ref}>
 			<div className="title">
 				<h2>Book your adventure</h2>
 			</div>
 			<div className="booking-content">
 				<form className="booking-content-form" action="" onChange={onChange}>
 					<h2>BOOK NOW!</h2>
-					<div className="booking-content-form-group">
-						<input type="text" name="name" placeholder="Name:" />
-						<label id="m" htmlFor="name">
-							Name:
-						</label>
-					</div>
+					<fieldset className="booking-content-form-group">
+						<input id="name" type="text" name="name" placeholder="Name:" />
+						<label for="name">Name:</label>
+					</fieldset>
 
-					<div className="booking-content-form-group">
-						<input type="email" name="email" placeholder="Email:" />
-						<label id="m" htmlFor="email">
-							Email:
-						</label>
-					</div>
-					<div className="booking-content-form-group">
+					<fieldset className="booking-content-form-group">
+						<input id="email" type="email" name="email" placeholder="Email:" />
+						<label for="email">Email:</label>
+					</fieldset>
+					<fieldset className="booking-content-form-group">
 						<input
 							type="number"
 							name="group"
@@ -64,15 +60,16 @@ function BookNow() {
 							min={1}
 							max={30}
 							defaultValue={1}
+							id="group"
 						/>
-						<label id="m" htmlFor="group">
+						<label id="m" for="group">
 							Group-size:
 						</label>
 						<Button msg={'Continue'} class={'book'} link={'/signup'} />
-					</div>
+					</fieldset>
 				</form>
 			</div>
-		</div>
+		</section>
 	);
 }
 
