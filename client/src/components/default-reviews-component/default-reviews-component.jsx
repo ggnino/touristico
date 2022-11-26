@@ -18,9 +18,12 @@ function DefaultReviews() {
 				<UserIcon name={'Eduardo Hernandez'} img={'/imgs/users/user-18.jpg'} />
 
 				<p id="userReview">
-					"Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-					tenetur nulla ex enim quasi voluptate dolores provident ea excepturi
-					itaque? lsodkv dfb kjsdcccccccccsss" <br />
+					<q>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
+						tenetur nulla ex enim quasi voluptate dolores provident ea excepturi
+						itaque? lsodkv dfb kjsdcccccccccsss
+					</q>{' '}
+					<br />
 					by <span>Eduardo Hernandez</span>
 				</p>
 			</div>
@@ -36,9 +39,11 @@ function DefaultReviews() {
 				<UserIcon img={'/imgs/users/user-20.jpg'} />
 
 				<p id="userReview">
-					"Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-					tenetur nulla ex enim quasi voluptate dolores provident ea excepturi
-					itaque?"
+					<q>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
+						tenetur nulla ex enim quasi voluptate dolores provident ea excepturi
+						itaque?
+					</q>
 					<br />
 					by <span>Lisa Brown</span>
 				</p>
@@ -55,9 +60,11 @@ function DefaultReviews() {
 				<UserIcon img={'/imgs/users/user-4.jpg'} />
 
 				<p id="userReview">
-					"Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-					tenetur nulla ex enim quasi voluptate dolores provident ea excepturi
-					itaque?"
+					<q>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
+						tenetur nulla ex enim quasi voluptate dolores provident ea excepturi
+						itaque?
+					</q>
 					<br />
 					by <span>Ayla Cornell</span>
 				</p>

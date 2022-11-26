@@ -6,6 +6,7 @@ import UserIcon from '../user-icon-component/user-icon-component';
 import { MyContext } from '../../utils/functions/context';
 import DefaultReviews from '../default-reviews-component/default-reviews-component';
 import { useInView } from 'react-intersection-observer';
+import ErrorComponent from '../error-component/error-component';
 function Review(props) {
 	// useContext hook for app state
 	const state = useContext(MyContext);
@@ -55,7 +56,7 @@ function Review(props) {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<div className="container reviews" ref={ref}>
+		<section className="container reviews" ref={ref}>
 			<div className="title">
 				<h2>
 					{props.info ? 'Reviews' : 'Making friends and experiences together'}
@@ -70,7 +71,7 @@ function Review(props) {
 			>
 				<video src={img1 || ''} autoPlay muted loop></video>
 			</div>
-			<div
+			<article
 				className={
 					props.info === 'tourReview'
 						? `reviews-content ${props.info}`
@@ -141,7 +142,7 @@ function Review(props) {
 											/>
 
 											<p key={`${r.user.name}${index + 3}`} id="userReview">
-												{r.review}
+												<q>{r.review}</q>
 												<br />
 												by{' '}
 												<span key={`${r.user.name}${index + 2}`}>
@@ -153,16 +154,14 @@ function Review(props) {
 								);
 							})
 						) : (
-							<h1 key={`sss`} className="load" style={{ display: hide.err }}>
-								OOPS! AN ERROR!
-							</h1>
+							<ErrorComponent msg={'OOOPS! AN ERROR! '} />
 						)}
 					</>
 				) : (
 					<DefaultReviews />
 				)}
-			</div>
-		</div>
+			</article>
+		</section>
 	);
 }
 

@@ -276,7 +276,7 @@ function Nav() {
 						style={
 							path === '/home' && auth.isLoggedIn
 								? { cursor: 'default' }
-								: { cursor: '' }
+								: { cursor: 'pointer' }
 						}
 					>
 						Touristico

@@ -29,18 +29,16 @@ function ErrorComponent(props) {
 
 	// Render component
 	return (
-		<>
-			<h3
-				className={props.msg ? 'load' : 'err'}
-				style={
-					path === '/home' && !auth.isLoggedIn
-						? { display: hide.err, fontSize: '5rem' }
-						: { display: hide.err }
-				}
-			>
-				{msg}
-			</h3>
-		</>
+		<h3
+			className={props.msg ? 'load' : 'err'}
+			style={
+				path === '/home' && !auth.isLoggedIn
+					? { display: hide.err, fontSize: '5rem' }
+					: { display: hide.err }
+			}
+		>
+			{msg}
+		</h3>
 	);
 }
 
