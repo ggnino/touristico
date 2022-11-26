@@ -19,24 +19,21 @@
 	justify-content: center;
 	align-items: center;
 	transition: all 0.5s;
-	// border-bottom: 2px solid $myColor-4;
 	padding-top: 5rem;
 	padding-bottom: 5rem;
 	margin-top: -20rem;
 
 	&.title {
-		position: absolute;
-		top: 25rem;
-		left: 0;
+		position: relative;
 		background: none;
 		border: none;
 		color: $myColor-3;
 		transform: skewY(0deg);
+		margin: 1rem;
 	}
-	& ~ div > .info {
-		width: 100%;
-		transform: translateY(10rem);
-		margin-bottom: 10rem;
+	& ~ .info {
+		min-width: 30rem;
+		margin: 10rem;
 		&:hover {
 			color: $myColor-3;
 		}
@@ -48,9 +45,7 @@
 		position: relative;
 		display: flex;
 		justify-content: space-around;
-		align-items: flex-end;
 		flex-direction: row;
-		margin: 10rem auto 0rem auto;
 		z-index: 25;
 		width: 100%;
 
@@ -61,17 +56,15 @@
 			align-items: center;
 			position: relative;
 			margin: 0.5rem;
-			flex-shrink: 1;
-			flex-basis: 50rem;
+
 			box-shadow: 0 0 4rem rgba(0, 0, 0, 0.8);
 			border-radius: 2rem;
-			width: 100%;
+			max-width: 50rem;
 			cursor: pointer;
 			h2 {
 				opacity: 0;
 				font-size: 4rem;
 				position: absolute;
-				// top: 28rem;
 				bottom: 0rem;
 				right: 0rem;
 				transition: all 0.5s;
@@ -177,62 +170,12 @@
 		background-color: $myColor-5;
 	}
 }
-.img-holder {
-	position: relative;
-	width: 100%;
-	border-top-left-radius: 2rem;
-	border-top-right-radius: 2rem;
 
-	img {
-		border-top-left-radius: 2rem;
-		border-top-right-radius: 2rem;
-		position: relative;
-		z-index: -1;
-		width: 100%;
-	}
-}
-
-@media screen and (max-width: 2280px) {
+@media screen and (max-width: 1382px) {
 	.tour-prev {
-		&-content {
-			& ~ div > .info {
-				transform: translateY(7rem);
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 1580px) {
-	.tour-prev {
-		&-content {
-			&-cards {
-				ul {
-					li {
-						font-size: 2rem;
-					}
-				}
-				h2 {
-					font-size: 3rem;
-				}
-			}
-		}
-		a.tour-prev-content {
-			width: 25%;
-			// margin: 0rem;
-			// padding: 0;
-		}
-	}
-}
-
-@media screen and (max-width: 1182px) {
-	.tour-prev {
-		&.title {
-			top: 30rem;
-		}
-		padding: 0;
 		&-content {
 			a.tour-prev-content {
-				width: 80%;
+				width: 100%;
 			}
 			& ~ div > .info {
 				margin-top: 5rem;
@@ -240,13 +183,11 @@
 				transform: translateY(0rem);
 			}
 			width: 70%;
-			// margin: 0;
 			flex-direction: column;
 			align-items: center;
-			&:first-child {
-				margin-top: 25rem;
-			}
+
 			&-cards {
+				margin: 1rem;
 				& > div {
 					background: linear-gradient(
 						to bottom,
@@ -302,40 +243,18 @@
 	}
 }
 
-@media screen and (max-width: 787px) {
-	.tour-prev {
-		a.tour-prev-content {
-			width: 100%;
-		}
-		&.title {
-			font-size: 3rem;
-		}
-		&-content {
-			flex-direction: column;
-			align-items: center;
-			&:first-child {
-				margin-top: 25rem;
-			}
-		}
-	}
-}
 @media screen and (max-width: 606px) {
 	.tour-prev {
-		&-content {
-			&-cards {
-				h2 {
-					font-size: 2rem;
-				}
+		&.title {
+			font-size: 4rem;
+		}
+		&-content-cards {
+			h2 {
+				font-size: 3rem;
 			}
-			ul {
-				li {
-					font-size: 1.6rem;
-				}
+			ul > li {
+				font-size: 2rem;
 			}
 		}
-	}
-}
-@media screen and (max-width: 480px) {
-	.tour-prev {
 	}
 }

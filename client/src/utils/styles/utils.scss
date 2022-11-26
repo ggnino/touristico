@@ -129,3 +129,32 @@
 		height: 100vh;
 	}
 }
+.title {
+	font-size: 5rem;
+	transform: skewY(2deg);
+	background: none;
+	border: none;
+	text-align: center;
+}
+.emphasis {
+	font-family: 'IM Fell Great Primer', serif;
+	font-style: italic;
+	font-size: 5rem;
+	text-decoration: underline;
+	padding: 0;
+	font-weight: bold;
+}
+.img-holder {
+	position: relative;
+	width: 100%;
+	border-top-left-radius: 2rem;
+	border-top-right-radius: 2rem;
+
+	img {
+		border-top-left-radius: 2rem;
+		border-top-right-radius: 2rem;
+		position: relative;
+		z-index: -1;
+		width: 100%;
+	}
+}

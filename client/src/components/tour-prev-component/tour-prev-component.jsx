@@ -89,7 +89,7 @@ function TourPrev() {
 	}, [setTours, setHide, inView, setMainRefs]);
 	// Render component
 	return (
-		<div className="container tour-prev" id="tour-prev" ref={ref}>
+		<section className="container tour-prev" id="tour-prev" ref={ref}>
 			<div className="tour-prev title">
 				<h2>Most popular tours</h2>
 			</div>
@@ -108,7 +108,6 @@ function TourPrev() {
 										to={`/tours/${tour.slug}`}
 										state={tour}
 										key={`${tour.name} ${index}`}
-										// onClick={clicker}
 									>
 										<div
 											key={`${tour.name}-${index}`}
@@ -160,7 +159,7 @@ function TourPrev() {
 			</div>
 			<ErrorComponent msg={'OOOPS! TOUR ERROR!'} />
 			<Button msg={'More Tours'} class={'info'} link={'tours'} />
-		</div>
+		</section>
 	);
 }
 
