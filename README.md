@@ -7,13 +7,13 @@ At end of the course, there was alot of useful data to be just left as a back-en
 
 # Built With
 
-<ol>
+<ul>
   <li>ReactJS</li>
   <li>SCSS</li>
   <li>NodeJS</li>
   <li>ExpressJS</li>
   <li>MongoDB</li>
-</ol>
+</ul>
 
 # Getting Started
 
