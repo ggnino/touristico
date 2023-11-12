@@ -4,46 +4,26 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	clip-path: polygon(0 0, 100% 0, 100% 92%, 0% 100%);
+	clip-path: polygon(0 0, 100% 0, 100% 94%, 0% 100%);
 	cursor: default;
 	width: 100%;
+	margin-bottom: clamp(-7.5rem, -50%, -6rem);
 	h2 {
-		font-size: 4rem;
+		font-size: clamp(1.6rem, 2vw, 4rem);
 		color: inherit;
 		margin-bottom: 5rem;
 		letter-spacing: 0.5rem;
-		font-family: 'Kaushan Script', cursive;
+		font-family: "Kaushan Script", cursive;
 		z-index: 2;
 	}
 	&-greeting {
 		position: relative;
 		transition: all 0.2s;
-		font-size: 20rem;
+		font-size: clamp(10rem, 20vw, 20rem);
 		letter-spacing: 0.5rem;
-		font-family: 'Damion', cursive;
+		font-family: "Damion", cursive;
 	}
-}
-
-@media screen and (max-width: 1000px) {
-	.header {
-		&-greeting {
-			font-size: 15rem;
-		}
-		h2 {
-			font-size: 2rem;
-		}
-		.btn {
-			font-size: 3rem;
-		}
-	}
-}
-@media screen and (max-width: 510px) {
-	.header {
-		&-greeting {
-			font-size: 10rem;
-		}
-		h2 {
-			font-size: 1.6rem;
-		}
+	.btn {
+		font-size: clamp(3rem, 2vw, 4rem);
 	}
 }
