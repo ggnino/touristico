@@ -1,6 +1,5 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .info-comp {
-	display: flex;
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
 		linear-gradient(
 			to bottom,
@@ -11,54 +10,55 @@
 			$myColor-2,
 			$myColor-2
 		);
-	transform: translateY(-15rem) skewY(-2deg);
+	transform: skewY(-2deg);
 	z-index: 1;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: center;
 	position: relative;
 	color: inherit;
 	border-top: $myColor-1 2px solid;
-	border-bottom: $myColor-3 2px solid;
 	width: 100%;
+	padding: 2rem;
+	&.flex {
+		justify-content: space-around;
+	}
 
 	&.title {
 		color: #01dfab;
 		padding: 2rem;
+		margin: 2rem;
 	}
 
 	&-content {
 		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		padding: 2rem;
-		font-size: 3rem;
+		font-size: clamp(1.6rem, 4vw, 3rem);
 		transform: skewY(2deg);
 		margin-bottom: 5rem;
+		width: clamp(10rem, 100%, 250rem);
 
 		&-imgs {
 			position: relative;
-			width: 100%;
-			padding: 1rem;
+			width: clamp(30rem, 80vw, 150rem);
+			padding: clamp(3rem, 5vw, 10rem);
 		}
 		&-articles {
 			width: 100%;
 			padding: 2rem;
-			article {
-				padding: 1rem;
+
+			&.flex.flex-col {
+				gap: clamp(2rem, 4vw, 10rem);
 			}
 		}
 
 		h3 {
 			text-align: center;
-			font-size: 5rem;
+			font-size: clamp(3rem, 2vw, 5rem);
+			margin-bottom: 3rem;
 		}
 
 		img {
 			position: absolute;
 			display: block;
-			max-width: 50rem;
+			width: clamp(30rem, 30vw, 50rem);
 			border-radius: 1rem;
 			z-index: 1;
 			margin: auto;
@@ -89,43 +89,11 @@
 	}
 }
 
-@media screen and (max-width: 1594px) {
-	.info-comp {
-		&-content {
-			img {
-				max-width: 40rem;
-			}
-		}
-	}
-}
-
 @media screen and (max-width: 1394px) {
 	.info-comp {
 		&-content {
-			flex-direction: column-reverse;
-		}
-	}
-}
-
-@media screen and (max-width: 700px) {
-	.info-comp {
-		&.title,
-		.emphasis,
-		h3 {
-			font-size: 3rem;
-		}
-		&-content {
-			p,
-			& ~ .btn.info {
-				font-size: 1.6rem;
-			}
-			&-imgs {
-				img {
-					max-width: 25rem;
-				}
-			}
-			&-articles > article ~ .btn.info {
-				font-size: 2rem;
+			&.flex {
+				flex-direction: column-reverse;
 			}
 		}
 	}

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import './info-component-styles.scss';
-import img1 from '../../imgs/tour1.jpg';
-import img2 from '../../imgs/nat-8.jpg';
-import img3 from '../../imgs/tour2.jpg';
-import Button from '../button-component/button-component';
-import { MyContext } from '../../utils/functions/context';
-import { useInView } from 'react-intersection-observer';
+import React, { useContext, useEffect, useRef } from "react";
+import "./info-component-styles.scss";
+import img1 from "../../imgs/tour1.jpg";
+import img2 from "../../imgs/nat-8.jpg";
+import img3 from "../../imgs/tour2.jpg";
+import Button from "../button-component/button-component";
+import { MyContext } from "../../utils/functions/context";
+import { useInView } from "react-intersection-observer";
 function InfoComponent() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
@@ -14,7 +14,7 @@ function InfoComponent() {
 	const threshold = useRef(0.1);
 	// Adjust threshold by viewport
 	if (window.visualViewport.width > 1400) {
-		threshold.current = 0.12;
+		// threshold.current = 0.12;
 	}
 	// useInView hook for obsercing component
 	const [ref, inView] = useInView({
@@ -43,16 +43,16 @@ function InfoComponent() {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<section className="container info-comp" ref={ref}>
+		<section className="container info-comp flex flex-col" ref={ref}>
 			<div className="info-comp title">
 				<h2>
-					Traveling has never felt so{' '}
+					Traveling has never felt so{" "}
 					<span className="text-gradient">Touristico!</span>
 				</h2>
 			</div>
-			<div className="info-comp-content">
-				<div className="info-comp-content-articles">
-					<article>
+			<div className="info-comp-content flex">
+				<div className="info-comp-content-articles flex flex-col">
+					<article className="">
 						<h3>Explore the world</h3>
 
 						<p>
@@ -65,11 +65,11 @@ function InfoComponent() {
 							vibes are just right!
 						</p>
 					</article>
-					<article>
+					<article className="">
 						<h3>Have an adventure of a lifetime</h3>
 
 						<p>
-							At <span className="emphasis text-gradient">Touristico </span>{' '}
+							At <span className="emphasis text-gradient">Touristico </span>{" "}
 							tours, you can get some alone time and be one with nature. Our
 							breath-taking tours will leave you wanting more outdoor time. You
 							can also come with the family to make memories, in a fun worldy
@@ -78,7 +78,7 @@ function InfoComponent() {
 							the world around you better!
 						</p>
 					</article>
-					<Button msg={'Learn more'} class={'info'} link={'/about'} />
+					<Button msg={"Learn more"} class={"info"} link={"/about"} />
 				</div>
 
 				<div className="info-comp-content-imgs">
