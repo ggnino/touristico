@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import './nav-component-styles.scss';
-import styleVars from '../../utils/styles/variables.scss';
-import { MyContext } from '../../utils/functions/context';
-import { scrollAnimation } from '../../utils/functions/functions';
+import React, { useContext, useEffect, useRef } from "react";
+import "./nav-component-styles.scss";
+import styleVars from "../../utils/styles/variables.scss";
+import { MyContext } from "../../utils/functions/context";
+import { scrollAnimation, clearNav } from "../../utils/functions/functions";
 
 function Nav() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// reference variable
-	const styleFont = useRef('');
+	const styleFont = useRef("");
 	// Destructuring state
 	const {
 		navStyle,
@@ -29,38 +29,33 @@ function Nav() {
 	// useEffect hook for nav styling
 	useEffect(() => {
 		// Scroll event for navbar animation
-		if (path === '/') {
-			scrollAnimation(
-				mainRefs.head,
-				mainRefs.info,
-				mainRefs.tour,
-				mainRefs.rev,
-				mainRefs.book,
-				setNavStyle,
-				styleVars
-			);
+		if (path === "/") {
+			scrollAnimation(mainRefs, setNavStyle, styleVars);
+			document.addEventListener("scroll", () => clearNav(setNavStyle));
+		}
+		if (path !== "/") {
+			document.removeEventListener("scroll", clearNav);
 		}
 		// Set navbar styling by path
-		if (path !== '/' && !settings.light) {
-			// console.log('clicked!', settings);
+		if (path !== "/" && !settings.light) {
 			setNavStyle((style) => {
 				return {
 					...style,
-					backgroundColor: 'black',
+					backgroundColor: "black",
 				};
 			});
 		}
-		if (path !== '/home') {
+		if (path !== "/home") {
 			setNavStyle((style) => {
 				return {
 					...style,
-					displayItems: '',
-					class: 'nav',
+					displayItems: "",
+					class: "nav",
 				};
 			});
 		}
 
-		if (path === '/signup') {
+		if (path === "/signup") {
 			setNavStyle((s) => {
 				return {
 					...s,
@@ -69,17 +64,17 @@ function Nav() {
 					color: styleVars.color4,
 				};
 			});
-		} else if (path === '/login') {
+		} else if (path === "/login") {
 			setNavStyle((style) => {
 				return {
 					...style,
-					backgroundColor: 'black',
+					backgroundColor: "black",
 					color: styleVars.color5,
 					borderBottom: `4px solid ${styleVars.color5}`,
 					boxShadow: `0 0 2rem ${styleVars.color5}`,
 				};
 			});
-		} else if (path.includes('tour')) {
+		} else if (path.includes("tour")) {
 			setNavStyle((s) => {
 				return {
 					...s,
@@ -88,7 +83,7 @@ function Nav() {
 					color: styleVars.color3,
 				};
 			});
-		} else if (path === '/about') {
+		} else if (path === "/about") {
 			setNavStyle((s) => {
 				return {
 					...s,
@@ -97,7 +92,7 @@ function Nav() {
 					color: styleVars.color1,
 				};
 			});
-		} else if (path === '/benefits') {
+		} else if (path === "/benefits") {
 			setNavStyle((s) => {
 				return {
 					...s,
@@ -108,11 +103,11 @@ function Nav() {
 			});
 		}
 		// Set nav font
-		if (font === '') styleFont.current = '';
-		else if (font === 'bookmania') {
-			styleFont.current = { fam: `pill-gothic-900mg`, s: 'oblique' };
-		} else if (font === 'aviano-future') {
-			styleFont.current = { fam: 'ff-good-headline-web-pro-com', s: 'italic' };
+		if (font === "") styleFont.current = "";
+		else if (font === "bookmania") {
+			styleFont.current = { fam: `pill-gothic-900mg`, s: "oblique" };
+		} else if (font === "aviano-future") {
+			styleFont.current = { fam: "ff-good-headline-web-pro-com", s: "italic" };
 		}
 		// user is logged in
 		if (auth.isLoggedIn) {
@@ -122,13 +117,13 @@ function Nav() {
 					...style,
 					borderBottom: `4px solid ${styleVars.color5}`,
 					boxShadow: `0 0 2rem ${styleVars.color5}`,
-					color: 'inherit',
-					displayItems: 'none',
+					color: "inherit",
+					displayItems: "none",
 				};
 			});
 			// user saved color settings blue
 			if (settings.blue) {
-				setUserBorder('#16697A');
+				setUserBorder("#16697A");
 				setNavStyle((style) => {
 					return {
 						...style,
@@ -140,7 +135,7 @@ function Nav() {
 			}
 			// user saved color settings purple
 			else if (settings.purple) {
-				setUserBorder('#820263');
+				setUserBorder("#820263");
 				setNavStyle((style) => {
 					return {
 						...style,
@@ -152,7 +147,7 @@ function Nav() {
 			}
 			// user saved color settings yellow
 			else if (settings.yellow) {
-				setUserBorder('#FFD400');
+				setUserBorder("#FFD400");
 				setNavStyle((style) => {
 					return {
 						...style,
@@ -164,7 +159,7 @@ function Nav() {
 			}
 			// user saved color settings red
 			else if (settings.red) {
-				setUserBorder('#960200');
+				setUserBorder("#960200");
 				setNavStyle((style) => {
 					return {
 						...style,
@@ -176,7 +171,7 @@ function Nav() {
 			}
 			// user saved color settings green
 			else if (settings.green) {
-				setUserBorder('#B5F44A');
+				setUserBorder("#B5F44A");
 				setNavStyle((style) => {
 					return {
 						...style,
@@ -188,7 +183,7 @@ function Nav() {
 			}
 			// user saved color settings grey
 			else if (settings.grey) {
-				setUserBorder('#525252');
+				setUserBorder("#525252");
 				setNavStyle((style) => {
 					return {
 						...style,
@@ -211,36 +206,36 @@ function Nav() {
 			}
 			// user saved theme settings light
 			if (settings.light) {
-				setTextColor('black');
+				setTextColor("black");
 				setNavStyle((style) => {
 					return {
 						...style,
 						color: textColor,
-						backgroundColor: 'white',
-						class: 'nav light',
+						backgroundColor: "white",
+						class: "nav light",
 					};
 				});
 			}
 			// user saved theme settings dark
 			else if (settings.dark) {
-				setTextColor('');
+				setTextColor("");
 				setNavStyle((style) => {
 					return {
 						...style,
 						color: textColor,
-						class: 'nav',
+						class: "nav",
 					};
 				});
 			}
-		} else if (!auth.isLoggedIn && path === '/home') {
+		} else if (!auth.isLoggedIn && path === "/home") {
 			setNavStyle((style) => {
 				return {
 					...style,
 					borderBottom: `4px solid ${styleVars.color5}`,
 					boxShadow: `0 0 2rem ${styleVars.color5}`,
-					color: 'inherit',
-					class: 'nav',
-					displayItems: '',
+					color: "inherit",
+					class: "nav",
+					displayItems: "",
 				};
 			});
 		}
@@ -249,11 +244,7 @@ function Nav() {
 		settings,
 		setTextColor,
 		textColor,
-		mainRefs.head,
-		mainRefs.info,
-		mainRefs.tour,
-		mainRefs.rev,
-		mainRefs.book,
+		mainRefs,
 		auth,
 		font,
 		path,
@@ -262,22 +253,22 @@ function Nav() {
 
 	// Render component
 	return (
-		<nav role={'navigation'} className={navStyle.class} style={navStyle}>
+		<nav role={"navigation"} className={navStyle.class} style={navStyle}>
 			<div className="nav-logo" tabIndex={0}>
 				<a
 					tabIndex={0}
 					href="/"
 					onClick={(e) => {
-						setPath('/');
+						setPath("/");
 						return;
 					}}
 				>
 					<h2
 						className="text-gradient"
 						style={
-							path === '/home' && auth.isLoggedIn
-								? { cursor: 'default' }
-								: { cursor: 'pointer' }
+							path === "/home" && auth.isLoggedIn
+								? { cursor: "default" }
+								: { cursor: "pointer" }
 						}
 					>
 						Touristico
@@ -289,7 +280,7 @@ function Nav() {
 				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
-							path === '/about'
+							path === "/about"
 								? { color: navStyle.color, textDecoration: navStyle.decoration }
 								: {
 										fontFamily: styleFont.current.fam,
@@ -305,7 +296,7 @@ function Nav() {
 				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
-							path === '/benefits'
+							path === "/benefits"
 								? { color: navStyle.color, textDecoration: navStyle.decoration }
 								: {
 										fontFamily: styleFont.current.fam,
@@ -321,7 +312,7 @@ function Nav() {
 				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
-							path.includes('tour')
+							path.includes("tour")
 								? { color: navStyle.color, textDecoration: navStyle.decoration }
 								: {
 										fontFamily: styleFont.current.fam,
@@ -338,7 +329,7 @@ function Nav() {
 				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
-							path === '/signup'
+							path === "/signup"
 								? { color: navStyle.color, textDecoration: navStyle.decoration }
 								: {
 										fontFamily: styleFont.current.fam,
@@ -354,7 +345,7 @@ function Nav() {
 				<li tabIndex={0} style={{ display: navStyle.displayItems }}>
 					<a
 						style={
-							path === '/login'
+							path === "/login"
 								? { color: navStyle.color, textDecoration: navStyle.decoration }
 								: {
 										fontFamily: styleFont.current.fam,
@@ -374,12 +365,12 @@ function Nav() {
 						style={
 							auth.isLoggedIn
 								? {
-										display: '',
+										display: "",
 										fontFamily: styleFont.current.fam,
 										fontStyle: styleFont.current.s,
 										color: navStyle.color,
 								  }
-								: { display: 'none' }
+								: { display: "none" }
 						}
 						href="/"
 						onClick={clicker}

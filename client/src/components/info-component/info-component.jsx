@@ -11,7 +11,7 @@ function InfoComponent() {
 	const state = useContext(MyContext);
 	// Destructuring state
 	const { setMainRefs } = state;
-	const threshold = useRef(0.1);
+	const threshold = useRef([0.86, 0.12]);
 	// Adjust threshold by viewport
 	if (window.visualViewport.width > 1400) {
 		// threshold.current = 0.12;

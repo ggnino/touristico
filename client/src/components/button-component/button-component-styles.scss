@@ -1,9 +1,9 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 
 .btn {
 	position: relative;
 	color: inherit;
-	font-size: 4rem;
+	font-size: clamp(1.6rem, 4vw, 4rem);
 	padding: 1rem;
 	text-align: center;
 	border: 2px solid transparent;
@@ -15,7 +15,7 @@
 	cursor: pointer;
 
 	&::after {
-		content: '';
+		content: "";
 		position: absolute;
 		display: inline-block;
 		width: 100%;
@@ -51,7 +51,7 @@
 	}
 	&.info {
 		transform: translateY(2rem);
-		min-width: 50%;
+		width: clamp(20rem, 50vw, 50rem);
 		&:hover {
 			color: #00dda9;
 		}

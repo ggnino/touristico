@@ -1,9 +1,5 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .booking {
-	display: flex;
-	justify-content: space-evenly;
-	flex-direction: column;
-	align-items: center;
 	background-image: linear-gradient(
 			to bottom,
 			rgba(0, 0, 0, 0.7),
@@ -36,33 +32,29 @@
 				rgba(black, 0.9) 50%,
 				transparent 50%
 			),
-			url('../../imgs/book.jpg');
+			url("../../imgs/book.jpg");
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;
-		min-width: 40%;
+		width: clamp(50rem, 100vw, 140rem);
 		border-radius: 2rem;
 		box-shadow: 0 0 4rem $myColor-5;
 		margin: 13rem auto;
 
 		&-form {
-			display: flex;
-			align-items: center;
-			flex-direction: column;
+			padding: clamp(3rem, 5vw, 5rem);
+			width: clamp(10rem, 35vw, 50rem);
 			margin: 1rem;
-			padding: 1rem;
-			max-width: 40%;
 			&-group {
 				margin: 2rem;
 				padding: 2rem;
-				width: 100%;
+				width: clamp(10rem, 35vw, 50rem);
+
 				& > .book {
-					position: relative;
 					font-size: 3rem;
 					&:hover {
 						color: $myColor-5;
 					}
-					min-width: 80%;
 					&:after {
 						background-color: $myColor-5;
 					}
@@ -78,6 +70,7 @@
 				display: block;
 				font-size: 3rem;
 				transition: all 0.2s;
+				width: clamp(30rem, 100%, 50rem);
 			}
 			label {
 				cursor: auto;
@@ -96,7 +89,6 @@
 			input {
 				border: 2px solid transparent;
 				border-radius: 0.2rem;
-				width: 100%;
 				z-index: 20;
 			}
 			input:active,
@@ -120,57 +112,17 @@
 	}
 }
 
-@media screen and (max-width: 1480px) {
+@media screen and (max-width: 830px) {
 	.booking {
-		& > .title {
-			font-size: 4rem;
-		}
 		&-content {
 			background-image: linear-gradient(
 					105deg,
 					rgba(black, 0.9),
-					rgba(black, 0.9) 60%,
-					transparent 60%
+					rgba(black, 0.9)
 				),
-				url('../../imgs/book.jpg');
+				url("../../imgs/book.jpg");
 			&-form {
 				width: 100%;
-				h2 {
-					font-size: 3rem;
-				}
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 580px) {
-	.booking {
-		& > .title {
-			font-size: 3rem;
-		}
-		&-content {
-			width: 80%;
-			background-image: linear-gradient(
-					105deg,
-					rgba(black, 0.9),
-					rgba(black, 0.9),
-					// transparent 60%
-				),
-				url('../../imgs/book.jpg');
-			&-form {
-				max-width: 90%;
-				padding: 1rem;
-
-				h2 {
-					font-size: 3rem;
-					margin-bottom: 5rem;
-				}
-				label,
-				input {
-					font-size: 2rem;
-
-					margin: 0;
-				}
 			}
 		}
 	}

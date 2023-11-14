@@ -9,7 +9,7 @@ function HeaderComponent() {
 	const state = useContext(MyContext);
 	// Destructuring state
 	const { setMainRefs } = state;
-	const threshold = useRef(1);
+	const threshold = useRef([0.86, 0.14]);
 	// Adjust threshold by viewport
 	if (window.visualViewport.height > 1400) {
 		// threshold.current = 0.2;

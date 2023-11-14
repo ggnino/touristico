@@ -1,38 +1,23 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import './tour-prev-component-styles.scss';
-import Button from '../button-component/button-component';
-import axios from 'axios';
-import { MyContext } from '../../utils/functions/context';
-import { Link } from 'react-router-dom';
-import ErrorComponent from '../error-component/error-component';
-import { useInView } from 'react-intersection-observer';
+import React, { useContext, useEffect, useRef } from "react";
+import "./tour-prev-component-styles.scss";
+import Button from "../button-component/button-component";
+import axios from "axios";
+import { MyContext } from "../../utils/functions/context";
+import { Link } from "react-router-dom";
+import ErrorComponent from "../error-component/error-component";
+import { useInView } from "react-intersection-observer";
 
 function TourPrev() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { tours, setTours, setHide, setMainRefs } = state;
+	const { tours, setTours, setHide, setMainRefs, hide } = state;
 	// reference variable for retrieving data
 	const dif = useRef(null);
 
 	// threshold percentage for useInView hook
-	const threshold = useRef(0.1);
-	// Adjust threshold by viewport
-	if (window.visualViewport.width > 1400) {
-		threshold.current = 0.065;
-	}
-	if (window.visualViewport.width < 1200) {
-		threshold.current = 0.035;
-	}
-	if (window.visualViewport.height === 900) {
-		threshold.current = 0.09;
-	}
-	if (window.visualViewport.height < 900) {
-		threshold.current = 0.06;
-	}
-	if (window.visualViewport.height < 860) {
-		threshold.current = 0.07;
-	}
+	const threshold = useRef([0.86, 0.06]);
+
 	// useInView hook for obsercing component
 	const [ref, inView] = useInView({
 		threshold: threshold.current,
@@ -63,7 +48,7 @@ function TourPrev() {
 			dif.current = 1;
 			// get request
 			axios
-				.get('/api/v1/tours')
+				.get("/api/v1/tours")
 				.then((response) => {
 					// set tour info
 					setTours(response.data.Tours);
@@ -71,7 +56,7 @@ function TourPrev() {
 					setHide((h) => {
 						return {
 							...h,
-							err: 'none',
+							err: "none",
 						};
 					});
 				})
@@ -80,8 +65,8 @@ function TourPrev() {
 					setHide((h) => {
 						return {
 							...h,
-							loader: 'none',
-							err: '',
+							loader: "none",
+							err: "",
 						};
 					});
 				});
@@ -89,38 +74,45 @@ function TourPrev() {
 	}, [setTours, setHide, inView, setMainRefs]);
 	// Render component
 	return (
-		<section className="container tour-prev" id="tour-prev" ref={ref}>
-			<div className="tour-prev title">
+		<section
+			className="container tour-prev flex flex-col"
+			id="tour-prev"
+			ref={ref}
+		>
+			<div
+				style={hide.err === "" ? { display: "none" } : { display: "" }}
+				className="tour-prev title"
+			>
 				<h2>Most popular tours</h2>
 			</div>
 
-			<div className="tour-prev-content">
+			<div className="tour-prev-content flex">
 				{tours
 					? tours.map((tour, index) => {
 							if (
-								(index === 0 && tour.difficulty === 'easy') ||
-								(index === 1 && tour.difficulty === 'medium') ||
-								(index === 3 && tour.difficulty === 'difficult')
+								(index === 0 && tour.difficulty === "easy") ||
+								(index === 1 && tour.difficulty === "medium") ||
+								(index === 3 && tour.difficulty === "difficult")
 							) {
 								return (
 									<Link
-										className="tour-prev-content"
+										className="tour-prev-content-cards"
 										to={`/tours/${tour.slug}`}
 										state={tour}
 										key={`${tour.name} ${index}`}
 									>
 										<div
 											key={`${tour.name}-${index}`}
-											className="tour-prev-content-cards"
+											className="tour-prev-content-cards flex flex-col"
 										>
 											<div
 												className="img-holder"
 												id={
-													tour.difficulty === 'easy'
-														? 'one'
-														: tour.difficulty === 'medium'
-														? 'two'
-														: 'three'
+													tour.difficulty === "easy"
+														? "one"
+														: tour.difficulty === "medium"
+														? "two"
+														: "three"
 												}
 											>
 												<img
@@ -135,17 +127,17 @@ function TourPrev() {
 												<li>{tour.guides.length} tour guides</li>
 												<li>All accomodations included</li>
 												<li>
-													Difficulty:{' '}
+													Difficulty:{" "}
 													<span
 														style={
-															tour.difficulty === 'easy'
-																? { color: '#00916e' }
-																: tour.difficulty === 'medium'
-																? { color: '#ee6123' }
-																: { color: '#db0000' }
+															tour.difficulty === "easy"
+																? { color: "#00916e" }
+																: tour.difficulty === "medium"
+																? { color: "#ee6123" }
+																: { color: "#db0000" }
 														}
 													>
-														{' '}
+														{" "}
 														{tour.difficulty}
 													</span>
 												</li>
@@ -153,12 +145,12 @@ function TourPrev() {
 										</div>
 									</Link>
 								);
-							} else return '';
+							} else return "";
 					  })
-					: ''}
+					: ""}
 			</div>
-			<ErrorComponent msg={'OOOPS! TOUR ERROR!'} />
-			<Button msg={'More Tours'} class={'info'} link={'tours'} />
+			<ErrorComponent msg={"OOOPS! TOUR ERROR!"} />
+			<Button msg={"More Tours"} class={"info"} link={"tours"} />
 		</section>
 	);
 }

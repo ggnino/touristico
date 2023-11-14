@@ -1,4 +1,4 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .tour-prev {
 	position: relative;
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
@@ -11,17 +11,17 @@
 			$myColor-3,
 			$myColor-3
 		),
-		url('../../imgs/bg2.jpg') no-repeat;
+		url("../../imgs/bg2.jpg") no-repeat;
 	background-size: cover;
 	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 	transition: all 0.5s;
-	padding-top: 5rem;
-	padding-bottom: 5rem;
-	margin-top: -20rem;
+	padding: 5rem 0;
+	margin-top: -6rem;
+	border-top: $myColor-3 2px solid;
+	z-index: 2;
+	&.flex-col {
+		justify-content: space-evenly;
+	}
 
 	&.title {
 		position: relative;
@@ -43,24 +43,20 @@
 	}
 	&-content {
 		position: relative;
-		display: flex;
 		justify-content: space-around;
-		flex-direction: row;
 		z-index: 25;
-		width: 100%;
+		width: clamp(10rem, 100%, 200rem);
+		gap: clamp(5rem, 5vw, 10rem);
+		flex-wrap: wrap;
+		padding: clamp(1rem, 5vw, 5rem) 0;
 
 		&-cards {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
 			position: relative;
-			margin: 0.5rem;
-
 			box-shadow: 0 0 4rem rgba(0, 0, 0, 0.8);
 			border-radius: 2rem;
-			max-width: 50rem;
+			width: clamp(30rem, 50vw, 50rem);
 			cursor: pointer;
+			text-align: center;
 			h2 {
 				opacity: 0;
 				font-size: 4rem;
@@ -168,93 +164,5 @@
 #three {
 	h2 {
 		background-color: $myColor-5;
-	}
-}
-
-@media screen and (max-width: 1382px) {
-	.tour-prev {
-		&-content {
-			a.tour-prev-content {
-				width: 100%;
-			}
-			& ~ div > .info {
-				margin-top: 5rem;
-				margin-bottom: 5rem;
-				transform: translateY(0rem);
-			}
-			width: 70%;
-			flex-direction: column;
-			align-items: center;
-
-			&-cards {
-				margin: 1rem;
-				& > div {
-					background: linear-gradient(
-						to bottom,
-						rgba($myColor-1, 0.7),
-						rgba($myColor-1, 0.7)
-					);
-				}
-				& > #two {
-					background: linear-gradient(
-						to bottom,
-						rgba($myColor-4, 0.7),
-						rgba($myColor-4, 0.7)
-					);
-					& ~ ul {
-						li:first-child {
-							border-top: 2px solid $myColor-4;
-						}
-						li:not(:last-child) {
-							border-bottom: 2px solid $myColor-4;
-						}
-					}
-				}
-
-				& > #three {
-					background: linear-gradient(
-						to bottom,
-						rgba($myColor-5, 0.7),
-						rgba($myColor-5, 0.7)
-					);
-					& ~ ul {
-						li:first-child {
-							border-top: 2px solid $myColor-5;
-						}
-						li:not(:last-child) {
-							border-bottom: 2px solid $myColor-5;
-						}
-					}
-				}
-				h2 {
-					font-size: 4rem;
-					opacity: 1;
-				}
-				ul {
-					li:first-child {
-						border-top: 2px solid $myColor-1;
-					}
-					li:not(:last-child) {
-						border-bottom: 2px solid $myColor-1;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 606px) {
-	.tour-prev {
-		&.title {
-			font-size: 4rem;
-		}
-		&-content-cards {
-			h2 {
-				font-size: 3rem;
-			}
-			ul > li {
-				font-size: 2rem;
-			}
-		}
 	}
 }

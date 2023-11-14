@@ -1,4 +1,4 @@
-@use '../..//utils/styles/variables.scss' as *;
+@use "../..//utils/styles/variables.scss" as *;
 .nav {
 	position: fixed;
 	width: 100%;
@@ -7,7 +7,7 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	transition: all 0.2s;
+	transition: all 0.2s linear;
 	padding: 1rem;
 
 	&-logo {
@@ -50,7 +50,7 @@
 			display: inline-block;
 			font-size: 2rem;
 			margin: 1rem;
-			padding: 0.5rem;
+			padding: 1.5rem 0;
 			color: $myColor-2;
 		}
 	}

@@ -79,8 +79,6 @@ function App() {
 	// useState hook for component refrences for observer API
 	const [mainRefs, setMainRefs] = useState({
 		info: null,
-		mio: null,
-		main: null,
 		head: null,
 		tour: null,
 		rev: null,

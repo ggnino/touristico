@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { MyContext } from '../../utils/functions/context';
-import Button from '../button-component/button-component';
-import './book-now-component-styles.scss';
+import React, { useContext, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { MyContext } from "../../utils/functions/context";
+import Button from "../button-component/button-component";
+import "./book-now-component-styles.scss";
 
 function BookNow() {
 	// useContext hook for app state
@@ -11,7 +11,7 @@ function BookNow() {
 	const { setMainRefs, onChange } = state;
 	// useInView hook for observing component
 	const [ref, inView] = useInView({
-		threshold: 0.1,
+		threshold: [0.86, 0.01],
 	});
 	// useEffect hook for observing component
 	useEffect(() => {
@@ -36,12 +36,16 @@ function BookNow() {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<section className="booking" ref={ref}>
+		<section className="booking flex flex-col" ref={ref}>
 			<div className="title">
 				<h2>Book your adventure</h2>
 			</div>
 			<div className="booking-content">
-				<form className="booking-content-form" action="" onChange={onChange}>
+				<form
+					className="booking-content-form flex flex-col"
+					action=""
+					onChange={onChange}
+				>
 					<h2>BOOK NOW!</h2>
 					<fieldset className="booking-content-form-group">
 						<input id="name" type="text" name="name" placeholder="Name:" />
@@ -69,7 +73,7 @@ function BookNow() {
 						<label id="m" htmlFor="group">
 							Group-size:
 						</label>
-						<Button msg={'Continue'} class={'book'} link={'/signup'} />
+						<Button msg={"Continue"} class={"book"} link={"/signup"} />
 					</fieldset>
 				</form>
 			</div>

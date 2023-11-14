@@ -15,8 +15,7 @@
 	position: relative;
 	color: inherit;
 	border-top: $myColor-1 2px solid;
-	width: 100%;
-	padding: 2rem;
+	padding: clamp(1rem, 2vw, 2rem);
 	&.flex {
 		justify-content: space-around;
 	}
@@ -37,7 +36,7 @@
 
 		&-imgs {
 			position: relative;
-			width: clamp(30rem, 80vw, 150rem);
+			width: clamp(20rem, 80vw, 150rem);
 			padding: clamp(3rem, 5vw, 10rem);
 		}
 		&-articles {
@@ -58,7 +57,7 @@
 		img {
 			position: absolute;
 			display: block;
-			width: clamp(30rem, 30vw, 50rem);
+			width: clamp(20rem, 30vw, 50rem);
 			border-radius: 1rem;
 			z-index: 1;
 			margin: auto;

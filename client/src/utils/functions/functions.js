@@ -62,7 +62,7 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 				borderBottom: `2px solid ${styleVars.color4}`,
 			};
 		});
-	} console.log("Views", reviewsView)
+	}
 	// view five valid, while view four is not
 	if ((footerView && !reviewsView) || (bookView && !reviewsView)) {
 

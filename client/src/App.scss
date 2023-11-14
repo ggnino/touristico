@@ -1,10 +1,10 @@
-@use './utils/styles/layout.scss';
-@use './utils/styles/utils.scss';
-@use './utils/styles/variables.scss' as *;
+@use "./utils/styles/layout.scss";
+@use "./utils/styles/utils.scss";
+@use "./utils/styles/variables.scss" as *;
 
-@import url('https://use.typekit.net/dnf2vzq.css');
-@import url('https://fonts.googleapis.com/css2?family=Damion&family=Kaushan+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer:ital@0;1&display=swap');
+@import url("https://use.typekit.net/dnf2vzq.css");
+@import url("https://fonts.googleapis.com/css2?family=Damion&family=Kaushan+Script&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer:ital@0;1&display=swap");
 
 // Global settings
 * {
@@ -41,12 +41,13 @@ body {
 }
 
 p {
+	padding: 3rem;
 	text-align: justify;
 }
 
 p,
 li {
-	font-family: 'IM Fell Great Primer', serif;
+	font-family: "IM Fell Great Primer", serif;
 }
 
 a {
@@ -59,7 +60,7 @@ a:focus-visible {
 a,
 span,
 button {
-	font-family: 'Kaushan Script', cursive;
+	font-family: "Damion", cursive;
 }
 span {
 	cursor: default;
@@ -72,6 +73,6 @@ h1,
 h2,
 h3,
 h4 {
-	font-family: 'Damion', cursive;
+	font-family: "Damion", cursive;
 	cursor: default;
 }
