@@ -1,10 +1,6 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .reviews {
 	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
 	z-index: 20;
 	border-top: 0.4rem solid $myColor-4;
 	width: 100%;
@@ -20,10 +16,6 @@
 	}
 	&-content {
 		position: relative;
-		display: flex;
-		justify-content: initial;
-		align-items: center;
-		flex-direction: column;
 		max-width: 80%;
 		flex-shrink: 1;
 		border-radius: 2rem;
@@ -39,11 +31,7 @@
 		}
 
 		&-user {
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			flex-wrap: nowrap;
-			flex-direction: row;
 			margin: 2rem;
 			padding: 2rem;
 			position: relative;
@@ -71,7 +59,7 @@
 	.title {
 		transform: skew(2deg);
 		position: relative;
-		font-family: 'Kaushan Script', cursive;
+		font-family: "Kaushan Script", cursive;
 		text-align: center;
 	}
 	.bg-video {
@@ -99,18 +87,11 @@
 	}
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 750px) {
 	.reviews {
-		.title {
-			font-size: 3rem;
-		}
 		&-content {
 			&-user {
 				flex-direction: column-reverse;
-
-				#userReview {
-					font-size: 2rem;
-				}
 			}
 		}
 	}

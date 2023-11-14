@@ -1,40 +1,48 @@
+export function clearNav(setNavStyle) {
+
+	if (window.scrollY === 0) {
+		setNavStyle((style) => {
+			return {
+				...style,
+				backgroundColor: "transparent",
+				borderBottom: ``,
+				boxShadow: "",
+			};
+		});
+	}
+}
+
 // function for scroll animation on homepage
-export function scrollAnimation(
-	myView1,
-	myView2,
-	myView3,
-	myView4,
-	myView5,
-	setNavStyle,
-	styleVars,
-	e
-) {
+export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
+
+	const { head: headerView, info: infoView, tour: toursView, book: bookView, rev: reviewsView, footer: footerView } = viewRefs;
+
+
 	// view one valid
-	if (myView1) {
+	if (headerView && window.scrollY !== 0) {
 		// set nav styles for current view
 		setNavStyle((style) => {
 			return {
 				...style,
-				backgroundColor: '',
+				backgroundColor: 'black',
 				borderBottom: ``,
 				boxShadow: '',
 			};
 		});
 	}
 	// view two valid, while view one is not
-	if (myView2 && !myView1) {
+	if (infoView && !headerView) {
 		// set nav styles for current view
 		setNavStyle((style) => {
 			return {
 				...style,
-				backgroundColor: 'black',
 				borderBottom: `2px solid ${styleVars.color1}`,
 				boxShadow: `0 0 1rem ${styleVars.color1}`,
 			};
 		});
 	}
 	// view three valid, while view two is not
-	if (myView3 && !myView2) {
+	if (toursView && !infoView) {
 		// set nav styles for current view
 		setNavStyle((style) => {
 			return {
@@ -45,7 +53,7 @@ export function scrollAnimation(
 		});
 	}
 	// view four valid, while view three is not
-	if (myView4 && !myView3) {
+	if (reviewsView && !toursView) {
 		// set nav styles for current view
 		setNavStyle((style) => {
 			return {
@@ -54,9 +62,10 @@ export function scrollAnimation(
 				borderBottom: `2px solid ${styleVars.color4}`,
 			};
 		});
-	}
+	} console.log("Views", reviewsView)
 	// view five valid, while view four is not
-	if (myView5 && !myView4) {
+	if ((footerView && !reviewsView) || (bookView && !reviewsView)) {
+
 		// set nav styles for current view
 		setNavStyle((style) => {
 			return {

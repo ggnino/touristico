@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import './review-component-styles.scss';
-import img1 from '../../imgs/chilling2.mp4';
-import StarRating from '../star-rating-component/star-rating-component';
-import UserIcon from '../user-icon-component/user-icon-component';
-import { MyContext } from '../../utils/functions/context';
-import DefaultReviews from '../default-reviews-component/default-reviews-component';
-import { useInView } from 'react-intersection-observer';
-import ErrorComponent from '../error-component/error-component';
+import React, { useContext, useEffect, useRef } from "react";
+import "./review-component-styles.scss";
+import img1 from "../../imgs/chilling2.mp4";
+import StarRating from "../star-rating-component/star-rating-component";
+import UserIcon from "../user-icon-component/user-icon-component";
+import { MyContext } from "../../utils/functions/context";
+import DefaultReviews from "../default-reviews-component/default-reviews-component";
+import { useInView } from "react-intersection-observer";
+import ErrorComponent from "../error-component/error-component";
 function Review(props) {
 	// useContext hook for app state
 	const state = useContext(MyContext);
@@ -15,26 +15,18 @@ function Review(props) {
 	// Destructuring props
 	const { review } = props;
 	// threshold percentage for useInView hook
-	const threshold = useRef(0.07);
-	// Adjust threshold by viewport
-	if (window.visualViewport.height < 1200) {
-		threshold.current = 0.06;
-	}
-	if (window.visualViewport.height < 1100) {
-		threshold.current = 0.05;
-	}
-	if (window.visualViewport.height < 1000) {
-		threshold.current = 0.075;
-	}
-	if (window.visualViewport.height <= 800) {
-		threshold.current = 0.08;
-	}
+	const threshold = useRef([0.86, 0.08]);
+
 	// useInView hook for obsercing component
 	const [ref, inView] = useInView({
 		threshold: threshold.current,
 	});
 	// useEffect hook for observing component
 	useEffect(() => {
+		if (window.innerWidth < 1100) {
+			threshold.current[1] = 0.07;
+		}
+
 		// Chechking to see if component in user view
 		if (inView) {
 			// set view to true
@@ -56,29 +48,29 @@ function Review(props) {
 	}, [inView, setMainRefs]);
 	// Render component
 	return (
-		<section className="container reviews" ref={ref}>
+		<section className="container reviews flex flex-col" ref={ref}>
 			<div className="title">
 				<h2>
-					{props.info ? 'Reviews' : 'Making friends and experiences together'}
+					{props.info ? "Reviews" : "Making friends and experiences together"}
 				</h2>
 			</div>
 
 			<div
 				className="bg-video"
 				style={
-					props.info === 'tourReview' ? { display: 'none' } : { display: '' }
+					props.info === "tourReview" ? { display: "none" } : { display: "" }
 				}
 			>
-				<video src={img1 || ''} autoPlay muted loop></video>
+				<video src={img1 || ""} autoPlay muted loop></video>
 			</div>
 			<article
 				className={
-					props.info === 'tourReview'
-						? `reviews-content ${props.info}`
-						: 'reviews-content'
+					props.info === "tourReview"
+						? `reviews-content flex flex-col ${props.info}`
+						: "reviews-content flex flex-col"
 				}
 			>
-				{window.location.pathname !== '/' ? (
+				{window.location.pathname !== "/" ? (
 					<>
 						<div
 							className="load ld ld-ring ld-cycle"
@@ -86,14 +78,14 @@ function Review(props) {
 						></div>
 						{review.Reviews ? (
 							review.Reviews.map((r, index) => {
-								let title = '';
-								if (r.rating > 4) title = 'What an a experience!';
-								if (r.rating === 4) title = 'Amazing!';
-								if (r.rating === 3) title = 'It is OK.';
-								else if (r.rating < 3) title = 'Horrible experience.';
+								let title = "";
+								if (r.rating > 4) title = "What an a experience!";
+								if (r.rating === 4) title = "Amazing!";
+								if (r.rating === 3) title = "It is OK.";
+								else if (r.rating < 3) title = "Horrible experience.";
 
 								return (
-									<React.Fragment key={`${r.name}${index}555555555555`}>
+									<React.Fragment key={`${r.name}${index}`}>
 										<h2 key={`${r.user.name}${index}`} className="title">
 											{title}
 										</h2>
@@ -133,18 +125,18 @@ function Review(props) {
 										</div>
 										<div
 											key={`${r.user.name}${index + 2}`}
-											className="reviews-content-user"
+											className="reviews-content-user flex"
 										>
 											<UserIcon
 												key={`${r.user.name}${index + 200}`}
-												id={'review'}
+												id={"review"}
 												img={`${r.user.photo}`}
 											/>
 
 											<p key={`${r.user.name}${index + 3}`} id="userReview">
 												<q>{r.review}</q>
 												<br />
-												by{' '}
+												by{" "}
 												<span key={`${r.user.name}${index + 2}`}>
 													{r.user.name}
 												</span>
@@ -154,7 +146,7 @@ function Review(props) {
 								);
 							})
 						) : (
-							<ErrorComponent msg={'OOOPS! AN ERROR! '} />
+							<ErrorComponent msg={"OOOPS! AN ERROR! "} />
 						)}
 					</>
 				) : (
