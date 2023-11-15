@@ -77,11 +77,17 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 	}
 }
 // function for getting a tour
-export async function getTour(controller, axios) {
+export async function getTour(controller, axios, tours = null) {
+	let response = null;
 	// get request
-	const response = await axios.get('/api/v1/tours', {
-		signal: controller.signal,
-	});
+	try {
+		response = await axios.get('/api/v1/tours', {
+			signal: controller.signal,
+		});
+		if (tours) return response.data;
+	} catch (err) { console.log(err) }
+
+
 	// tours info
 	const { Tours } = response.data;
 
@@ -90,6 +96,5 @@ export async function getTour(controller, axios) {
 	// actual tour
 	const actual = Tours.filter((tour) => tour.slug === slug)[0];
 
-	// return tour
 	return actual;
 }

@@ -6,6 +6,7 @@ import { MyContext } from "../../utils/functions/context";
 import { Link } from "react-router-dom";
 import ErrorComponent from "../error-component/error-component";
 import { useInView } from "react-intersection-observer";
+import { getTour } from "../../utils/functions/functions";
 
 function TourPrev() {
 	// useContext hook for app state
@@ -13,7 +14,7 @@ function TourPrev() {
 	// Destructuring state
 	const { tours, setTours, setHide, setMainRefs, hide } = state;
 	// reference variable for retrieving data
-	const dif = useRef(null);
+	const gotData = useRef(null);
 
 	// threshold percentage for useInView hook
 	const threshold = useRef([0.86, 0.06]);
@@ -24,6 +25,7 @@ function TourPrev() {
 	});
 	// useEffect hook for retrieving tour data and observing component
 	useEffect(() => {
+		const controller = new AbortController();
 		// Chechking to see if component in user view
 		if (inView) {
 			// set component to true
@@ -43,15 +45,15 @@ function TourPrev() {
 				};
 			});
 		// checks to see if tour data has been retrieved
-		if (!dif.current) {
+		if (!gotData.current) {
 			// retrieved
-			dif.current = 1;
+			gotData.current = true;
+
 			// get request
-			axios
-				.get("/api/v1/tours")
+			getTour(controller, axios, gotData.current)
 				.then((response) => {
 					// set tour info
-					setTours(response.data.Tours);
+					setTours(response.Tours);
 					// hide any err messages
 					setHide((h) => {
 						return {

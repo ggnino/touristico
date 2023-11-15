@@ -202,10 +202,13 @@ function App() {
 	// useNavigate hook for redirecting
 	const redirect = useNavigate();
 
+	const controller = new AbortController();
+
 	// Render app
 	return (
 		<MyContext.Provider
 			value={{
+				controller,
 				path,
 				setPath,
 				btnStyle,

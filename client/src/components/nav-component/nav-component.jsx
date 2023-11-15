@@ -28,13 +28,16 @@ function Nav() {
 
 	// useEffect hook for nav styling
 	useEffect(() => {
+		const fn = () => clearNav(setNavStyle);
 		// Scroll event for navbar animation
 		if (path === "/") {
 			scrollAnimation(mainRefs, setNavStyle, styleVars);
-			document.addEventListener("scroll", () => clearNav(setNavStyle));
+
+			document.addEventListener("scroll", fn);
 		}
 		if (path !== "/") {
-			document.removeEventListener("scroll", clearNav);
+			console.log("Removed");
+			document.removeEventListener("scroll", fn);
 		}
 		// Set navbar styling by path
 		if (path !== "/" && !settings.light) {

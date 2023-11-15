@@ -1,20 +1,20 @@
-import React, { useRef, useEffect, useContext } from 'react';
-import UserIcon from '../user-icon-component/user-icon-component';
-import './tour-page-component-styles.scss';
-import Button from '../button-component/button-component';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import Modal from '../modal-component/modal-component';
-import { MyContext } from '../../utils/functions/context';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import Loader from '../loader-component/loader-component';
-import ErrorComponent from '../error-component/error-component';
-import { getTour } from '../../utils/functions/functions';
+import React, { useRef, useEffect, useContext } from "react";
+import UserIcon from "../user-icon-component/user-icon-component";
+import "./tour-page-component-styles.scss";
+import Button from "../button-component/button-component";
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import Modal from "../modal-component/modal-component";
+import { MyContext } from "../../utils/functions/context";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import Loader from "../loader-component/loader-component";
+import ErrorComponent from "../error-component/error-component";
+import { getTour } from "../../utils/functions/functions";
 
 function TourPage() {
 	// mapbox access token
 	mapboxgl.accessToken =
-		'pk.eyJ1IjoiZ2duaW5vMTgiLCJhIjoiY2wyZGxzdjVqMHpqajNpcGFvdXJxdjhvNyJ9.TWeSXJu46lI5saYTHVFAtg';
+		"pk.eyJ1IjoiZ2duaW5vMTgiLCJhIjoiY2wyZGxzdjVqMHpqajNpcGFvdXJxdjhvNyJ9.TWeSXJu46lI5saYTHVFAtg";
 	// uselocation hook
 	const location = useLocation();
 	// useContext hook for app state
@@ -76,9 +76,10 @@ function TourPage() {
 							setHide((h) => {
 								return {
 									...h,
-									loader: '',
+									loader: "",
 								};
 							});
+
 							// get tour data
 							theTour = await getTour(controller, axios);
 							// set tour info
@@ -87,9 +88,10 @@ function TourPage() {
 							setHide((h) => {
 								return {
 									...h,
-									loader: 'none',
+									loader: "none",
 								};
 							});
+
 							// arr for tour locations
 							tourLocations = theTour.locations.map((l) => l);
 						} else tourLocations = myTour.locations.map((l) => l);
@@ -113,7 +115,7 @@ function TourPage() {
 						// set up mapbox
 						map.current = new mapboxgl.Map({
 							container: mapContainer.current,
-							style: 'mapbox://styles/ggnino18/cl2dqvhrj001014pg6sdcjqk0',
+							style: "mapbox://styles/ggnino18/cl2dqvhrj001014pg6sdcjqk0",
 							center: [lng, lat],
 							scrollZoom: false,
 							zoom,
@@ -123,11 +125,11 @@ function TourPage() {
 						// set tour marker for each tour location
 						tourLocations.forEach((loc, index) => {
 							// Add marker
-							const el = document.createElement('div');
-							el.className = 'marker';
+							const el = document.createElement("div");
+							el.className = "marker";
 							new mapboxgl.Marker({
 								element: el,
-								anchor: 'bottom',
+								anchor: "bottom",
 							})
 								.setLngLat(loc.coordinates)
 								.addTo(map.current);
@@ -144,18 +146,18 @@ function TourPage() {
 						// set map bounds
 						map.current.fitBounds(bounds.current);
 						// mapbox map is size correctly on load
-						map.current.on('load', () => {
+						map.current.on("load", () => {
 							map.current.resize();
 						});
 						// scroll behavior while scrolling into view
-						element.current.scrollIntoView({ behavior: 'smooth' });
+						element.current.scrollIntoView({ behavior: "smooth" });
 					} catch (err) {
 						// hide loader and show err message
 						setHide((h) => {
 							return {
 								...h,
-								loader: 'none',
-								err: '',
+								loader: "none",
+								err: "",
 							};
 						});
 					}
@@ -204,7 +206,7 @@ function TourPage() {
 								: {}
 						}
 					>
-						<h1>{myTour ? myTour.name : 'Tour Name'}</h1>
+						<h1>{myTour ? myTour.name : "Tour Name"}</h1>
 					</div>
 
 					<div className="tour-content-info">
@@ -215,26 +217,26 @@ function TourPage() {
 									Start Date:
 									<span>
 										{myTour
-											? new Date(myTour.startDates[0]).toDateString() + ', '
-											: 'No Dates'}
+											? new Date(myTour.startDates[0]).toDateString() + ", "
+											: "No Dates"}
 									</span>
 								</li>
 								<li>
-									Difficulty:{' '}
-									<span>{myTour ? myTour.difficulty : 'Tour Difficulty'}</span>
+									Difficulty:{" "}
+									<span>{myTour ? myTour.difficulty : "Tour Difficulty"}</span>
 								</li>
 								<li>
 									Participants:
 									<span>
-										{' '}
-										{myTour ? myTour.maxGroupSize : 'Tour Group Size'}
+										{" "}
+										{myTour ? myTour.maxGroupSize : "Tour Group Size"}
 									</span>
 								</li>
 								<li>
 									Ratings
-									{myTour ? ` (${myTour.ratingsQuantity}) ` : 'None'}:
+									{myTour ? ` (${myTour.ratingsQuantity}) ` : "None"}:
 									<span title="#openModal" onClick={clicker}>
-										{myTour ? myTour.ratingsAverage : 'Ratings'}
+										{myTour ? myTour.ratingsAverage : "Ratings"}
 										<em title="#openModal">/</em>5
 									</span>
 								</li>
@@ -248,38 +250,38 @@ function TourPage() {
 													key={`Guide:${index}`}
 													img={guide.photo}
 													name={guide.name}
-													id={'guides'}
+													id={"guides"}
 												/>
 											);
 									  })
-									: 'No Tours'}
+									: "No Tours"}
 							</div>
 						</div>
 						<div className="tour-content-info-description">
 							<h3>About The Tour</h3>
-							<p>{myTour ? myTour.description : 'Tour Description'}</p>
+							<p>{myTour ? myTour.description : "Tour Description"}</p>
 						</div>
 					</div>
-					<Button msg={'Book Now'} class={'home text-gradient'} />
+					<Button msg={"Book Now"} class={"home text-gradient"} />
 					<div className="tour-content-imgs">
 						{myTour
 							? myTour.images.map((img, index) => (
 									<img
 										key={`Image:${index + 45}`}
-										src={'/imgs/tours/' + img}
+										src={"/imgs/tours/" + img}
 										alt="tour preview"
 									/>
 							  ))
-							: 'No Tour Images'}
+							: "No Tour Images"}
 					</div>
 
 					<div ref={mapContainer} className="map-container"></div>
-					<Modal class={'modal'} id={myTour ? myTour._id : 'ID'} />
+					<Modal class={"modal"} id={myTour ? myTour._id : "ID"} />
 				</>
 			) : (
 				<>
 					<Loader />
-					<ErrorComponent msg={'OOPS ERROR!!!!!!!!'} />
+					<ErrorComponent msg={"OOPS ERROR!!!!!!!!"} />
 				</>
 			)}
 		</>
