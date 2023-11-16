@@ -49,7 +49,7 @@ function ToursPage() {
 	return (
 		<>
 			<h1 className="my-heading">Tours</h1>
-			<div className="tours-content-cards">
+			<div className="tours-content-cards flex">
 				<Loader />
 				{tours.length > 0 ? (
 					tours.map((tour, index) => (

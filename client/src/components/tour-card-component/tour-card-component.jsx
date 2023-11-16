@@ -10,26 +10,26 @@ function TourCard(props) {
 	const { info } = props;
 	// Render component
 	return (
-		<div className="card">
+		<div className="card flex flex-col">
 			<div className="card-title img-holder">
 				<h2>{info.name}</h2>
 				<img src={require("../../imgs/tours/" + info.imageCover)} alt="" />
 			</div>
-			<div className="card-body">
-				<div className="card-body-stats">
-					<div className="card-body-stats-icon">
+			<div className="card-body flex flex-col">
+				<div className="card-body-stats flex">
+					<div className="card-body-stats-icon flex">
 						<img src={img2} alt="" />
 						<span>{info.startLocation.description}</span>
 					</div>
-					<div className="card-body-stats-icon">
+					<div className="card-body-stats-icon flex">
 						<img src={img4} alt="" />
 						<span>{new Date(info.startDates[0]).toDateString() + ", "}</span>
 					</div>
-					<div className="card-body-stats-icon">
+					<div className="card-body-stats-icon flex">
 						<img src={img3} alt="" />
 						<span>{info.locations.length}</span>
 					</div>
-					<div className="card-body-stats-icon">
+					<div className="card-body-stats-icon flex">
 						<img src={img5} alt="" />
 						<span>{info.maxGroupSize}</span>
 					</div>
@@ -37,7 +37,7 @@ function TourCard(props) {
 				<h3>Tour Summary</h3>
 				<p>{info.summary}</p>
 			</div>
-			<div className="card-footer">
+			<div className="card-footer flex">
 				<div className="card-footer-rating">
 					<span>${info.price} per person</span>
 					<span>

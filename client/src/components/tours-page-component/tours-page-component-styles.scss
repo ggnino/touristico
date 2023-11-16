@@ -1,4 +1,4 @@
-@use '../..//utils/styles/variables.scss' as *;
+@use "../..//utils/styles/variables.scss" as *;
 .tours {
 	&.page-layout {
 		background-image: linear-gradient(
@@ -8,38 +8,25 @@
 			),
 			linear-gradient(to bottom, $myColor-3, $myColor-3);
 	}
+
 	&-content {
-		// padding-top: 15rem;
 		&.content-layout {
 			border-left: 4px solid $myColor-3;
 			border-right: 4px solid $myColor-3;
 			box-shadow: 0 0 4rem rgba($myColor-3, 1);
 			scrollbar-color: $myColor-3 black;
 		}
-		overflow: hidden;
+
 		.my-heading {
-			margin: 0;
-			margin-top: 12rem;
-			// color: $myColor-3;
+			position: relative;
+			color: $myColor-3;
+			margin: 5rem;
 		}
 		&-cards {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-direction: row;
 			flex-wrap: wrap;
 			width: 100%;
-			overflow-y: scroll;
-			scrollbar-width: thin;
-		}
-	}
-}
-@media screen and (max-width: 436px) {
-	.tours {
-		&-content {
-			.my-heading {
-				margin-top: 14rem;
-			}
+			align-items: normal;
+			gap: 5rem;
 		}
 	}
 }
