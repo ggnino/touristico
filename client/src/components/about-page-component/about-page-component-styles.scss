@@ -1,38 +1,36 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .about {
 	&-content {
-		overflow-y: scroll;
-		overflow-x: hidden;
-		padding-top: 12rem;
-		margin: auto;
-
 		.my-heading {
-			margin: 0;
+			margin: 5rem;
 		}
+
 		&.content-layout {
-			justify-content: initial;
+			gap: 5rem;
 		}
 		&-us {
-			margin: 1rem;
-			width: 80%;
+			width: clamp(50rem, 80vw, 150rem);
+			padding: 2rem;
+
 			img {
 				border-radius: 5%;
 				float: left;
-				margin-right: 2rem;
+				margin: 2rem;
+				width: clamp(10rem, 50vw, 50rem);
 			}
 			ul {
 				display: block;
 				list-style: none;
-				width: 100%;
-				font-size: 3rem;
-				margin: auto;
+				font-size: clamp(1.6rem, 3vw, 3rem);
+				padding: clamp(1rem, 5vw, 5rem);
+				margin: 1rem;
 
 				li:not(:last-child) {
 					margin-bottom: 1.5rem;
 				}
 			}
 			span {
-				font-size: 4rem;
+				font-size: clamp(3rem, 5vw, 4rem);
 				margin: 1rem;
 				&.text-gradient {
 					font-style: italic;
@@ -42,13 +40,9 @@
 		}
 
 		&-guides {
-			display: flex;
-			flex-direction: row;
 			flex-wrap: wrap;
-			justify-content: space-around;
-			align-items: center;
+			gap: 5rem;
 			width: 100%;
-			margin-bottom: 2rem;
 
 			.load {
 				position: relative;
@@ -59,111 +53,20 @@
 			}
 
 			p {
-				font-size: 1.5rem;
+				font-size: 1.6rem;
 				font-style: italic;
 			}
 		}
 	}
 }
-@media screen and (max-width: 1975px) {
-	.about {
-		&-content {
-			&-us {
-				ul {
-					font-size: 2.5rem;
-
-					span {
-						font-size: 3rem;
-					}
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 1675px) {
-	.about {
-		&-content {
-			&-us {
-				img {
-					width: 50%;
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 1400px) {
-	.about {
-		&-content {
-			&-us {
-				ul {
-					font-size: 2rem;
-
-					span {
-						font-size: 3rem;
-					}
-				}
-			}
-			&-guides {
-				.user-icon {
-					width: 10%;
-					pointer-events: none;
-					p {
-						padding-top: 5rem;
-						width: 100%;
-						color: inherit;
-						opacity: 1;
-						margin-bottom: -4rem;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 848px) {
+@media screen and (max-width: 1175px) {
 	.about {
 		&-content {
 			&-us {
 				img {
 					display: block;
 					float: none;
-					margin: 1rem auto;
-				}
-			}
-			&-guides {
-				.user-icon {
-					p {
-						opacity: 1;
-					}
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 690px) {
-	.about {
-		.my-heading {
-			font-size: 3rem;
-		}
-
-		&-content {
-			padding-top: 15rem;
-			&-us {
-				ul {
-					font-size: 1.5rem;
-
-					span {
-						font-size: 2rem;
-					}
-				}
-			}
-			&-guides {
-				.user-icon {
-					pointer-events: none;
-
-					p {
-						opacity: 1;
-					}
+					margin: 0 auto;
 				}
 			}
 		}
