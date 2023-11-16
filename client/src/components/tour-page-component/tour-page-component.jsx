@@ -201,7 +201,7 @@ function TourPage() {
 						style={
 							myTour
 								? {
-										backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(255, 207, 0, 0.8)), url(${`../../imgs/tours/${myTour.imageCover}`})`,
+										backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(255, 207, 0, 0.8)), url(${require(`../../imgs/tours/${myTour.imageCover}`)})`,
 								  }
 								: {}
 						}
@@ -268,7 +268,7 @@ function TourPage() {
 							? myTour.images.map((img, index) => (
 									<img
 										key={`Image:${index + 45}`}
-										src={"/imgs/tours/" + img}
+										src={require("../../imgs/tours/" + img)}
 										alt="tour preview"
 									/>
 							  ))

@@ -15,7 +15,7 @@ function DefaultReviews() {
 				<StarRating />
 			</div>
 			<div className="reviews-content-user flex">
-				<UserIcon name={"Eduardo Hernandez"} img={"/imgs/users/user-18.jpg"} />
+				<UserIcon name={"Eduardo Hernandez"} img={"user-18.jpg"} />
 
 				<p id="userReview">
 					<q>
@@ -36,7 +36,7 @@ function DefaultReviews() {
 				<StarRating />
 			</div>
 			<div className="reviews-content-user flex">
-				<UserIcon img={"/imgs/users/user-20.jpg"} />
+				<UserIcon img={"user-20.jpg"} />
 
 				<p id="userReview">
 					<q>
@@ -57,7 +57,7 @@ function DefaultReviews() {
 				<StarRating />
 			</div>
 			<div className="reviews-content-user flex">
-				<UserIcon img={"/imgs/users/user-4.jpg"} />
+				<UserIcon img={"user-4.jpg"} />
 
 				<p id="userReview">
 					<q>

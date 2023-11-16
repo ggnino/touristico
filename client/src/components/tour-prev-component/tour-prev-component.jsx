@@ -118,7 +118,7 @@ function TourPrev() {
 												}
 											>
 												<img
-													src={`/imgs/tours/${tour.imageCover}`}
+													src={require(`../../imgs/tours/${tour.imageCover}`)}
 													alt="tour-cover"
 												/>
 												<h2>{tour.name}</h2>

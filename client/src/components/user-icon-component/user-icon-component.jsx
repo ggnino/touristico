@@ -1,27 +1,25 @@
-import React from 'react';
+import React from "react";
 
-import './user-icon-component-styles.scss';
+import "./user-icon-component-styles.scss";
 
 function UserIcon(props) {
 	// Render component
 	return (
 		<div
-			className={props.id === 'guides' ? 'user-icon' : 'user-icon no-hover'}
+			className={props.id === "guides" ? "user-icon" : "user-icon no-hover"}
 			tabIndex={0}
 			key={props.k ? props.k + props.id : props.id}
-			style={props.display ? { display: props.display } : { display: '' }}
+			style={props.display ? { display: props.display } : { display: "" }}
 		>
 			<img
-				src={
-					props.img.includes('imgs') ? props.img : '/imgs/users/' + props.img
-				}
-				alt={props.id === 'guides' ? 'tour-guide' : 'user'}
+				src={require(`/src/imgs/users/${props.img}`)}
+				alt={props.id === "guides" ? "tour-guide" : "user"}
 				id={props.id}
 				tabIndex={0}
 			/>
 			<p
 				tabIndex={0}
-				style={props.id === 'guides' ? { display: '' } : { display: 'none' }}
+				style={props.id === "guides" ? { display: "" } : { display: "none" }}
 			>
 				{props.name}
 			</p>
