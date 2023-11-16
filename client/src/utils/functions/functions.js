@@ -98,3 +98,7 @@ export async function getTour(controller, axios, tours = null) {
 
 	return actual;
 }
+
+export async function getGuides(axios) {
+	return (await axios.get("/api/v1/users/guides")).data;
+}

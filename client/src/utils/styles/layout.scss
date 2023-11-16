@@ -1,4 +1,4 @@
-@use './variables.scss' as *;
+@use "./variables.scss" as *;
 .page-layout {
 	display: flex;
 	justify-content: center;
@@ -15,16 +15,21 @@
 }
 
 .content-layout {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	width: 78%;
+	&.flex.flex-col {
+		justify-content: initial;
+	}
+	width: clamp(45rem, 80vw, 280rem);
 	height: 100%;
-	padding: 1rem;
+	padding-top: clamp(10rem, 6vh, 105rem);
+	margin-top: clamp(10rem, 6vh, 15rem);
 	background-color: black;
 	border-left: 4px solid $myColor-1;
 	border-right: 4px solid $myColor-1;
 	box-shadow: 0 0 4rem rgba($myColor-1, 1);
 	scrollbar-width: thin;
+}
+.content-flow {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	margin: auto;
 }
