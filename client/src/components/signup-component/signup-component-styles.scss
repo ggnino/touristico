@@ -1,4 +1,4 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .signup {
 	&.page-layout {
 		background-image: linear-gradient(
@@ -10,16 +10,14 @@
 	}
 
 	&-content {
-		padding: 2.5rem;
 		&.content-layout {
+			gap: 5rem;
 			border-left: 4px solid $myColor-4;
 			border-right: 4px solid $myColor-4;
 			box-shadow: 0 0 4rem rgba($myColor-4, 1);
 		}
 
 		&-form {
-			min-width: 20%;
-
 			&-formgroup {
 				& ~ .btn {
 					&.book {
@@ -32,23 +30,6 @@
 							color: $myColor-4;
 						}
 					}
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 810px) {
-	.signup {
-		&-content {
-			&.content-layout {
-				justify-content: end;
-			}
-			&-form {
-				&-formgroup ~ .btn.book {
-					font-size: 3rem;
-				}
-				input {
-					font-size: 1.6rem;
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 
 .login {
 	&.page-layout {
@@ -22,39 +22,16 @@
 			&.my-form {
 				& > .my-heading {
 					padding: 3rem;
-					margin-bottom: 0;
 				}
 			}
 
 			&-formgroup {
 				& ~ .book {
-					margin-bottom: 3rem;
 					&::after {
 						background-color: $myColor-5;
 					}
 					&:hover {
 						color: $myColor-5;
-					}
-				}
-			}
-		}
-	}
-}
-@media screen and (max-width: 720px) {
-	.login {
-		&-content {
-			padding: 3rem;
-			&.content-layout {
-				justify-content: center;
-			}
-			&-form {
-				&.my-form {
-					padding: 0;
-				}
-
-				&-formgroup {
-					input {
-						font-size: 2rem;
 					}
 				}
 			}

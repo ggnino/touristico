@@ -3,7 +3,7 @@
 .btn {
 	position: relative;
 	color: inherit;
-	font-size: clamp(1.6rem, 4vw, 4rem);
+	font-size: clamp(2rem, 4vw, 4rem);
 	padding: 1rem;
 	text-align: center;
 	border: 2px solid transparent;
@@ -11,7 +11,6 @@
 	border-radius: 2rem;
 	transition: all 0.2s;
 	z-index: 2;
-	width: fit-content;
 	cursor: pointer;
 
 	&::after {
@@ -63,6 +62,7 @@
 		margin: 0.5rem auto;
 		text-align: center;
 		border-radius: 1rem;
+
 		&::after {
 			border-radius: 1rem;
 			background-color: $myColor-1;
@@ -70,6 +70,9 @@
 		&:hover {
 			color: $myColor-1;
 		}
+	}
+	&.book {
+		width: 50%;
 	}
 }
 .btn-light {
