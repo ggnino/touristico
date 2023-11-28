@@ -1,19 +1,16 @@
-import React, { useEffect, useContext, useRef } from "react";
-import { isExpired } from "react-jwt";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Outlet } from "react-router-dom";
 import { MyContext } from "../../utils/functions/context";
 
 function PageLayout() {
 	// useContext hook for state
 	const state = useContext(MyContext);
-	// useNavigate hook for redirecting
-	const redirect = useNavigate();
+
 	// destructuring state
 	const {
 		pageLayoutStyle,
 		setPageLayoutStyle,
 		auth,
-		setAuth,
 		settings,
 		setSettings,
 		userBorder,
@@ -23,7 +20,6 @@ function PageLayout() {
 		setTextColor,
 		textColor,
 		setFont,
-		modalDis,
 		setUserMenu,
 		path,
 		setPath,
@@ -31,9 +27,7 @@ function PageLayout() {
 		style,
 		setStyle,
 	} = state;
-	// Reference variable for an event
-	const moveCheck = useRef(null);
-	const location = useLocation();
+
 	// useEffect hook for styling
 	useEffect(() => {
 		// if user is in home page
@@ -158,6 +152,7 @@ function PageLayout() {
 		}
 		// if user logged in and login component is displaying
 		if (auth.isLoggedIn && pageLayoutStyle.class2.includes("login")) {
+			console.log("OOOOOPOPOPO");
 			// hide login component from user homepage display
 			setLayoutDisplay((d) => {
 				return {
@@ -220,6 +215,7 @@ function PageLayout() {
 		} else {
 			// apply proper styles if path do not match
 			if (window.location.pathname !== path) setPath(window.location.pathname);
+			console.log("path..........." + path);
 			// set page styling classses
 			setPageLayoutStyle((s) => {
 				return {
@@ -232,91 +228,11 @@ function PageLayout() {
 				};
 			});
 		}
-		// path is user home page
-		if (auth.isLoggedIn && !moveCheck.current) {
-			// event for authentication
-			moveCheck.current = () => {
-				// If web token expired reset state and log out
-				if (
-					(auth.jwt && isExpired(auth.jwt)) ||
-					(location.state && isExpired(location.state.jwt))
-				) {
-					// reset layout state
-					setLayoutDisplay((l) => {
-						return {
-							...l,
-							display: "",
-							backgroundImage: "",
-							backgroundColor: "",
-						};
-					});
-					// reset pagelayout border state
-					setStyle((s) => {
-						return {
-							...s,
-							backgroundColor: "",
-							borderLeft: ``,
-							borderRight: ``,
-							boxShadow: ``,
-						};
-					});
-					// reset user settings state
-					setSettings({
-						blue: false,
-						light: false,
-						default: true,
-						defaultColor: false,
-						purple: false,
-						red: false,
-						green: false,
-						yellow: false,
-						dark: false,
-					});
-					// reset usermenu state
-					setUserMenu((u) => {
-						return { ...u, menuItem4: "none" };
-					});
-					// reset authentication state
-					setAuth((a) => {
-						return { ...a, isLoggedIn: false, expired: true, jwt: "" };
-					});
-
-					// reset text color state
-					setTextColor("");
-					// reset font state
-					setFont("");
-					// reset user border state
-					setUserBorder("");
-					// set path to login page
-					setPath("/login");
-					// redirect back to login page
-					redirect("/login", { replace: true });
-				}
-			};
-		}
-		return () => {
-			// if authenticatin has expired
-			if (auth.expired === true) {
-				// remove event
-				moveCheck.current = () => {};
-				// reset expiration
-				setAuth((a) => {
-					return {
-						...a,
-						expired: false,
-					};
-				});
-			}
-		};
 	}, [
-		location,
 		path,
 		setPath,
 		setUserMenu,
-		modalDis,
 		auth,
-		setAuth,
-		redirect,
 		setPageLayoutStyle,
 		pageLayoutStyle.class2,
 		settings,
@@ -334,7 +250,6 @@ function PageLayout() {
 	// Render component
 	return (
 		<div
-			onMouseMove={moveCheck.current}
 			className={pageLayoutStyle.class1}
 			style={
 				pageLayoutStyle.class1.includes("login")
