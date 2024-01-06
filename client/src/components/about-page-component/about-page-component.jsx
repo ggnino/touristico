@@ -11,7 +11,7 @@ function AboutPage(props) {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { hide, setHide, setAuth, guides, setGuides, mainRefs } = state;
+	const { hide, setHide, guides, setGuides } = state;
 	// useEffect hook for retrieving tour guides
 	useEffect(() => {
 		getGuides(axios)
@@ -37,7 +37,7 @@ function AboutPage(props) {
 					};
 				});
 			});
-	}, [setGuides, setAuth, mainRefs, setHide]);
+	}, [setGuides, setHide]);
 	// Render component
 	return (
 		<>

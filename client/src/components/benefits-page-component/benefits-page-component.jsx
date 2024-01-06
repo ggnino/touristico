@@ -22,7 +22,7 @@ function BenefitsPage(props) {
 				<Button
 					msg={"Touristico Rewards"}
 					class={"home text-gradient"}
-					link={"/signup"}
+					id={"benefits"}
 				/>
 
 				<p>

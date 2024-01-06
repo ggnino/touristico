@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import StarRating from "../star-rating-component/star-rating-component";
 import UserIcon from "../user-icon-component/user-icon-component";
+import img1 from "../../imgs/users/user-18.jpg";
+import img2 from "../../imgs/users/user-20.jpg";
+import img3 from "../../imgs/users/user-4.jpg";
+import { MyContext } from "../../utils/functions/context";
 
 function DefaultReviews() {
+	const state = useContext(MyContext);
+	const { path } = state;
+
 	// Render component
 	return (
 		<>
@@ -15,7 +22,7 @@ function DefaultReviews() {
 				<StarRating />
 			</div>
 			<div className="reviews-content-user flex">
-				<UserIcon name={"Eduardo Hernandez"} img={"user-18.jpg"} />
+				<UserIcon id={"default"} img={img1} />
 
 				<p id="userReview">
 					<q>
@@ -36,7 +43,7 @@ function DefaultReviews() {
 				<StarRating />
 			</div>
 			<div className="reviews-content-user flex">
-				<UserIcon img={"user-20.jpg"} />
+				<UserIcon id={"default"} img={img2} />
 
 				<p id="userReview">
 					<q>
@@ -57,7 +64,7 @@ function DefaultReviews() {
 				<StarRating />
 			</div>
 			<div className="reviews-content-user flex">
-				<UserIcon img={"user-4.jpg"} />
+				<UserIcon id={"default"} img={img3} />
 
 				<p id="userReview">
 					<q>

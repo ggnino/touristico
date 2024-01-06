@@ -26,6 +26,10 @@
 			border-right: 4px solid $myColor-2;
 			box-shadow: 0 0 4rem rgba($myColor-2, 1);
 			scrollbar-color: $myColor-2 black;
+
+			&.flex.flex-col {
+				justify-content: initial;
+			}
 		}
 
 		&-info {
