@@ -1,15 +1,10 @@
-import React, { useContext, useEffect } from "react";
 import StarRating from "../star-rating-component/star-rating-component";
 import UserIcon from "../user-icon-component/user-icon-component";
 import img1 from "../../imgs/users/user-18.jpg";
 import img2 from "../../imgs/users/user-20.jpg";
 import img3 from "../../imgs/users/user-4.jpg";
-import { MyContext } from "../../utils/functions/context";
 
 function DefaultReviews() {
-	const state = useContext(MyContext);
-	const { path } = state;
-
 	// Render component
 	return (
 		<>
