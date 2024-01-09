@@ -10,12 +10,9 @@ function InfoComponent() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { setMainRefs } = state;
+	const { setMainRefs, mainRefs } = state;
 	const threshold = useRef([0.86, 0.12]);
-	// Adjust threshold by viewport
-	if (window.visualViewport.width > 1400) {
-		// threshold.current = 0.12;
-	}
+
 	// useInView hook for obsercing component
 	const [ref, inView] = useInView({
 		threshold: threshold.current,
@@ -23,7 +20,7 @@ function InfoComponent() {
 	// useEffect hook for observing component
 	useEffect(() => {
 		// Chechking to see if component in user view
-		if (inView) {
+		if (inView && !mainRefs.info) {
 			// set component to true
 			setMainRefs((r) => {
 				return {
@@ -33,14 +30,14 @@ function InfoComponent() {
 			});
 		}
 		// set component to false
-		else
+		else if (!inView && mainRefs.info)
 			setMainRefs((r) => {
 				return {
 					...r,
 					info: inView,
 				};
 			});
-	}, [inView, setMainRefs]);
+	}, [inView, setMainRefs, mainRefs.info]);
 	// Render component
 	return (
 		<section className="container info-comp flex flex-col" ref={ref}>
@@ -78,7 +75,7 @@ function InfoComponent() {
 							the world around you better!
 						</p>
 					</article>
-					<Button msg={"Learn more"} class={"info"} link={"/about"} />
+					<Button msg={"Learn more"} class={"info"} id={"learn-more-btn"} />
 				</div>
 
 				<div className="info-comp-content-imgs">

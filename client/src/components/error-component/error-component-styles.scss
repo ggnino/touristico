@@ -1,7 +1,9 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .err {
 	font-size: 2rem;
 	color: $myColor-5;
 	margin: 1rem;
 	padding: 1rem;
+	display: block;
+	text-align: center;
 }

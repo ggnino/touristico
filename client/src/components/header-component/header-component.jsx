@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 import "./header-component-styles.scss";
 import img1 from "../../imgs/edge2.mp4";
 import Button from "../button-component/button-component";
@@ -8,39 +8,35 @@ function HeaderComponent() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { setMainRefs } = state;
-	const threshold = useRef([0.86, 0.14]);
-	// Adjust threshold by viewport
-	if (window.visualViewport.height > 1400) {
-		// threshold.current = 0.2;
-	}
+	const { setMainRefs, threshold, mainRefs } = state;
+
 	// useInView hook for observing component
 	const [ref, inView] = useInView({
 		threshold: threshold.current,
 	});
-	// useEffect hook for observing component
+
 	useEffect(() => {
 		// Chechking to see if component in user view
-		if (inView)
+		if (inView && !mainRefs.head)
 			setMainRefs((r) => {
 				return {
 					...r,
 					head: inView,
 				};
 			});
-		else
+		else if (!inView && mainRefs.head)
 			setMainRefs((r) => {
 				return {
 					...r,
 					head: inView,
 				};
 			});
-	}, [inView, setMainRefs]);
+	}, [inView, setMainRefs, mainRefs.head]);
 	// Render component
 	return (
 		<header role={"banner"} className="container header" ref={ref}>
 			<div className="bg-video">
-				<video src={img1 || ""} autoPlay muted loop></video>
+				<video src={img1} autoPlay muted loop></video>
 			</div>
 			<h1 className="header-greeting text-gradient">Welcome</h1>
 
@@ -49,7 +45,7 @@ function HeaderComponent() {
 			<Button
 				msg={"Discover our tours"}
 				class={"home text-gradient"}
-				link={"#tour-prev"}
+				id={"welcome"}
 			/>
 		</header>
 	);
