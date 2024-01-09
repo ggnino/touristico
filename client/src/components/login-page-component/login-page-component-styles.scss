@@ -19,12 +19,6 @@
 		&-form {
 			border: 12px double $myColor-5;
 
-			&.my-form {
-				& > .my-heading {
-					padding: 3rem;
-				}
-			}
-
 			&-formgroup {
 				& ~ .book {
 					&::after {

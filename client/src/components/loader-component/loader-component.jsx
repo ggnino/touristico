@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { MyContext } from '../../utils/functions/context';
+import React, { useContext } from "react";
+import { MyContext } from "../../utils/functions/context";
 
 function Loader() {
 	// useContext hook for app state

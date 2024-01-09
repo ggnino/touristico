@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import UserForm from '../user-form-component/user-form-component';
-import './modal-styles.scss';
+import React, { useContext } from "react";
+import UserForm from "../user-form-component/user-form-component";
+import "./modal-styles.scss";
 
-import TourReview from '../tour-review-component/tour-review-component';
-import { MyContext } from '../../utils/functions/context';
+import TourReview from "../tour-review-component/tour-review-component";
+import { MyContext } from "../../utils/functions/context";
 
 function Modal(props) {
 	// useContext hook for app state
@@ -15,11 +15,11 @@ function Modal(props) {
 	return (
 		<div className="container modal" style={modalDis}>
 			<UserForm
-				class={'modal'}
-				display={window.location.pathname === '/home' ? '' : 'none'}
+				class={"modal"}
+				display={window.location.pathname === "/home" ? "" : "none"}
 			/>
 			<TourReview
-				display={window.location.pathname === '/home' ? 'none' : ''}
+				display={window.location.pathname === "/home" ? "none" : ""}
 				id={props.id}
 			/>
 			<div
@@ -29,7 +29,13 @@ function Modal(props) {
 				onClick={clicker}
 				onTouchStart={clicker}
 			>
-				<img title="close" className="close" src={img.img} alt="close-button" />
+				<img
+					title="close"
+					id="close"
+					className="close"
+					src={img.img}
+					alt="close-button"
+				/>
 			</div>
 		</div>
 	);

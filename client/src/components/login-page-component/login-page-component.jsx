@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-import { MyContext } from '../../utils/functions/context';
-import UserForm from '../user-form-component/user-form-component';
-import './login-page-component-styles.scss';
+import React, { useContext, useEffect } from "react";
+import { MyContext } from "../../utils/functions/context";
+import UserForm from "../user-form-component/user-form-component";
+import "./login-page-component-styles.scss";
 
 function LoginPage() {
 	// useContext hook for app state
@@ -13,13 +13,13 @@ function LoginPage() {
 		// if path does not match actual window path
 		if (window.location.pathname !== path)
 			// set login path
-			setPath('/login');
+			setPath("/login");
 	}, [navStyle, path, setPath, hide]);
 	// Render component
 	return (
 		<>
 			<h2 className="my-heading">Welcome back!</h2>
-			<UserForm class={'login'} />
+			<UserForm class={"login"} />
 		</>
 	);
 }
