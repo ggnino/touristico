@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { MyContext } from '../../utils/functions/context';
-import Button from '../button-component/button-component';
-import ErrorComponent from '../error-component/error-component';
-import './user-form-component-styles.scss';
+import React, { useContext, useEffect, useRef } from "react";
+import { MyContext } from "../../utils/functions/context";
+import Button from "../button-component/button-component";
+import ErrorComponent from "../error-component/error-component";
+import "./user-form-component-styles.scss";
 
 function UserForm(props) {
 	// useContext hook for app state
@@ -15,109 +15,93 @@ function UserForm(props) {
 		userBorder,
 		input,
 		user,
-		auth,
 		clicker,
-		setAuth,
-		setHide,
 		onChange,
 		userFormStyle,
 		setUserFormStyle,
 		userMenu,
 		path,
 		selClicker,
+		styleFont,
 	} = state;
 
 	// reference variables
-	const userVal = useRef(); // user value
 	const photo = useRef(null); // user photo
+	const { selectionval, selectionval2, selectionval3 } = settings;
 	// useEffect hook for userForm styling
+
 	useEffect(() => {
 		//  on login page hide password confirm element
-		if (path === '/login') {
+		if (path === "/login") {
 			setUserFormStyle((s) => {
 				return {
 					...s,
-					display: '',
-					display2: 'none',
-					display3: 'none',
-					display4: 'none',
-					modTitle: '',
-					btn: '',
+					display: "",
+					display2: "none",
+					display3: "none",
+					display4: "none",
+					modTitle: "",
+					btn: "",
 				};
 			});
 		}
 		// on user homepage
-		else if (path === '/home') {
+		else if (path === "/home") {
 			// if viewing user profile component
-			if (props.class === 'user-profile' && userMenu.menuItem !== 'none') {
+			if (props.class === "user-profile" && userMenu.menuItem !== "none") {
 				// show email and password confirm elements
 				// hide user settings and tour info elements
 				// change btn message on input element disabled toggle to save
 				if (!input.disabled) {
 					setUserFormStyle({
-						display: '',
-						display2: '',
-						display3: 'none',
-						display4: 'none',
-						modTitle: ' ',
-						btn: 'Save',
+						display: "",
+						display2: "",
+						display3: "none",
+						display4: "none",
+						modTitle: " ",
+						btn: "Save",
 					});
 				}
 				// change btn message on input element disabled toggle to edit profile
 				else {
 					setUserFormStyle({
-						display: '',
-						display2: '',
-						display3: 'none',
-						display4: 'none',
-						modTitle: ' ',
-						btn: 'Edit Profile',
+						display: "",
+						display2: "",
+						display3: "none",
+						display4: "none",
+						modTitle: " ",
+						btn: "Edit Profile",
 					});
 				}
 			}
 			// if viewing user settings component
-			else if (props.class === 'settings' && userMenu.menuItem6 !== 'none') {
+			else if (props.class === "settings" && userMenu.menuItem6 !== "none") {
 				// hide email,password confirm,tour info, elements
 				// show user settings elements
 				// change component title
 				setUserFormStyle({
-					display: 'none',
-					display2: 'none',
-					display3: 'none',
-					display4: '',
-					modTitle: 'Customize',
-					btn: 'Save',
+					display: "none",
+					display2: "none",
+					display3: "none",
+					display4: "",
+					modTitle: "Customize",
+					btn: "Save",
 				});
 			}
 			// else user viewing tour info component
-			else if (props.class === 'modal' && userMenu.menuItem4 !== 'none') {
+			else if (props.class === "modal" && userMenu.menuItem4 !== "none") {
 				// hide email,password confirm,user settings elements
 				// show tour info elements
 				// change component title
 				setUserFormStyle({
-					display: 'none',
-					display2: 'none',
-					display3: '',
-					display4: 'none',
-					modTitle: 'Tour Info',
-					btn: 'Save',
+					display: "none",
+					display2: "none",
+					display3: "",
+					display4: "none",
+					modTitle: "Tour Info",
+					btn: "Save",
 				});
 			}
-		}
-
-		// if user web token expired, show expiration err message
-		if (auth.expired === true) {
-			// show err message
-			setHide((h) => {
-				return { ...h, err: '' };
-			});
-			// reset expiration
-			setAuth((a) => {
-				return {
-					...a,
-					expired: false,
-				};
-			});
 		}
 	}, [
 		path,
@@ -125,58 +109,62 @@ function UserForm(props) {
 		props.display,
 		userFormStyle.modTitle,
 		setUserFormStyle,
-		setHide,
 		input.disabled,
-		setAuth,
-		auth.expired,
-		userMenu,
+		userMenu.menuItem,
+		userMenu.menuItem6,
+		userMenu.menuItem4,
+		settings,
 	]);
 
 	// Render component
 	return (
 		<form
 			onKeyDown={(e) => {
-				if (path === '/login' || path === '/signup') {
-					if (e.code === 'Enter' || e.code === 'NumpadEnter') clicker(e);
+				if (path === "/login" || path === "/signup") {
+					if (e.code === "Enter" || e.code === "NumpadEnter") clicker(e);
 				}
 			}}
-			onChange={(e) => onChange(e, photo)}
+			onChange={(e) => {
+				const name = e.target.name;
+				if (name === "photo") {
+					onChange(e, name, photo);
+				} else onChange(e, name);
+			}}
 			className={`${props.class}-content-form my-form`}
 			style={
-				(settings.light && props.class === 'settings') ||
-				(settings.light && props.class === 'modal')
+				(settings.light && props.class === "settings") ||
+				(settings.light && props.class === "modal")
 					? {
 							display: userFormStyle.mainDis || props.display,
 							borderColor: userBorder,
-							backgroundColor: 'white',
+							backgroundColor: "white",
 							boxShadow: `0 0 4rem ${userBorder}`,
 							scrollbarColor: `${userBorder} black`,
 					  }
-					: settings.light && props.class === 'user-profile'
+					: settings.light && props.class === "user-profile"
 					? {
 							display: userFormStyle.mainDis || props.display,
-							borderColor: userBorder,
-							backgroundColor: 'white',
+							backgroundColor: "white",
 							boxShadow: `none`,
-							scrollbarColor: `${userBorder} black`,
-					  }
-					: props.class === 'modal'
-					? {
-							display: userFormStyle.mainDis || props.display,
-							borderColor: userBorder,
-							backgroundColor: '',
-							boxShadow: `0 0 4rem ${userBorder}`,
 							scrollbarColor: `${userBorder} black`,
 					  }
 					: {
 							display: userFormStyle.mainDis || props.display,
 							borderColor: userBorder,
-							backgroundColor: '',
+							backgroundColor: "",
+							boxShadow: `none`,
 							scrollbarColor: `${userBorder} black`,
 					  }
 			}
 		>
-			<h2 className="my-heading" style={{ color: textColor, fontFamily: font }}>
+			<h2
+				className="my-heading"
+				style={
+					props.class === "user-profile"
+						? { display: "none", color: textColor, fontFamily: font }
+						: { color: textColor, fontFamily: font }
+				}
+			>
 				{userFormStyle.modTitle ||
 					props.class.replace(
 						`${props.class[0]}`,
@@ -188,66 +176,53 @@ function UserForm(props) {
 			<fieldset
 				style={{ display: userFormStyle.display4 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
-				onClick={selClicker}
 				tabIndex="0"
+				onChange={selClicker}
 			>
 				<select
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
-					// title="Color"
-					value={settings.selectionval}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
+					title="Color"
 					readOnly={true}
 					tabIndex={0}
 					name="color"
+					value={selectionval}
 				>
-					<option readOnly={true} value="defaultColor" title="a" tabIndex={0}>
+					<option
+						readOnly={true}
+						value="defaultColor"
+						title="default"
+						tabIndex={0}
+					>
 						Default
 					</option>
-					<option readOnly={true} value="blue" title="x" tabIndex={0}>
+					<option readOnly={true} value="blue" title="blue" tabIndex={0}>
 						Wavy Blue
 					</option>
-					<option readOnly={true} value="red" title="s" tabIndex={0}>
+					<option readOnly={true} value="red" title="red" tabIndex={0}>
 						Wineberry Red
 					</option>
-					<option readOnly={true} value="green" title="dw" tabIndex={0}>
+					<option readOnly={true} value="green" title="green" tabIndex={0}>
 						Cosmo Green
 					</option>
-					<option readOnly={true} value="yellow" title="w" tabIndex={0}>
+					<option readOnly={true} value="yellow" title="yellow" tabIndex={0}>
 						Radiant Yellow
 					</option>
-					<option readOnly={true} value="grey" title="qq" tabIndex={0}>
+					<option readOnly={true} value="grey" title="grey" tabIndex={0}>
 						Robotic Grey
 					</option>
-					<option readOnly={true} value="purple" title="eee" tabIndex={0}>
+					<option readOnly={true} value="purple" title="purple" tabIndex={0}>
 						Galactic Purple
 					</option>
 				</select>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="color"
 					aria-label="Color:"
@@ -258,26 +233,17 @@ function UserForm(props) {
 			<fieldset
 				style={{ display: userFormStyle.display4 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
-				onClick={selClicker}
+				onChange={selClicker}
 			>
 				<select
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
-					value={settings.selectionval2}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					readOnly={true}
 					name="font"
+					value={selectionval2}
 				>
 					<option readOnly={true} value="default">
 						Default
@@ -290,19 +256,10 @@ function UserForm(props) {
 					</option>
 				</select>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="font"
 				>
@@ -312,26 +269,17 @@ function UserForm(props) {
 			<fieldset
 				style={{ display: userFormStyle.display4 }}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
-				onClick={selClicker}
+				onChange={selClicker}
 			>
 				<select
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
-					value={settings.selectionval3}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					readOnly={true}
 					name="theme"
+					value={selectionval3}
 				>
 					<option readOnly={true} value="dark">
 						Dark
@@ -341,19 +289,10 @@ function UserForm(props) {
 					</option>
 				</select>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="theme"
 				>
@@ -363,51 +302,33 @@ function UserForm(props) {
 			<fieldset
 				style={{
 					display:
-						userFormStyle.display2 === 'none' ? userFormStyle.display3 : '',
+						userFormStyle.display2 === "none" ? userFormStyle.display3 : "",
 				}}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="name"
 					placeholder="Name:"
 					defaultValue={
-						props.class === 'user-profile'
+						props.class === "user-profile"
 							? user.name
 							: input.name
 							? input.name
-							: ''
+							: ""
 					}
-					disabled={props.class === 'user-profile' ? input.disabled : false}
+					disabled={props.class === "user-profile" ? input.disabled : false}
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="Name"
 				>
@@ -421,45 +342,27 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="email"
 					name="email"
 					placeholder="Email:"
 					defaultValue={
-						props.class === 'user-profile'
+						props.class === "user-profile"
 							? user.email
 							: input.email
 							? input.email
-							: ''
+							: ""
 					}
-					disabled={props.class === 'user-profile' ? input.disabled : false}
+					disabled={props.class === "user-profile" ? input.disabled : false}
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="email"
 				>
@@ -468,46 +371,30 @@ function UserForm(props) {
 			</fieldset>
 			<fieldset
 				style={
-					props.class === 'user-profile' ? { display: '' } : { display: 'none' }
+					props.class === "user-profile" ? { display: "" } : { display: "none" }
 				}
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
 				<input
-					ref={userVal}
+					// ref={userVal}
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="password"
 					name="passwordCurrent"
 					aria-label="passwordCurrent"
 					placeholder="Current Password:"
-					disabled={props.class === 'user-profile' ? input.disabled : false}
+					disabled={
+						props.class === "user-profile" ? input.disabled : !input.disabled
+					}
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="passwordCurrent"
 				>
@@ -520,39 +407,23 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="password"
 					name="password"
 					placeholder="Password:"
-					defaultValue={props.class === 'user-profile' ? '**********' : ''}
-					disabled={props.class === 'user-profile' ? input.disabled : false}
+					defaultValue={props.class === "user-profile" ? "**********" : ""}
+					disabled={
+						props.class === "user-profile" ? input.disabled : !input.disabled
+					}
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="password"
 				>
@@ -566,39 +437,23 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="password"
 					name="passwordConfirm"
 					placeholder="Confirm Password:"
-					defaultValue={props.class === 'user-profile' ? '**********' : ''}
-					disabled={props.class === 'user-profile' ? input.disabled : false}
+					defaultValue={props.class === "user-profile" ? "**********" : ""}
+					disabled={
+						props.class === "user-profile" ? input.disabled : !input.disabled
+					}
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="Confirm Password"
 				>
@@ -608,9 +463,9 @@ function UserForm(props) {
 			<fieldset
 				className="my-formgroup"
 				style={
-					path === '/home'
+					path === "/home"
 						? { display: userFormStyle.display }
-						: { display: 'none' }
+						: { display: "none" }
 				}
 			>
 				<input
@@ -620,20 +475,22 @@ function UserForm(props) {
 					type="file"
 					placeholder="My photo"
 					name="photo"
-					disabled={props.class === 'user-profile' ? input.disabled : false}
+					disabled={
+						props.class === "user-profile" ? input.disabled : !input.disabled
+					}
 				/>
 				<label
 					style={
-						font === 'bookmania'
+						font === "bookmania"
 							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
+									fontFamily: "pill-gothic-900mg",
+									fontStyle: "oblique",
 									color: textColor,
 							  }
-							: font === 'aviano-future'
+							: font === "aviano-future"
 							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
+									fontFamily: "ff-good-headline-web-pro-com",
+									fontStyle: "italic",
 									color: textColor,
 							  }
 							: { fontFamily: font, color: textColor }
@@ -650,37 +507,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="number"
 					name="duration"
 					placeholder="Duration:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="duration"
 				>
@@ -693,37 +532,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="group-size"
 					placeholder="Max Group Size:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="group-size"
 				>
@@ -736,37 +557,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="difficulty"
 					placeholder="Difficulty:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="difficulty"
 				>
@@ -779,37 +582,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="ratings-avg"
 					placeholder="Ratings Average:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="ratings-avg"
 				>
@@ -822,37 +607,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="number"
 					name="ratings-quantity"
 					placeholder="Ratings Quantity:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="ratings-quantity"
 				>
@@ -865,37 +632,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="price"
 					placeholder="Price:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="price"
 				>
@@ -908,37 +657,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="summary"
 					placeholder="Summary:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="summary"
 				>
@@ -951,37 +682,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="description"
 					placeholder="Description:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="description"
 				>
@@ -1001,16 +714,16 @@ function UserForm(props) {
 				/>
 				<label
 					style={
-						font === 'bookmania'
+						font === "bookmania"
 							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
+									fontFamily: "pill-gothic-900mg",
+									fontStyle: "oblique",
 									color: textColor,
 							  }
-							: font === 'aviano-future'
+							: font === "aviano-future"
 							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
+									fontFamily: "ff-good-headline-web-pro-com",
+									fontStyle: "italic",
 									color: textColor,
 							  }
 							: { fontFamily: font, color: textColor }
@@ -1027,37 +740,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="start-dates"
 					placeholder="Start Dates:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="start-dates"
 				>
@@ -1070,37 +765,19 @@ function UserForm(props) {
 			>
 				<input
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					type="text"
 					name="location"
 					placeholder="Location:"
 				/>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="location"
 				>
@@ -1113,19 +790,10 @@ function UserForm(props) {
 			>
 				<select
 					className="my-input"
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					name="guides"
 				>
 					<option>Guide #1</option>
@@ -1134,19 +802,10 @@ function UserForm(props) {
 					<option>Guide #4</option>
 				</select>
 				<label
-					style={
-						font === 'bookmania'
-							? {
-									fontFamily: 'pill-gothic-900mg',
-									fontStyle: 'oblique',
-							  }
-							: font === 'aviano-future'
-							? {
-									fontFamily: 'ff-good-headline-web-pro-com',
-									fontStyle: 'italic',
-							  }
-							: { fontFamily: font }
-					}
+					style={{
+						fontFamily: styleFont.current.fam,
+						fontStyle: styleFont.current.s,
+					}}
 					className="my-label"
 					htmlFor="guides"
 				>
@@ -1161,14 +820,8 @@ function UserForm(props) {
 						`${props.class[0].toUpperCase()}`
 					)}`
 				}
-				class={
-					props.class === 'user-profile' ? 'home text-gradient book' : 'book'
-				}
-				link={
-					props.class === 'user-profile' || props.class === 'settings'
-						? props.class
-						: '#!'
-				}
+				class={`book ${document.getElementsByTagName("html")[0].className}`}
+				id={props.class}
 			/>
 		</form>
 	);

@@ -6,13 +6,10 @@
 		height: auto;
 	}
 	&.my-heading {
-		margin-bottom: 4rem;
+		margin: 2rem;
 	}
 	p {
 		font-size: 2rem;
-	}
-	& > :not(:last-child) > .my-input {
-		margin-bottom: 3rem;
 	}
 
 	& > div > .btn.home.book {
