@@ -8,7 +8,7 @@ function BookNow() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { setMainRefs, onChange } = state;
+	const { setMainRefs, onChange, mainRefs } = state;
 	// useInView hook for observing component
 	const [ref, inView] = useInView({
 		threshold: [0.86, 0.01],
@@ -16,7 +16,7 @@ function BookNow() {
 	// useEffect hook for observing component
 	useEffect(() => {
 		// Chechking to see if component in user view
-		if (inView) {
+		if (inView && !mainRefs.book) {
 			// set component to true
 			setMainRefs((r) => {
 				return {
@@ -26,14 +26,14 @@ function BookNow() {
 			});
 		}
 		// set component to false
-		else
+		else if (!inView && mainRefs.book)
 			setMainRefs((r) => {
 				return {
 					...r,
 					book: inView,
 				};
 			});
-	}, [inView, setMainRefs]);
+	}, [mainRefs.book, inView, setMainRefs]);
 	// Render component
 	return (
 		<section className="booking flex flex-col" ref={ref}>
@@ -73,7 +73,7 @@ function BookNow() {
 						<label id="m" htmlFor="group">
 							Group-size:
 						</label>
-						<Button msg={"Continue"} class={"book"} link={"/signup"} />
+						<Button msg={"Continue"} class={"book"} id={"bookNow"} />
 					</fieldset>
 				</form>
 			</div>
