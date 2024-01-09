@@ -5,7 +5,6 @@ import Button from "../button-component/button-component";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Modal from "../modal-component/modal-component";
 import { MyContext } from "../../utils/functions/context";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Loader from "../loader-component/loader-component";
 import ErrorComponent from "../error-component/error-component";
@@ -16,7 +15,6 @@ function TourPage() {
 	mapboxgl.accessToken =
 		"pk.eyJ1IjoiZ2duaW5vMTgiLCJhIjoiY2wyZGxzdjVqMHpqajNpcGFvdXJxdjhvNyJ9.TWeSXJu46lI5saYTHVFAtg";
 	// uselocation hook
-	const location = useLocation();
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
@@ -25,12 +23,10 @@ function TourPage() {
 		setTours,
 		setHide,
 		mapBoxSettings,
-		isMountedTourPage,
-		setIsMountedTourPage,
 		myTour,
 		setMyTour,
 		path,
-		setPath,
+		loc,
 	} = state;
 	// Destructuring mapbox settings
 	const { bg, setBg, lat, setLat, lng, setLng, zoom, locations } =
@@ -43,138 +39,105 @@ function TourPage() {
 
 	// useEffect hook for retrieving tour data
 	useEffect(() => {
-		const controller = new AbortController();
+		let tourLocations = null; // for tour locations
+
 		// if location.state is valid
-		if (location.state) {
+		if (loc.state && loc.state.slug) {
 			// set tour page info
-			setMyTour(location.state);
+			setMyTour(loc.state);
+			tourLocations = loc.state.locations.map((l) => l);
+		} else if (!loc.state) {
+			getTour(axios)
+				.then((tour) => {
+					// show loader component
+					setHide((h) => {
+						return {
+							...h,
+							loader: "",
+						};
+					});
+
+					// set tour info
+					loc.state = tour;
+					setMyTour(tour);
+					// hide loader component
+					setHide((h) => {
+						return {
+							...h,
+							loader: "none",
+						};
+					});
+
+					// arr for tour locations
+					tourLocations = tour.locations.map((l) => l);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
-		// if path do not match
-		if (
-			window.location.pathname !== path ||
-			(myTour && !path.includes(myTour.slug))
-		) {
-			// set path
-			setPath(window.location.pathname);
-			// set component mount
-			setIsMountedTourPage(true);
-		}
-
-		// component mounted
-		if (isMountedTourPage) {
-			// variables
-			let theTour = null; // for actual tour
-			let tourLocations = null; // for tour locations
-
-			// mapbox not set up yet
-			if (!map.current) {
-				(async () => {
-					try {
-						// no tour info, retrieve tour info
-						if (!myTour) {
-							// show loader component
-							setHide((h) => {
-								return {
-									...h,
-									loader: "",
-								};
-							});
-
-							// get tour data
-							theTour = await getTour(controller, axios);
-							// set tour info
-							setMyTour(theTour);
-							// hide loader component
-							setHide((h) => {
-								return {
-									...h,
-									loader: "none",
-								};
-							});
-
-							// arr for tour locations
-							tourLocations = theTour.locations.map((l) => l);
-						} else tourLocations = myTour.locations.map((l) => l);
-
-						// tour data is ready but not mapbox
-						if (theTour && !map.current) {
-							// set latitude coordinates for tour locations
-							setLat(theTour.startLocation.coordinates[1]);
-							// set longitude coordinates for tour locations
-							setLng(theTour.startLocation.coordinates[0]);
-							// set tour images
-							setBg((bg) => {
-								return {
-									img: theTour.imageCover,
-									img2: theTour.images[0],
-									img3: theTour.images[1],
-									img4: theTour.images[2],
-								};
-							});
-						}
-						// set up mapbox
-						map.current = new mapboxgl.Map({
-							container: mapContainer.current,
-							style: "mapbox://styles/ggnino18/cl2dqvhrj001014pg6sdcjqk0",
-							center: [lng, lat],
-							scrollZoom: false,
-							zoom,
-						});
-						// map bounds
-						bounds.current = new mapboxgl.LngLatBounds();
-						// set tour marker for each tour location
-						tourLocations.forEach((loc, index) => {
-							// Add marker
-							const el = document.createElement("div");
-							el.className = "marker";
-							new mapboxgl.Marker({
-								element: el,
-								anchor: "bottom",
-							})
-								.setLngLat(loc.coordinates)
-								.addTo(map.current);
-
-							new mapboxgl.Popup({
-								offset: 30,
-							})
-								.setLngLat(loc.coordinates)
-								.setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`)
-								.addTo(map.current);
-							// Extends map bounds to include start location
-							bounds.current.extend(loc.coordinates);
-						});
-						// set map bounds
-						map.current.fitBounds(bounds.current);
-						// mapbox map is size correctly on load
-						map.current.on("load", () => {
-							map.current.resize();
-						});
-						// scroll behavior while scrolling into view
-						element.current.scrollIntoView({ behavior: "smooth" });
-					} catch (err) {
-						// hide loader and show err message
-						setHide((h) => {
-							return {
-								...h,
-								loader: "none",
-								err: "",
-							};
-						});
-					}
-				})();
+		if (!mapContainer.current || !element.current) return;
+		if (!map.current) {
+			// tour data is ready but not mapbox
+			if (myTour && !map.current) {
+				console.log("in herer wow", myTour);
+				// set latitude coordinates for tour locations
+				setLat(myTour.startLocation.coordinates[1]);
+				// set longitude coordinates for tour locations
+				setLng(myTour.startLocation.coordinates[0]);
+				// set tour images
+				setBg((bg) => {
+					return {
+						img: myTour.imageCover,
+						img2: myTour.images[0],
+						img3: myTour.images[1],
+						img4: myTour.images[2],
+					};
+				});
 			}
+			// set up mapbox
+			map.current = new mapboxgl.Map({
+				container: mapContainer.current,
+				style: "mapbox://styles/ggnino18/cl2dqvhrj001014pg6sdcjqk0",
+				center: [lng, lat],
+				scrollZoom: false,
+				zoom,
+				willReadFrequently: true,
+			});
+			// map bounds
+			bounds.current = new mapboxgl.LngLatBounds();
+			// set tour marker for each tour location
+			tourLocations.forEach((location, index) => {
+				// Add marker
+				const el = document.createElement("div");
+				el.className = "marker";
+				new mapboxgl.Marker({
+					element: el,
+					anchor: "bottom",
+				})
+					.setLngLat(location.coordinates)
+					.addTo(map.current);
+
+				new mapboxgl.Popup({
+					offset: 30,
+				})
+					.setLngLat(location.coordinates)
+					.setHTML(`<em>Day ${location.day}: ${location.description}</em>`)
+					.addTo(map.current);
+				// Extends map bounds to include start location
+				bounds.current.extend(location.coordinates);
+			});
+			// set map bounds
+			map.current.fitBounds(bounds.current);
+			// mapbox map is size correctly on load
+			map.current.on("load", () => {
+				map.current.resize();
+			});
 		}
-		// component unmount
-		return () => {
-			// cancel any pending requests
-			controller.abort();
-			// set component unmount
-			setIsMountedTourPage(false);
-		};
+		// scroll behavior while scrolling into view
+		element.current.scrollIntoView({ behavior: "smooth" });
 	}, [
-		setIsMountedTourPage,
 		setMyTour,
-		location,
+		loc,
 		bg,
 		lat,
 		lng,
@@ -185,10 +148,8 @@ function TourPage() {
 		setLng,
 		setTours,
 		myTour,
-		isMountedTourPage,
 		setHide,
 		path,
-		setPath,
 	]);
 	// render component
 	return (
@@ -203,7 +164,7 @@ function TourPage() {
 								? {
 										backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(255, 207, 0, 0.8)), url(${require(`../../imgs/tours/${myTour.imageCover}`)})`,
 								  }
-								: {}
+								: null
 						}
 					>
 						<h1>{myTour ? myTour.name : "Tour Name"}</h1>
@@ -234,8 +195,8 @@ function TourPage() {
 								</li>
 								<li>
 									Ratings
-									{myTour ? ` (${myTour.ratingsQuantity}) ` : "None"}:
-									<span title="#openModal" onClick={clicker}>
+									{myTour ? `(${myTour.ratingsQuantity})` : "None"}:
+									<span id="#openModal" onClick={clicker}>
 										{myTour ? myTour.ratingsAverage : "Ratings"}
 										<em title="#openModal">/</em>5
 									</span>

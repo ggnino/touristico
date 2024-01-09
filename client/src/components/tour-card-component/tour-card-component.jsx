@@ -44,7 +44,7 @@ function TourCard(props) {
 						{info.ratingsAverage} rating({info.ratingsQuantity})
 					</span>
 				</div>
-				<Button msg={"Details"} link={"/tours/" + info.slug} tour={info} />
+				<Button msg={"Details"} tour={info} id={info.slug} />
 			</div>
 		</div>
 	);

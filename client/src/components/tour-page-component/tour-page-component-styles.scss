@@ -1,11 +1,11 @@
-@use '../../utils/styles/variables.scss' as *;
+@use "../../utils/styles/variables.scss" as *;
 .tour {
 	.map-container {
 		height: 50rem;
 		width: 100%;
 		flex-shrink: 0;
 
-		p {
+		em {
 			color: black;
 		}
 	}
@@ -147,7 +147,7 @@
 	}
 }
 .marker {
-	background-image: url('../../imgs/pin.png');
+	background-image: url("../../imgs/pin.png");
 	background-size: cover;
 	width: 4rem;
 	height: 4rem;

@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { MyContext } from "../../utils/functions/context";
 import ErrorComponent from "../error-component/error-component";
 import Loader from "../loader-component/loader-component";
@@ -12,15 +11,15 @@ function ToursPage() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { tours, setTours, setHide } = state;
+	const { tours, setTours, setHide, loc, path, setPath } = state;
 	// useLocation hook for location state
-	const location = useLocation();
+
 	// useEffect hook for retrieving tour data
 	useEffect(() => {
-		const controller = new AbortController();
+		if (window.location.pathname !== path) setPath(window.location.pathname);
 		// no location state data, retrieve tour data
-		if (!location.state) {
-			getTour(controller, axios, true)
+		if (!loc.state) {
+			getTour(axios, true)
 				.then((response) => {
 					// hide loader img and any err messages
 					setHide((h) => {
@@ -32,6 +31,7 @@ function ToursPage() {
 					});
 					// set tour data
 					setTours(response.Tours);
+					console.log("GOT TOURS!!!!!!!!!!!");
 				})
 				.catch((err) => {
 					// Hide loader img and show err msg
@@ -44,7 +44,7 @@ function ToursPage() {
 					});
 				});
 		}
-	}, [location.state, setHide, setTours]);
+	}, [loc.state, setHide, setTours, setPath, path]);
 	// Render component
 	return (
 		<>

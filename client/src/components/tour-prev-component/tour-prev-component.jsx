@@ -12,7 +12,16 @@ function TourPrev() {
 	// useContext hook for app state
 	const state = useContext(MyContext);
 	// Destructuring state
-	const { tours, setTours, setHide, setMainRefs, hide } = state;
+	const {
+		tours,
+		setTours,
+		setHide,
+		setMainRefs,
+		hide,
+		mainRefs,
+		setPath,
+		controller,
+	} = state;
 	// reference variable for retrieving data
 	const gotData = useRef(null);
 
@@ -25,9 +34,8 @@ function TourPrev() {
 	});
 	// useEffect hook for retrieving tour data and observing component
 	useEffect(() => {
-		const controller = new AbortController();
 		// Chechking to see if component in user view
-		if (inView) {
+		if (inView && !mainRefs.tour) {
 			// set component to true
 			setMainRefs((r) => {
 				return {
@@ -37,7 +45,7 @@ function TourPrev() {
 			});
 		}
 		// set component to false
-		else
+		else if (!inView && mainRefs.tour)
 			setMainRefs((r) => {
 				return {
 					...r,
@@ -50,7 +58,7 @@ function TourPrev() {
 			gotData.current = true;
 
 			// get request
-			getTour(controller, axios, gotData.current)
+			getTour(axios, gotData.current)
 				.then((response) => {
 					// set tour info
 					setTours(response.Tours);
@@ -73,7 +81,7 @@ function TourPrev() {
 					});
 				});
 		}
-	}, [setTours, setHide, inView, setMainRefs]);
+	}, [setTours, setHide, inView, setMainRefs, mainRefs.tour, controller]);
 	// Render component
 	return (
 		<section
@@ -98,6 +106,7 @@ function TourPrev() {
 							) {
 								return (
 									<Link
+										onClick={() => setPath(`/tours/${tour.slug}`)}
 										className="tour-prev-content-cards"
 										to={`/tours/${tour.slug}`}
 										state={tour}
@@ -152,7 +161,7 @@ function TourPrev() {
 					: ""}
 			</div>
 			<ErrorComponent msg={"OOOPS! TOUR ERROR!"} />
-			<Button msg={"More Tours"} class={"info"} link={"tours"} />
+			<Button msg={"More Tours"} class={"info"} id={"tours"} />
 		</section>
 	);
 }
