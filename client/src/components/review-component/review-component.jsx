@@ -46,6 +46,7 @@ function Review(props) {
 				};
 			});
 	}, [inView, setMainRefs]);
+	console.log(props);
 	// Render component
 	return (
 		<section className="container reviews flex flex-col" ref={ref}>

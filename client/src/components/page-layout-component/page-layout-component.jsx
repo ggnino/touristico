@@ -18,7 +18,6 @@ function PageLayout() {
 		layoutDisplay,
 		setLayoutDisplay,
 		setTextColor,
-		textColor,
 		setFont,
 		setUserMenu,
 		path,
@@ -149,22 +148,6 @@ function PageLayout() {
 					};
 				});
 			}
-		}
-		// if user logged in and login component is displaying
-		if (auth.isLoggedIn && pageLayoutStyle.class2.includes("login")) {
-			console.log("OOOOOPOPOPO");
-			// hide login component from user homepage display
-			setLayoutDisplay((d) => {
-				return {
-					...d,
-					display: "none",
-					backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), linear-gradient(to bottom, ${userBorder}, ${userBorder})`,
-				};
-			});
-		}
-		// user is logged in, set user background
-		else if (auth.isLoggedIn) {
-			// set user background style
 			setLayoutDisplay((d) => {
 				return {
 					...d,
@@ -172,8 +155,9 @@ function PageLayout() {
 				};
 			});
 		}
+
 		// hide user homepage if not logged in and display error
-		else if (!auth.isLoggedIn && path === "/home") {
+		if (!auth.isLoggedIn && path === "/home") {
 			// display error message
 			setHide((h) => {
 				return {
@@ -181,50 +165,21 @@ function PageLayout() {
 					err: "",
 				};
 			});
-
-			// set layout for error
-			setLayoutDisplay((d) => {
-				return {
-					...d,
-					display: "",
-					backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), linear-gradient(to bottom, ${userBorder}, ${userBorder})`,
-				};
-			});
-		}
-		// clear any styles from auth page
-		else if (!auth.isLoggedIn && !path.includes("/home")) {
-			// clear any background style
-			setLayoutDisplay((d) => {
-				return {
-					...d,
-					display: "",
-					backgroundImage: ``,
-				};
-			});
-		}
-		// if path is tours or tour page
-		if (path.includes("tours")) {
-			// set tours styling classes
-			setPageLayoutStyle((s) => {
-				return {
-					...s,
-					class1: `container tours tour page-layout`,
-					class2: `tours-content tour-content content-layout`,
-				};
-			});
 		} else {
-			// apply proper styles if path do not match
-			if (window.location.pathname !== path) setPath(window.location.pathname);
-			console.log("path..........." + path);
+			const pageStyle = path.split("/")[1];
+
+			const tourStyle = path.includes("tours") ? "tour" : "";
+
 			// set page styling classses
 			setPageLayoutStyle((s) => {
 				return {
 					...s,
-					class1: `container ${path.slice(1, path.length)} page-layout`,
-					class2: `${path.slice(
-						1,
-						path.length
-					)}-content content-layout content-flow flex flex-col`,
+					class1: `container ${pageStyle} ${tourStyle} page-layout`,
+					class2: `${pageStyle}-content ${
+						tourStyle !== ""
+							? tourStyle + "-content content-layout"
+							: tourStyle + "content-layout content-flow flex flex-col"
+					}`,
 				};
 			});
 		}
@@ -234,14 +189,12 @@ function PageLayout() {
 		setUserMenu,
 		auth,
 		setPageLayoutStyle,
-		pageLayoutStyle.class2,
 		settings,
 		setUserBorder,
 		userBorder,
 		setLayoutDisplay,
 		setSettings,
 		setTextColor,
-		textColor,
 		setFont,
 		setHide,
 		setStyle,
@@ -252,9 +205,8 @@ function PageLayout() {
 		<div
 			className={pageLayoutStyle.class1}
 			style={
-				pageLayoutStyle.class1.includes("login")
-					? layoutDisplay
-					: path === "/home" && !auth.isLoggedIn
+				pageLayoutStyle.class1.includes("login") ||
+				(path === "/home" && !auth.isLoggedIn)
 					? layoutDisplay
 					: {
 							display: "",
