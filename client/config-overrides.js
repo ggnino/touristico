@@ -1,4 +1,4 @@
-const { config } = require('dotenv');
+
 const webpack = require('webpack');
 
 module.exports = function override(config) {
@@ -25,9 +25,7 @@ module.exports = function override(config) {
 		}),
 	]);
 
-	// config.watchOptions.ignored = ['./public/imgs'];
-	console.log(config);
-	// config.target = 'node';
-	// config.externals = [{ express: { commonjs: 'express' } }];
+
+
 	return config;
 };

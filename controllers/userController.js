@@ -1,10 +1,7 @@
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const sharp = require('sharp');
+
 const {
 	deleteOne,
 	updateOne,
@@ -22,6 +19,7 @@ exports.resizePhoto = resize;
 exports.getMe = (req, res, next) => {
 	// set user ID middleware
 	req.params.id = req.user._id;
+
 	// next middleware in the stack
 	next();
 };
@@ -66,22 +64,13 @@ exports.updateMe = catchAsync(async (req, res) => {
 	});
 	// throw error if user not found
 	if (!updatedUser) throw new AppError('Cant find that user.', 404);
-	//photo name
-	console.log(updatedUser);
-	if (req.body.photo) {
-		res.status(200).json({
-			status: 'success',
-			message: 'User has been updated.',
-			photo: req.body.photo,
-		});
-	}
 
 	// send response
-	else
-		res.status(200).json({
-			status: 'success',
-			message: 'User has been updated.',
-		});
+	res.status(200).json({
+		status: 'success',
+		message: 'User has been updated.',
+		user: updatedUser
+	});
 });
 // route handler for deactivating user account
 exports.deactivateAccount = catchAsync(async (req, res) => {

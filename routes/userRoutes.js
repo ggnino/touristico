@@ -19,7 +19,7 @@ router.use(authController.protect);
 // update password route
 router.route('/updatePassword').patch(authController.updatePassword);
 router.route('/me').get(userController.getMe, userController.getUser);
-// router.route('/me/photo/:image').get(userController.getUserImage);
+
 // update user data route
 router
 	.route('/updateMe')
