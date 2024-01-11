@@ -165,24 +165,23 @@ function PageLayout() {
 					err: "",
 				};
 			});
-		} else {
-			const pageStyle = path.split("/")[1];
-
-			const tourStyle = path.includes("tours") ? "tour" : "";
-
-			// set page styling classses
-			setPageLayoutStyle((s) => {
-				return {
-					...s,
-					class1: `container ${pageStyle} ${tourStyle} page-layout`,
-					class2: `${pageStyle}-content ${
-						tourStyle !== ""
-							? tourStyle + "-content content-layout"
-							: tourStyle + "content-layout content-flow flex flex-col"
-					}`,
-				};
-			});
 		}
+		const pageStyle = path.split("/")[1];
+
+		const tourStyle = path.includes("tours") ? "tour" : "";
+
+		// set page styling classses
+		setPageLayoutStyle((s) => {
+			return {
+				...s,
+				class1: `container ${pageStyle} ${tourStyle} page-layout`,
+				class2: `${pageStyle}-content ${
+					tourStyle !== ""
+						? tourStyle + "-content content-layout"
+						: tourStyle + "content-layout content-flow flex flex-col"
+				}`,
+			};
+		});
 	}, [
 		path,
 		setPath,
