@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { MyContext } from '../../utils/functions/context';
-import ErrorComponent from '../error-component/error-component';
-import UserBookings from '../user-bookings-component/user-bookings-component';
-import UserProfile from '../user-profile-component/user-profile-component';
-import UserRewards from '../user-rewards-component/user-rewards-component';
-import UserSettings from '../user-settings-component/user-settings-component';
-import UserTours from '../user-tours-component/user-tours-component';
-import Users from '../user-users-component/user-users-component';
-import './user-page-component-styles.scss';
+import React, { useContext, useEffect } from "react";
+import { MyContext } from "../../utils/functions/context";
+import ErrorComponent from "../error-component/error-component";
+import UserBookings from "../user-bookings-component/user-bookings-component";
+import UserProfile from "../user-profile-component/user-profile-component";
+import UserRewards from "../user-rewards-component/user-rewards-component";
+import UserSettings from "../user-settings-component/user-settings-component";
+import UserTours from "../user-tours-component/user-tours-component";
+import Users from "../user-users-component/user-users-component";
+import "./user-page-component-styles.scss";
 
 function UserPage() {
 	// useContext hook for app state
@@ -28,131 +27,87 @@ function UserPage() {
 		setFont,
 		hoverEffectUserPage,
 		userMenuClicker,
-		setPath,
-		path,
 		setHide,
 		hide,
+		loc,
+		signOut,
+		getUser,
 	} = state;
-	const loc = useLocation();
 
 	// useEffect hook for retrieving data and updating styling
 	useEffect(() => {
-		// If no user info or user info updated, retrieve user data
-		if (loc.state && !user.name) {
-			// set user info
-			setUser((u) => {
-				return {
-					...u,
-					name: loc.state.name,
-					email: loc.state.email,
-					photo: loc.state.photo,
-					role: loc.state.role,
-				};
-			});
-			// set user authentication
-			setAuth((a) => {
-				return {
-					...a,
-					jwt: loc.state.jwt,
-					isLoggedIn: true,
-					expired: false,
-				};
-			});
-			// set user settings
-			setSettings((s) => {
-				return { ...s, ...loc.state.userSettings };
-			});
-			// if user settings font is not a default
-			if (loc.state.userSettings.default !== true)
-				// set user font
-				setFont(loc.state.userSettings.default);
+		// Set login session expiration
+		if (
+			loc.state &&
+			loc.state.timeLimit &&
+			loc.state.timeLimit - Date.now() > 0
+		) {
+			setTimeout(() => {
+				signOut();
+			}, loc.state.timeLimit - Date.now());
 		}
-		// on refresh authentication info lost but with valid state
-		if (loc.state && !auth.isLoggedIn)
-			// set authentication info
-			setAuth((a) => {
-				return { ...a, isLoggedIn: true, jwt: loc.state.jwt };
-			});
+		// Check if login session expired then call signOut function
+		if (
+			loc.state &&
+			loc.state.timeLimit &&
+			loc.state.timeLimit - Date.now() <= 0
+		) {
+			signOut();
+		} else if (loc.state) {
+			// Valid session get user info
+			if (
+				loc.state.name !== user.name ||
+				loc.state.email !== user.email ||
+				user.name === ""
+			) {
+				getUser
+					.current()
+					.then((res) => {
+						const { user } = res.data;
+						const { name, email, photo, role, userSettings } = user;
+						loc.state = { ...loc.state, name, email };
+						setUser((u) => {
+							return {
+								...u,
+								name,
+								email,
+								photo,
+								role,
+							};
+						});
+						// set user settings
+						setSettings((settings) => {
+							return { ...settings, ...userSettings };
+						});
+						// if user settings font is not a default
+						if (userSettings.default !== true)
+							// set user font
+							setFont(userSettings.default);
+					})
+					.catch((err) => {
+						console.log("ERROR: ", err);
+					});
 
-		// Set user menu color
-		setUserMenu((s) => {
-			// add user color on edit profile
-			if (s.menuItem !== 'none')
-				return {
-					...s,
-					color: userBorder,
-					color2: textColor,
-					color3: textColor,
-					color4: textColor,
-					color5: textColor,
-					color6: textColor,
-				};
-			// add user color on rewards
-			if (s.menuItem2 !== 'none')
-				return {
-					...s,
-					color: textColor,
-					color2: userBorder,
-					color3: textColor,
-					color4: textColor,
-					color5: textColor,
-					color6: textColor,
-				};
-			// add user color on bookings
-			if (s.menuItem3 !== 'none')
-				return {
-					...s,
-					color: textColor,
-					color2: textColor,
-					color3: userBorder,
-					color4: textColor,
-					color5: textColor,
-					color6: textColor,
-				};
-			// add user color on tours
-			if (s.menuItem4 !== 'none')
-				return {
-					...s,
-					color: textColor,
-					color2: textColor,
-					color3: textColor,
-					color4: userBorder,
-					color5: textColor,
-					color6: textColor,
-				};
-			// add user color on users
-			if (s.menuItem5 !== 'none')
-				return {
-					...s,
-					color: textColor,
-					color2: textColor,
-					color3: textColor,
-					color4: textColor,
-					color5: userBorder,
-					color6: textColor,
-				};
-			// add user color on settings
-			if (s.menuItem6 !== 'none')
-				return {
-					...s,
-					color: textColor,
-					color2: textColor,
-					color3: textColor,
-					color4: textColor,
-					color5: textColor,
-					color6: userBorder,
-				};
-		});
+				// set user authentication
+				setAuth((a) => {
+					return {
+						...a,
+						isLoggedIn: true,
+					};
+				});
+			}
+		}
+
 		// valid state and err message showing
-		if (loc.state && hide.err === '')
+		if (loc.state && hide.err === "") {
 			// hide err message
 			setHide((h) => {
 				return {
 					...h,
-					err: 'none',
+					err: "none",
 				};
 			});
-
+		}
 		// check if viewport width is 1106 px or less
 		if (window.visualViewport.width <= 1106) {
 			// set border bottom style
@@ -163,23 +118,43 @@ function UserPage() {
 		// set border right style
 		else
 			setUserMenu((u) => {
-				return { ...u, border: { borderRight: `0.1rem solid ${userBorder}` } };
+				if (u.color6 === textColor)
+					return {
+						...u,
+						color: userBorder,
+						color2: textColor,
+						color3: textColor,
+						color4: textColor,
+						color5: textColor,
+						color6: textColor,
+						border: { borderRight: `0.1rem solid ${userBorder}` },
+					};
+				else
+					return {
+						...u,
+						color: textColor,
+						color2: textColor,
+						color3: textColor,
+						color4: textColor,
+						color5: textColor,
+						color6: userBorder,
+						border: { borderRight: `0.1rem solid ${userBorder}` },
+					};
 			});
 	}, [
 		user,
+		signOut,
+		getUser,
 		setUser,
-		auth,
-		textColor,
 		setAuth,
 		userBorder,
 		setUserMenu,
 		setFont,
 		setSettings,
 		loc,
-		setPath,
-		path,
-		hide,
+		hide.err,
 		setHide,
+		textColor,
 	]);
 
 	// Render Component
@@ -190,8 +165,8 @@ function UserPage() {
 					<h1
 						style={{
 							fontFamily: font,
-							fontWeight: '900',
-							fontStyle: 'italic',
+							fontWeight: "900",
+							fontStyle: "italic",
 							color: textColor,
 						}}
 					>
@@ -206,16 +181,16 @@ function UserPage() {
 									onMouseLeave={hoverEffectUserPage}
 									title="profile"
 									style={
-										font === 'bookmania'
+										font === "bookmania"
 											? {
-													fontFamily: 'pill-gothic-900mg',
-													fontStyle: 'oblique',
+													fontFamily: "pill-gothic-900mg",
+													fontStyle: "oblique",
 													color: userMenu.color,
 											  }
-											: font === 'aviano-future'
+											: font === "aviano-future"
 											? {
-													fontFamily: 'ff-good-headline-web-pro-com',
-													fontStyle: 'italic',
+													fontFamily: "ff-good-headline-web-pro-com",
+													fontStyle: "italic",
 													color: userMenu.color,
 											  }
 											: { fontFamily: font, color: userMenu.color }
@@ -231,16 +206,16 @@ function UserPage() {
 									onMouseLeave={hoverEffectUserPage}
 									title="rewards"
 									style={
-										font === 'bookmania'
+										font === "bookmania"
 											? {
-													fontFamily: 'pill-gothic-900mg',
-													fontStyle: 'oblique',
+													fontFamily: "pill-gothic-900mg",
+													fontStyle: "oblique",
 													color: userMenu.color2,
 											  }
-											: font === 'aviano-future'
+											: font === "aviano-future"
 											? {
-													fontFamily: 'ff-good-headline-web-pro-com',
-													fontStyle: 'italic',
+													fontFamily: "ff-good-headline-web-pro-com",
+													fontStyle: "italic",
 													color: userMenu.color2,
 											  }
 											: { fontFamily: font, color: userMenu.color2 }
@@ -256,16 +231,16 @@ function UserPage() {
 									onMouseLeave={hoverEffectUserPage}
 									title="bookings"
 									style={
-										font === 'bookmania'
+										font === "bookmania"
 											? {
-													fontFamily: 'pill-gothic-900mg',
-													fontStyle: 'oblique',
+													fontFamily: "pill-gothic-900mg",
+													fontStyle: "oblique",
 													color: userMenu.color3,
 											  }
-											: font === 'aviano-future'
+											: font === "aviano-future"
 											? {
-													fontFamily: 'ff-good-headline-web-pro-com',
-													fontStyle: 'italic',
+													fontFamily: "ff-good-headline-web-pro-com",
+													fontStyle: "italic",
 													color: userMenu.color3,
 											  }
 											: { fontFamily: font, color: userMenu.color3 }
@@ -276,7 +251,7 @@ function UserPage() {
 							</li>
 							<li
 								style={
-									user.role !== 'admin' ? { display: 'none' } : { display: '' }
+									user.role !== "admin" ? { display: "none" } : { display: "" }
 								}
 							>
 								<span
@@ -285,16 +260,16 @@ function UserPage() {
 									onMouseLeave={hoverEffectUserPage}
 									title="tours"
 									style={
-										font === 'bookmania'
+										font === "bookmania"
 											? {
-													fontFamily: 'pill-gothic-900mg',
-													fontStyle: 'oblique',
+													fontFamily: "pill-gothic-900mg",
+													fontStyle: "oblique",
 													color: userMenu.color4,
 											  }
-											: font === 'aviano-future'
+											: font === "aviano-future"
 											? {
-													fontFamily: 'ff-good-headline-web-pro-com',
-													fontStyle: 'italic',
+													fontFamily: "ff-good-headline-web-pro-com",
+													fontStyle: "italic",
 													color: userMenu.color4,
 											  }
 											: {
@@ -308,7 +283,7 @@ function UserPage() {
 							</li>
 							<li
 								style={
-									user.role !== 'admin' ? { display: 'none' } : { display: '' }
+									user.role !== "admin" ? { display: "none" } : { display: "" }
 								}
 							>
 								<span
@@ -317,16 +292,16 @@ function UserPage() {
 									onMouseLeave={hoverEffectUserPage}
 									title="users"
 									style={
-										font === 'bookmania'
+										font === "bookmania"
 											? {
-													fontFamily: 'pill-gothic-900mg',
-													fontStyle: 'oblique',
+													fontFamily: "pill-gothic-900mg",
+													fontStyle: "oblique",
 													color: userMenu.color5,
 											  }
-											: font === 'aviano-future'
+											: font === "aviano-future"
 											? {
-													fontFamily: 'ff-good-headline-web-pro-com',
-													fontStyle: 'italic',
+													fontFamily: "ff-good-headline-web-pro-com",
+													fontStyle: "italic",
 													color: userMenu.color5,
 											  }
 											: { fontFamily: font, color: userMenu.color5 }
@@ -342,16 +317,16 @@ function UserPage() {
 									onMouseLeave={hoverEffectUserPage}
 									title="settings"
 									style={
-										font === 'bookmania'
+										font === "bookmania"
 											? {
-													fontFamily: 'pill-gothic-900mg',
-													fontStyle: 'oblique',
+													fontFamily: "pill-gothic-900mg",
+													fontStyle: "oblique",
 													color: userMenu.color6,
 											  }
-											: font === 'aviano-future'
+											: font === "aviano-future"
 											? {
-													fontFamily: 'ff-good-headline-web-pro-com',
-													fontStyle: 'italic',
+													fontFamily: "ff-good-headline-web-pro-com",
+													fontStyle: "italic",
 													color: userMenu.color6,
 											  }
 											: { fontFamily: font, color: userMenu.color6 }

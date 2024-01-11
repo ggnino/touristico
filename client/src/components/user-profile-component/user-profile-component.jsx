@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { MyContext } from '../../utils/functions/context';
-import UserForm from '../user-form-component/user-form-component';
-import UserIcon from '../user-icon-component/user-icon-component';
-import './user-profile-component-styles.scss';
+import React, { useContext } from "react";
+import { MyContext } from "../../utils/functions/context";
+import UserForm from "../user-form-component/user-form-component";
+import UserIcon from "../user-icon-component/user-icon-component";
+import "./user-profile-component-styles.scss";
 
 function UserProfile(props) {
 	// useContext hook for app state
@@ -21,7 +21,7 @@ function UserProfile(props) {
 			</h2>
 
 			<UserIcon img={user.photo} display={props.display} />
-			<UserForm display={props.display} class={'user-profile'} />
+			<UserForm display={props.display} class={"user-profile"} />
 		</>
 	);
 }
