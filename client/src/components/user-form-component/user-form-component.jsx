@@ -28,8 +28,8 @@ function UserForm(props) {
 	// reference variables
 	const photo = useRef(null); // user photo
 	const { selectionval, selectionval2, selectionval3 } = settings;
-	// useEffect hook for userForm styling
 
+	// useEffect hook for userForm styling
 	useEffect(() => {
 		//  on login page hide password confirm element
 		if (path === "/login") {
@@ -189,6 +189,7 @@ function UserForm(props) {
 					readOnly={true}
 					tabIndex={0}
 					name="color"
+					id="color"
 					value={selectionval}
 				>
 					<option
@@ -243,6 +244,7 @@ function UserForm(props) {
 					}}
 					readOnly={true}
 					name="font"
+					id="font"
 					value={selectionval2}
 				>
 					<option readOnly={true} value="default">
@@ -279,6 +281,7 @@ function UserForm(props) {
 					}}
 					readOnly={true}
 					name="theme"
+					id="theme"
 					value={selectionval3}
 				>
 					<option readOnly={true} value="dark">
@@ -314,6 +317,8 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="name"
+					id="name"
+					autoComplete="on"
 					placeholder="Name:"
 					defaultValue={
 						props.class === "user-profile"
@@ -330,7 +335,7 @@ function UserForm(props) {
 						fontStyle: styleFont.current.s,
 					}}
 					className="my-label"
-					htmlFor="Name"
+					htmlFor="name"
 				>
 					Name:
 				</label>
@@ -348,7 +353,9 @@ function UserForm(props) {
 					}}
 					type="email"
 					name="email"
+					id="email"
 					placeholder="Email:"
+					autoComplete="on"
 					defaultValue={
 						props.class === "user-profile"
 							? user.email
@@ -376,7 +383,7 @@ function UserForm(props) {
 				className={`${props.class}-content-form-formgroup my-formgroup`}
 			>
 				<input
-					// ref={userVal}
+					id="passwordCurrent"
 					className="my-input"
 					style={{
 						fontFamily: styleFont.current.fam,
@@ -413,6 +420,7 @@ function UserForm(props) {
 					}}
 					type="password"
 					name="password"
+					id="password"
 					placeholder="Password:"
 					defaultValue={props.class === "user-profile" ? "**********" : ""}
 					disabled={
@@ -443,6 +451,7 @@ function UserForm(props) {
 					}}
 					type="password"
 					name="passwordConfirm"
+					id="passwordConfirm"
 					placeholder="Confirm Password:"
 					defaultValue={props.class === "user-profile" ? "**********" : ""}
 					disabled={
@@ -455,7 +464,7 @@ function UserForm(props) {
 						fontStyle: styleFont.current.s,
 					}}
 					className="my-label"
-					htmlFor="Confirm Password"
+					htmlFor="passwordConfirm"
 				>
 					Confirm Password:
 				</label>
@@ -475,6 +484,7 @@ function UserForm(props) {
 					type="file"
 					placeholder="My photo"
 					name="photo"
+					id="photo"
 					disabled={
 						props.class === "user-profile" ? input.disabled : !input.disabled
 					}
@@ -513,6 +523,7 @@ function UserForm(props) {
 					}}
 					type="number"
 					name="duration"
+					id="duration"
 					placeholder="Duration:"
 				/>
 				<label
@@ -538,6 +549,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="group-size"
+					id="group-size"
 					placeholder="Max Group Size:"
 				/>
 				<label
@@ -563,6 +575,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="difficulty"
+					id="difficulty"
 					placeholder="Difficulty:"
 				/>
 				<label
@@ -588,6 +601,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="ratings-avg"
+					id="ratings-avg"
 					placeholder="Ratings Average:"
 				/>
 				<label
@@ -613,6 +627,7 @@ function UserForm(props) {
 					}}
 					type="number"
 					name="ratings-quantity"
+					id="ratings-quantity"
 					placeholder="Ratings Quantity:"
 				/>
 				<label
@@ -638,6 +653,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="price"
+					id="price"
 					placeholder="Price:"
 				/>
 				<label
@@ -663,6 +679,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="summary"
+					id="summary"
 					placeholder="Summary:"
 				/>
 				<label
@@ -688,6 +705,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="description"
+					id="description"
 					placeholder="Description:"
 				/>
 				<label
@@ -709,6 +727,7 @@ function UserForm(props) {
 					className="my-input file"
 					type="file"
 					name="images"
+					id="images"
 					placeholder="Images:"
 					style={{ color: textColor }}
 				/>
@@ -746,6 +765,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="start-dates"
+					id="start-dates"
 					placeholder="Start Dates:"
 				/>
 				<label
@@ -771,6 +791,7 @@ function UserForm(props) {
 					}}
 					type="text"
 					name="location"
+					id="location"
 					placeholder="Location:"
 				/>
 				<label
@@ -795,6 +816,7 @@ function UserForm(props) {
 						fontStyle: styleFont.current.s,
 					}}
 					name="guides"
+					id="guides"
 				>
 					<option>Guide #1</option>
 					<option>Guide #2</option>
