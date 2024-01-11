@@ -174,11 +174,11 @@ function PageLayout() {
 		setPageLayoutStyle((s) => {
 			return {
 				...s,
-				class1: `container ${pageStyle} ${tourStyle} page-layout`,
+				class1: `container ${pageStyle} ${tourStyle} page-layout flex flex-col transition`,
 				class2: `${pageStyle}-content ${
 					tourStyle !== ""
-						? tourStyle + "-content content-layout"
-						: tourStyle + "content-layout content-flow flex flex-col"
+						? tourStyle + "-content content-layout transition"
+						: tourStyle + "content-layout content-flow flex flex-col transition"
 				}`,
 			};
 		});
