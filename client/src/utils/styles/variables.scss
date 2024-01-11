@@ -3,11 +3,24 @@ $myColor-2: #feefe5;
 $myColor-3: #ffcf00;
 $myColor-4: #ee6123;
 $myColor-5: #db0000;
-
+$myColor-6: #16697a;
+$myColor-7: #820263;
+$myColor-8: #ffd400;
+$myColor-9: #960200;
+$myColor-10: #b5f44a;
+$myColor-11: #525252;
+$colors: $myColor-5, $myColor-6, $myColor-7, $myColor-8, $myColor-9, $myColor-10,
+	$myColor-11;
 :export {
 	color1: $myColor-1;
 	color2: $myColor-2;
 	color3: $myColor-3;
 	color4: $myColor-4;
 	color5: $myColor-5;
+	color6: $myColor-6;
+	color7: $myColor-7;
+	color8: $myColor-8;
+	color9: $myColor-9;
+	color10: $myColor-10;
+	color11: $myColor-11;
 }

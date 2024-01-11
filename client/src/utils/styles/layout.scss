@@ -1,9 +1,9 @@
 @use "./variables.scss" as *;
 .page-layout {
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
+	// display: flex;
+	// justify-content: center;
+	// flex-direction: column;
+	// align-items: center;
 	width: 100%;
 	height: 100vh;
 	background-image: linear-gradient(
@@ -16,10 +16,8 @@
 }
 
 .content-layout {
-	&.flex.flex-col {
-		justify-content: initial;
-	}
-	width: clamp(45rem, 80vw, 280rem);
+	gap: 5rem;
+	width: clamp(45rem, 80vw, 180rem);
 	height: 100%;
 	padding-top: clamp(10rem, 6vh, 105rem);
 	margin-top: clamp(10rem, 6vh, 15rem);
