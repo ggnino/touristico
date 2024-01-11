@@ -34,10 +34,20 @@ html {
 		border: $myColor-1;
 		border-radius: 2rem;
 	}
+
+	@for $var from 1 through 7 {
+		&.userColor-#{$var} {
+			::-webkit-scrollbar-thumb {
+				border: nth($colors, $var);
+				background-color: nth($colors, $var);
+			}
+		}
+	}
 }
 
 body {
 	color: $myColor-2;
+	background-color: black;
 }
 
 p {

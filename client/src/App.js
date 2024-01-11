@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MainPage from "./components/main-page-component/main-page-component.jsx";
 import "./App.scss";
 import AboutPage from "./components/about-page-component/about-page-component.jsx";
@@ -12,12 +12,14 @@ import TourPage from "./components/tour-page-component/tour-page-component.jsx";
 import PageLayout from "./components/page-layout-component/page-layout-component.jsx";
 import Nav from "./components/nav-component/nav-component.jsx";
 import UserPage from "./components/user-page-component/user-page-component.jsx";
-import { navHover, modalHover, btnImgHover, userSettingsSelection, userFormChange, userMenuClick, userPageHover, theClicker } from "./utils/functions/handlers.js"
-import { isExpired } from "react-jwt";
+import { navHover, modalHover, btnImgHover, userSettingsSelection, userFormChange, userMenuClick, userPageHover, theClicker, NavStyling, getUserInfo, userMenuSelected, logOut, updateTheData } from "./utils/functions/handlers.js"
 import img1 from "./imgs/close.png";
 import img2 from "./imgs/close2.png";
 import img3 from "./imgs/add.png";
 import img4 from "./imgs/add-hover.png";
+import { clearNav, scrollAnimation } from "./utils/functions/functions.js";
+import styleVars from "./utils/styles/variables.scss";
+import axios from "axios";
 
 function App() {
 	// variable for location
@@ -83,7 +85,7 @@ function App() {
 		tour: null,
 		rev: null,
 		book: null,
-		footer: null,
+		footer: null
 	});
 	// useState hook for navbar items
 	const [navStyle, setNavStyle] = useState({
@@ -92,7 +94,7 @@ function App() {
 		boxShadow: "",
 		color: "",
 		decoration: "underline",
-		class: "nav",
+		class: "nav transition",
 		displayItems: "",
 	});
 	const [path, setPath] = useState(window.location.pathname);
@@ -122,12 +124,9 @@ function App() {
 	// useState hook for user authentication
 	const [auth, setAuth] = useState({
 		isLoggedIn: false,
-		email: "",
-		name: "",
-		password: "",
-		passwordConfirm: "",
 		expired: false,
-		jwt: "",
+		saved: false,
+		decoded: null
 	});
 	// useState hook for usermenu styling
 	const [userMenu, setUserMenu] = useState({
@@ -202,13 +201,42 @@ function App() {
 	// useNavigate hook for redirecting
 	const redirect = useNavigate();
 
-	const controller = new AbortController();
+	const myClick = theClicker(setAuth, setStyle, setUserBorder, setFont, setTextColor, setPath, redirect, setPageLayoutStyle, setUser, setInput, setHide, setSettings, setModalDis, path, loc, auth, settings, input)
 
+	const threshold = useRef([1, 0.86, 0.14]);
+	const styleFont = useRef("");
+	const fn1 = () => NavStyling(path, settings, font, styleFont, auth, styleVars, textColor, setUserBorder, setTextColor, setNavStyle);
+	const signOut = useRef(logOut(setAuth, setStyle, setUserBorder, setFont, setTextColor, setPath, redirect));
+
+	useEffect(() => {
+
+		const fn = () => clearNav(setNavStyle, path);
+		// Scroll event for navbar animation
+		if (path === "/") {
+			scrollAnimation(mainRefs, setNavStyle, styleVars);
+
+			document.addEventListener("scroll", fn)
+			document.getElementsByTagName("html")[0].className = "";
+
+		}
+		if (path !== "/") {
+			document.removeEventListener("scroll", fn);
+		}
+
+	}, [mainRefs, path])
 	// Render app
 	return (
 		<MyContext.Provider
 			value={{
-				controller,
+				theUpdater: updateTheData(input, loc, setAuth, setInput, redirect, signOut.current),
+				signOut: signOut.current,
+				userSelected: userMenuSelected(userBorder, textColor, userMenu, setUserMenu),
+				loc,
+				getUser: useRef(getUserInfo(axios, loc)),
+				NavStyler: fn1,
+				styleFont,
+				threshold,
+				redirect,
 				path,
 				setPath,
 				btnStyle,
@@ -252,7 +280,7 @@ function App() {
 				setPageLayoutStyle,
 				hide,
 				setHide,
-				clicker: theClicker(setAuth, setStyle, setUserBorder, setFont, setTextColor, setPath, redirect, setPageLayoutStyle, setUser, setInput, setHide, setSettings, setModalDis, isExpired, path, loc, auth, settings, input),
+				clicker: myClick,
 				modalDis,
 				setModalDis,
 				auth,
