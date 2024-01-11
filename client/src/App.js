@@ -210,7 +210,7 @@ function App() {
 
 	useEffect(() => {
 
-		const fn = () => clearNav(setNavStyle, path);
+		const fn = () => clearNav(setNavStyle);
 		// Scroll event for navbar animation
 		if (path === "/") {
 			scrollAnimation(mainRefs, setNavStyle, styleVars);

@@ -1,6 +1,6 @@
-export function clearNav(setNavStyle, path = null) {
+export function clearNav(setNavStyle) {
 
-	if (window.scrollY === 0 && path === "/") {
+	if (window.scrollY === 0 && window.location.pathname === "/") {
 		setNavStyle((style) => {
 			return {
 				...style,
