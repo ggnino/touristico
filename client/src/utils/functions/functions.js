@@ -1,6 +1,6 @@
-export function clearNav(setNavStyle) {
+export function clearNav(setNavStyle, path = null) {
 
-	if (window.scrollY === 0) {
+	if (window.scrollY === 0 && path === "/") {
 		setNavStyle((style) => {
 			return {
 				...style,
@@ -18,7 +18,7 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 	const { head: headerView, info: infoView, tour: toursView, book: bookView, rev: reviewsView, footer: footerView } = viewRefs;
 
 
-	// view one valid
+	// header component is in view and scrolling
 	if (headerView && window.scrollY !== 0) {
 		// set nav styles for current view
 		setNavStyle((style) => {
@@ -30,7 +30,7 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 			};
 		});
 	}
-	// view two valid, while view one is not
+	// info component is in view, while header component is not
 	if (infoView && !headerView) {
 		// set nav styles for current view
 		setNavStyle((style) => {
@@ -41,7 +41,7 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 			};
 		});
 	}
-	// view three valid, while view two is not
+	// tour component is in view, while info component is not
 	if (toursView && !infoView) {
 		// set nav styles for current view
 		setNavStyle((style) => {
@@ -52,7 +52,7 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 			};
 		});
 	}
-	// view four valid, while view three is not
+	// reviews component is in view, while tours component is not
 	if (reviewsView && !toursView) {
 		// set nav styles for current view
 		setNavStyle((style) => {
@@ -63,7 +63,9 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 			};
 		});
 	}
-	// view five valid, while view four is not
+	/* depending on viewport height, either footer component or the book now component is in view,
+	while the reviews component is not
+	*/
 	if ((footerView && !reviewsView) || (bookView && !reviewsView)) {
 
 		// set nav styles for current view
@@ -77,13 +79,11 @@ export function scrollAnimation(viewRefs, setNavStyle, styleVars) {
 	}
 }
 // function for getting a tour
-export async function getTour(controller, axios, tours = null) {
+export async function getTour(axios, tours = null) {
 	let response = null;
 	// get request
 	try {
-		response = await axios.get('/api/v1/tours', {
-			signal: controller.signal,
-		});
+		response = await axios.get('/api/v1/tours');
 		if (tours) return response.data;
 	} catch (err) { console.log(err) }
 
@@ -98,7 +98,7 @@ export async function getTour(controller, axios, tours = null) {
 
 	return actual;
 }
-
+// function for getting tour guides
 export async function getGuides(axios) {
 	return (await axios.get("/api/v1/users/guides")).data;
 }

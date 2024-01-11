@@ -1,5 +1,8 @@
 /***************  onHandlers set up *******************/
 import axios from "axios";
+import { useEffect } from "react"; import { decodeToken, isExpired } from "react-jwt";
+
+
 // onHover handler for switching button images
 function btnImgHover(btnImage, setBtnImage, img3, img4) {
     return () => {
@@ -18,18 +21,17 @@ function modalHover(img, setImg, img1, img2) {
 
 // onChange handler for user form component
 function userFormChange(setInput) {
-    return (e, photo = null) => {
+    return (e, name, photo = null) => {
         // name of event target
-        const name = e.target.name;
         // event target is valid photo
-        if (name === 'photo' && photo.current.files.length > 0) {
+        if (photo && photo.current.files.length > 0) {
             // set photo
             setInput((i) => {
-                return { ...i, photo: photo.current.files[0] };
+                return { ...i, [name]: photo.current.files[0] };
             });
         }
         // event target is not photo
-        else if (name !== '')
+        else
             // set user input
             setInput((i) => {
                 return {
@@ -45,7 +47,7 @@ function navHover(setNavStyle, userBorder) {
         // event type
         const event = e.type;
         // mouse enter event
-        if (event === 'mouseenter') {
+        if (event === "mouseenter") {
             // set user color
             setNavStyle((navStyle) => {
                 return {
@@ -55,12 +57,12 @@ function navHover(setNavStyle, userBorder) {
             });
         }
         // mouse leave event
-        else if (event === 'mouseleave') {
+        else if (event === "mouseleave") {
             // remove user color
             setNavStyle((navStyle) => {
                 return {
                     ...navStyle,
-                    color: 'inherit',
+                    color: "inherit",
                 };
             });
         }
@@ -69,19 +71,20 @@ function navHover(setNavStyle, userBorder) {
 // onClick handler for menu selection color
 function userMenuClick(setUserMenu, userBorder, textColor) {
     return (e) => {
+
         const title = e.target.title;
         // user profile selected
-        if (title === 'profile') {
+        if (title === "profile") {
             // show user profile
             setUserMenu((s) => {
                 return {
                     ...s,
-                    menuItem: '',
-                    menuItem2: 'none',
-                    menuItem3: 'none',
-                    menuItem4: 'none',
-                    menuItem5: 'none',
-                    menuItem6: 'none',
+                    menuItem: "",
+                    menuItem2: "none",
+                    menuItem3: "none",
+                    menuItem4: "none",
+                    menuItem5: "none",
+                    menuItem6: "none",
                     color: userBorder,
                     color2: textColor,
                     color3: textColor,
@@ -92,17 +95,17 @@ function userMenuClick(setUserMenu, userBorder, textColor) {
             });
         }
         // user rewards selected
-        else if (title === 'rewards') {
+        else if (title === "rewards") {
             // show user rewards
             setUserMenu((s) => {
                 return {
                     ...s,
-                    menuItem: 'none',
-                    menuItem2: '',
-                    menuItem3: 'none',
-                    menuItem4: 'none',
-                    menuItem5: 'none',
-                    menuItem6: 'none',
+                    menuItem: "none",
+                    menuItem2: "",
+                    menuItem3: "none",
+                    menuItem4: "none",
+                    menuItem5: "none",
+                    menuItem6: "none",
                     color: textColor,
                     color2: userBorder,
                     color3: textColor,
@@ -113,17 +116,17 @@ function userMenuClick(setUserMenu, userBorder, textColor) {
             });
         }
         // user bookings selected
-        else if (title === 'bookings') {
+        else if (title === "bookings") {
             // show user bookings component
             setUserMenu((s) => {
                 return {
                     ...s,
-                    menuItem: 'none',
-                    menuItem2: 'none',
-                    menuItem3: '',
-                    menuItem4: 'none',
-                    menuItem5: 'none',
-                    menuItem6: 'none',
+                    menuItem: "none",
+                    menuItem2: "none",
+                    menuItem3: "",
+                    menuItem4: "none",
+                    menuItem5: "none",
+                    menuItem6: "none",
                     color: textColor,
                     color2: textColor,
                     color3: userBorder,
@@ -134,17 +137,17 @@ function userMenuClick(setUserMenu, userBorder, textColor) {
             });
         }
         // user admin selected tours
-        else if (title === 'tours') {
+        else if (title === "tours") {
             // show admin tours component
             setUserMenu((s) => {
                 return {
                     ...s,
-                    menuItem: 'none',
-                    menuItem2: 'none',
-                    menuItem3: 'none',
-                    menuItem4: '',
-                    menuItem5: 'none',
-                    menuItem6: 'none',
+                    menuItem: "none",
+                    menuItem2: "none",
+                    menuItem3: "none",
+                    menuItem4: "",
+                    menuItem5: "none",
+                    menuItem6: "none",
                     color: textColor,
                     color2: textColor,
                     color3: textColor,
@@ -155,17 +158,17 @@ function userMenuClick(setUserMenu, userBorder, textColor) {
             });
         }
         // user admin selected users
-        else if (title === 'users') {
+        else if (title === "users") {
             // show admin users component
             setUserMenu((s) => {
                 return {
                     ...s,
-                    menuItem: 'none',
-                    menuItem2: 'none',
-                    menuItem3: 'none',
-                    menuItem4: 'none',
-                    menuItem5: '',
-                    menuItem6: 'none',
+                    menuItem: "none",
+                    menuItem2: "none",
+                    menuItem3: "none",
+                    menuItem4: "none",
+                    menuItem5: "",
+                    menuItem6: "none",
                     color: textColor,
                     color2: textColor,
                     color3: textColor,
@@ -176,17 +179,17 @@ function userMenuClick(setUserMenu, userBorder, textColor) {
             });
         }
         // user selected settings
-        else if (title === 'settings') {
+        else if (title === "settings") {
             // show user settings
             setUserMenu((s) => {
                 return {
                     ...s,
-                    menuItem: 'none',
-                    menuItem2: 'none',
-                    menuItem3: 'none',
-                    menuItem4: 'none',
-                    menuItem5: 'none',
-                    menuItem6: '',
+                    menuItem: "none",
+                    menuItem2: "none",
+                    menuItem3: "none",
+                    menuItem4: "none",
+                    menuItem5: "none",
+                    menuItem6: "",
                     color: textColor,
                     color2: textColor,
                     color3: textColor,
@@ -202,19 +205,20 @@ function userMenuClick(setUserMenu, userBorder, textColor) {
 // onHover handler for hover effect on user menu
 function userPageHover(userMenu, setUserMenu, userBorder, textColor) {
     return (e) => {
+
         // element title
         const title = e.target.title;
         // event type
         const event = e.type;
         // cursor on profile
-        if (title === 'profile') {
+        if (title === "profile") {
             // add user color on mouse enter
-            if (event === 'mouseenter')
+            if (event === "mouseenter")
                 setUserMenu((s) => {
                     return { ...s, color: userBorder };
                 });
             // maintain user color while still selected
-            else if (event === 'mouseleave' && userMenu.menuItem === '')
+            else if (event === "mouseleave" && userMenu.menuItem === "")
                 setUserMenu((s) => {
                     return { ...s, color: userBorder };
                 });
@@ -225,14 +229,14 @@ function userPageHover(userMenu, setUserMenu, userBorder, textColor) {
                 });
         }
         // cursor on rewards
-        else if (title === 'rewards') {
+        else if (title === "rewards") {
             // add user color on mouse enter
-            if (event === 'mouseenter')
+            if (event === "mouseenter")
                 setUserMenu((s) => {
                     return { ...s, color2: userBorder };
                 });
             // maintain user color while still selected
-            else if (event === 'mouseleave' && userMenu.menuItem2 === '')
+            else if (event === "mouseleave" && userMenu.menuItem2 === "")
                 setUserMenu((s) => {
                     return { ...s, color2: userBorder };
                 });
@@ -243,14 +247,14 @@ function userPageHover(userMenu, setUserMenu, userBorder, textColor) {
                 });
         }
         // cursor on bookings
-        else if (title === 'bookings') {
+        else if (title === "bookings") {
             // add user color on mouse enter
-            if (event === 'mouseenter')
+            if (event === "mouseenter")
                 setUserMenu((s) => {
                     return { ...s, color3: userBorder };
                 });
             // maintain user color while still selected
-            else if (event === 'mouseleave' && userMenu.menuItem3 === '')
+            else if (event === "mouseleave" && userMenu.menuItem3 === "")
                 setUserMenu((s) => {
                     return { ...s, color3: userBorder };
                 });
@@ -261,14 +265,14 @@ function userPageHover(userMenu, setUserMenu, userBorder, textColor) {
                 });
         }
         // cursor on tours
-        else if (title === 'tours') {
+        else if (title === "tours") {
             // add user color on mouse enter
-            if (event === 'mouseenter')
+            if (event === "mouseenter")
                 setUserMenu((s) => {
                     return { ...s, color4: userBorder };
                 });
             // maintain user color while still selected
-            else if (event === 'mouseleave' && userMenu.menuItem4 === '')
+            else if (event === "mouseleave" && userMenu.menuItem4 === "")
                 setUserMenu((s) => {
                     return { ...s, color4: userBorder };
                 });
@@ -279,14 +283,14 @@ function userPageHover(userMenu, setUserMenu, userBorder, textColor) {
                 });
         }
         // cursor on users
-        else if (title === 'users') {
+        else if (title === "users") {
             // add user color on mouse enter
-            if (event === 'mouseenter')
+            if (event === "mouseenter")
                 setUserMenu((s) => {
                     return { ...s, color5: userBorder };
                 });
             // maintain user color while still selected
-            else if (event === 'mouseleave' && userMenu.menuItem5 === '')
+            else if (event === "mouseleave" && userMenu.menuItem5 === "")
                 setUserMenu((s) => {
                     return { ...s, color5: userBorder };
                 });
@@ -297,14 +301,14 @@ function userPageHover(userMenu, setUserMenu, userBorder, textColor) {
                 });
         }
         // cursor on settings
-        else if (title === 'settings') {
+        else if (title === "settings") {
             // add user color on mouse enter
-            if (event === 'mouseenter')
+            if (event === "mouseenter")
                 setUserMenu((s) => {
                     return { ...s, color6: userBorder };
                 });
             // maintain user color while still selected
-            else if (event === 'mouseleave' && userMenu.menuItem6 === '')
+            else if (event === "mouseleave" && userMenu.menuItem6 === "")
                 setUserMenu((s) => {
                     return { ...s, color6: userBorder };
                 });
@@ -316,167 +320,223 @@ function userPageHover(userMenu, setUserMenu, userBorder, textColor) {
         }
     };
 }
+function logOut(
+    setAuth,
+    setStyle,
+    setUserBorder,
+    setFont,
+    setTextColor,
+    setPath,
+    redirect
+) {
 
-// onClick handler
-function theClicker(setAuth, setStyle, setUserBorder, setFont, setTextColor, setPath, redirect, setPageLayoutStyle, setUser, setInput, setHide, setSettings, setModalDis, isExpired, path, loc, auth, settings, input) {
+    return () => {
+        // set authentication
+        setAuth((auth) => {
+            return {
+                ...auth,
+                isLoggedIn: false,
+                expired: true,
+            };
+        });
+        // clear any user defined settings
+        setStyle((style) => {
+            return {
+                ...style,
+                boxShadow: "",
+                borderLeft: "",
+                borderRight: "",
+            };
+        });
+
+        // clear user boder
+        setUserBorder("");
+        // clear user font
+        setFont("");
+        // clear user text color
+        setTextColor("");
+        // set path to homepage
+        setPath("/");
+        // redirect to homepage
+        redirect("/", { replace: true });
+    }
+
+}
+function updateTheData(input, loc, setAuth, setInput, redirect, signOut) {
+
     return async (e) => {
-        // element title
-        const title = e.target.title;
-        e.preventDefault();
+        const title = e.target.id;
+        if (title === "user-profile") {
 
-        // user clicked log out button
-        if (title === 'logOut') {
-            // set authentication
-            setAuth((auth) => {
-                return {
-                    ...auth,
-                    isLoggedIn: false,
-                    expired: true,
-                    jwt: '',
-                };
-            });
-            // clear any user defined settings
-            setStyle((style) => {
-                return {
-                    ...style,
-                    boxShadow: '',
-                    borderLeft: '',
-                    borderRight: '',
-                };
-            });
-
-            // clear user boder
-            setUserBorder('');
-            // clear user font
-            setFont('');
-            // clear user text color
-            setTextColor('');
-            // set path to homepage
-            setPath('/');
-            // redirect to homepage
-            redirect('/', { replace: true });
-        }
-        // user clicked on more tours button
-        if (title === 'tours') {
-            // set path to tours page
-            setPath('/tours');
-        }
-        // user clicked on info component button
-        if (title === '/about') {
-            // set path to about us page
-            setPath('/about');
-        }
-        // user clicked the book now component button
-        if (title === 'book') {
-            // set path to signup page
-            setPath('/signup');
-            // redirect to signup page with user input
-            redirect('/signup', {
-                state: { name: input.name, email: input.email },
-                // replace: true,
-            });
-        }
-
-        // Check if the click event was triggered in user profile
-        if (title === 'user-profile') {
             // Check if the button text is save
-            if (e.target.outerText === 'Save') {
+            // Check if inputs are not empty and not the same user info already saved
+            if (e.target.outerText === "Save" && IsUserInputsGood(input, loc.state)) {
+                const { formData, userPW } = getFormData(input);
 
-                // Check if inputs are not empty and not the same user info already saved
-                if (IsUserInputsGood(input)) {
-                    const { formData, userPW } = getFormData(input);
-                    try {
-                        // user passwird was updated
-                        if (userPW['password']) {
-                            // Update user password
-                            updateUserData("password", userPW);
-                        }
-                        // variable for response
-                        let res = null;
-                        // update user data
-                        res = updateUserData("user", formData);
-                        // response has user photo
-                        if (res.data.photo)
-                            // set user photo
-                            setUser((u) => {
-                                return {
-                                    ...u,
-                                    photo: res.data.photo,
-                                };
-                            });
+                try {
+                    // variable for response
+                    let res = null;
+                    // user password was updated
+                    if (userPW["password"]) {
 
-                        // clear any err meassages
-                        setAuth((s) => {
-                            return {
-                                ...s,
-                                isLoggedIn: true,
-                                expired: false,
-                            };
-                        });
-                    } catch (err) {
+                        // Update user password
+                        await updateUserData("password", userPW);
+
+                    }
+                    // update user data
+                    res = await updateUserData("user", formData)
+
+                    const { photo, name, email, userSettings } = res.data.user;
+                    redirect("/home", { state: { ...loc.state, name, email, photo, userSettings } })
+                    loc.state = { ...loc.state, name, email }
+
+                } catch (err) {
+
+                    if (
+                        err.response &&
+                        err.response.status.toString().startsWith("4")
+                    ) {
+                        signOut();
+                    } else {
                         // show err message
                         setAuth((s) => {
                             return { ...s, expired: err.response.data.message };
                         });
+                        console.log("What an err: " + err);
                     }
                 }
             }
             // Toggle edit user
             setInput((i) => {
+
                 return {
-                    ...i,
                     disabled: !i.disabled,
                 };
             });
         }
+    }
+
+}
+// onClick handler
+function theClicker(
+    setAuth,
+    setStyle,
+    setUserBorder,
+    setFont,
+    setTextColor,
+    setPath,
+    redirect,
+    setPageLayoutStyle,
+    setUser,
+    setInput,
+    setHide,
+    setSettings,
+    setModalDis,
+    path,
+    loc,
+    auth,
+    settings,
+    input
+) {
+    return async (e, tourInfo = null) => {
+        // element title
+        const title = e.target.id;
+        e.preventDefault();
+        const signOut = logOut(
+            setAuth,
+            setStyle,
+            setUserBorder,
+            setFont,
+            setTextColor,
+            setPath,
+            redirect
+        );
+
+        // user clicked log out button
+        if (title === "logOut") {
+            signOut();
+
+        }
+        // user clicked on more tours button
+        if (title === "tours") {
+            // set path to tours page
+            setPath("/tours");
+            redirect("/tours");
+        }
+        // user clicked on info component button
+        if (title === "learn-more-btn") {
+            // set path to about us page
+            setPath("/about");
+            redirect("/about")
+        }
+        // user clicked the book now component button
+        if (title === "bookNow" || title === "benefits") {
+            // set path to signup page
+            setPath("/signup");
+            // redirect to signup page with user input
+            title === "bookNow" ?
+                redirect("/signup", {
+                    state: { name: input.name, email: input.email },
+                    replace: true,
+                }) : redirect("/signup");
+        }
+
+        if (title.startsWith("the-")) {
+
+            setPath(`/tours/${e.target.id}`);
+            redirect("/tours/" + e.target.id, { state: { ...tourInfo } })
+        }
+
+        // Check if the click event was triggered in user profile
+
         // user settings clicked
-        if (title === 'settings') {
+        else if (title === "settings") {
             const userSettings = {};
             for (let prop in settings) {
                 if (settings[prop]) userSettings[prop] = settings[prop];
             }
             try {
+
                 // update user settings
-                updateUserData("user", userSettings);
+                await updateUserData("user", { userSettings });
+
             } catch (err) {
                 console.log(err);
             }
-
-            redirect('/home', { state: { ...loc.state, userSettings } });
+            redirect("/home", { state: { ...loc.state, userSettings } });
         }
 
         // sign up component btn clicked
-        if (path === '/signup' && title !== '/signup' && title !== 'book') {
+        else if (path === "/signup" && title !== "book") {
             try {
-                // destructuring user input
-                signUpUser(input);
+                // sign up with user input
+                await signUpUser(input);
                 // reset user input
                 setInput((i) => {
                     return {
                         ...i,
-                        name: '',
-                        email: '',
-                        password: '',
-                        passwordConfirm: '',
+                        name: "",
+                        email: "",
+                        password: "",
+                        passwordConfirm: "",
                     };
                 });
                 // clear any err messages
                 if (auth.expired || !auth.err) {
-                    console.log('nothere');
                     setHide((h) => {
-                        return { ...h, err: 'none' };
+                        return { ...h, err: "none" };
                     });
                     setAuth((a) => {
-                        return { ...a, expired: '' };
+                        return { ...a, expired: "" };
                     });
                 }
-                setPath('/login');
+                setPath("/login");
                 // redirect to login page
-                redirect('/login', { replace: true });
+                redirect("/login", { replace: true });
             } catch (err) {
                 // show err message
                 setHide((h) => {
-                    return { ...h, err: '' };
+                    return { ...h, err: "" };
                 });
                 // send error info
                 setAuth((s) => {
@@ -485,27 +545,27 @@ function theClicker(setAuth, setStyle, setUserBorder, setFont, setTextColor, set
             }
         }
         // on login page
-        else if (path === '/login') {
+        else if (path === "/login") {
             let res = null;
+
             try {
                 // logging in user
-                res = loginUser(input);
+                res = await loginUser(input);
+
                 setAuth((s) => {
                     return {
                         ...s,
                         isLoggedIn: true,
-                        jwt: res.data.token,
-                        expired: isExpired(res.data.token),
                     };
                 });
                 // reset user input
                 setInput((i) => {
                     return {
                         ...i,
-                        name: '',
-                        email: '',
-                        password: '',
-                        passwordConfirm: '',
+                        name: "",
+                        email: "",
+                        password: "",
+                        passwordConfirm: "",
                     };
                 });
                 // any saved user settings
@@ -526,25 +586,33 @@ function theClicker(setAuth, setStyle, setUserBorder, setFont, setTextColor, set
                     photo: res.data.user.photo,
                     role: res.data.user.role,
                 });
+                const myToken = decodeToken(res.data.token);
+                const expiration = new Date(myToken.exp * 1000);
 
-                setPath('/home');
+                setTimeout(() => {
+                    if (isExpired(myToken)) {
+
+                        signOut();
+                    }
+                }, expiration - Date.now())
+                setPath("/home");
                 // redirect to user homepage
-                redirect('/home', {
+                redirect("/home", {
                     state: {
+                        id: res.data.user._id,
                         name: res.data.user.name,
                         email: res.data.user.email,
                         photo: res.data.user.photo,
                         role: res.data.user.role,
-                        jwt: res.data.token,
+                        timeLimit: expiration,
                         userSettings: res.data.user.userSettings,
-                        expired: isExpired(res.data.token),
                     },
                     replace: true,
                 });
                 if (auth.expired)
                     // hide any input errors
                     setHide((h) => {
-                        return { ...h, err: 'none' };
+                        return { ...h, err: "none" };
                     });
             } catch (err) {
                 // send error info
@@ -553,66 +621,85 @@ function theClicker(setAuth, setStyle, setUserBorder, setFont, setTextColor, set
                 });
                 // show error message
                 setHide((h) => {
-                    return { ...h, err: '' };
+                    return { ...h, err: "" };
                 });
             }
         }
         // modal was clicked open
-        else if (title === '#openModal') {
+        else if (title === "#openModal") {
+
             // set display modal
-            setModalDis({ display: '', open: true });
+            setModalDis({ display: "", open: true });
             // set overflow hidden on layout
             setPageLayoutStyle((s) => {
                 return {
                     ...s,
-                    overflow: 'hidden',
+                    overflow: "hidden",
                 };
             });
         }
         // modal was clicked closed
-        else if (title === 'close') {
+        else if (title === "close") {
+
             // set default overflow on layout
             setPageLayoutStyle((s) => {
                 return {
                     ...s,
-                    overflow: '',
+                    overflow: "",
                 };
             });
             // hide modal
-            setModalDis({ display: 'none', open: false });
+            setModalDis({ display: "none", open: false });
         }
     };
+}
+function userMenuSelected(userBorder, textColor, userMenu, setUserMenu) {
+    return () => {
+        let selected = null;
 
+        for (let prop in userMenu) {
+            if (prop.includes("Item") && userMenu[prop] !== "none") {
+                selected = prop;
+            }
+
+        }
+        if (userBorder !== userMenu[selected]) {
+            setUserMenu((s) => {
+                for (let prop in s) {
+                    if (prop.includes("Item") && prop !== selected) s[prop] = textColor;
+                    if (prop.includes("Item") && prop === selected) s[prop] = userBorder;
+                }
+            });
+        }
+
+
+
+    }
 }
 
 function IsUserInputsGood(input, user) {
-    let areGood = false;
+    let areGood = true
 
-    if (
-        (input.name !== '' && input.email !== '') ||
-        (input.currentPassword !== '' &&
-            input.password !== '' &&
-            input.passwordConfirm !== '') ||
-        input.photo !== ''
-    ) {
-        if (input.name !== user.name && input.email !== user.email) {
-
-            areGood = true;
-        }
+    if ((input.name !== user.name && input.email !== user.email) || (input.passwordCurrent && input.password === input.passwordConfirm)) {
+        areGood = true;
     }
+
     return areGood;
 }
 async function loginUser(data) {
-
-    return await axios.post('api/v1/users/login', {
+    return await axios.post("api/v1/users/login", {
         email: data.email,
         password: data.password,
     });
 }
+function getUserInfo(axios, loc) {
+    return async () => await axios.get("api/v1/users/id/" + loc.state.id)
+
+}
 async function signUpUser(data) {
     const { name, email, password, passwordConfirm } = data;
     // signing up new user
-    await axios.post('api/v1/users/signup', {
+    await axios.post("api/v1/users/signup", {
         name,
         email,
         password,
@@ -620,36 +707,36 @@ async function signUpUser(data) {
     });
 }
 async function updateUserData(type, data) {
-    let response = null;
     if (type === "password") {
-        await axios.patch(`api/v1/users/updatePassword`, data);
+        return await axios.patch(`api/v1/users/updatePassword`, data);
+    } else if (type === "user") {
+        return await axios.patch(`api/v1/users/updateMe`, data);
+
     }
-    else if (type === "user") {
-        response = await axios.patch(`api/v1/users/updateMe`, data);
-    }
-    return response;
 }
 function getFormData(input) {
-    const pws = {};
-    let fd = new FormData();
+    const userPW = {};
+    let formData = new FormData();
     // Organize form data
     Object.keys(input).forEach((prop) => {
-        if (prop.includes('password')) pws[prop] = input[prop];
+        if (prop.includes("password")) userPW[prop] = input[prop];
         else if (input[prop]) {
-            if (prop === 'photo') {
-                fd.append(prop, input[prop], input[prop].name);
-            } else fd.append(prop, input[prop]);
+            if (prop === "photo") {
+                formData.append(prop, input[prop], input[prop].name);
+            } else formData.append(prop, input[prop]);
         }
     });
 
-    return { fd, pws }
+    return { formData, userPW };
 }
 // onClick handler for user settings selection
 function userSettingsSelection(setSettings, setFont) {
+
     return (e) => {
         const title = e.target.value;
+
         // user selected the dark option
-        if (title === 'dark') {
+        if (title === "dark") {
             setSettings((s) => {
                 return {
                     ...s,
@@ -660,7 +747,7 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected the light option
-        if (title === 'light') {
+        if (title === "light") {
             setSettings((s) => {
                 return {
                     ...s,
@@ -671,7 +758,8 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected color blue
-        if (title === 'blue') {
+        if (title === "blue") {
+
             setSettings((s) => {
                 return {
                     ...s,
@@ -687,7 +775,7 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected color default
-        else if (title === 'defaultColor') {
+        else if (title === "defaultColor") {
             setSettings((s) => {
                 return {
                     ...s,
@@ -703,7 +791,7 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected color purple
-        if (title === 'purple') {
+        if (title === "purple") {
             setSettings((s) => {
                 return {
                     ...s,
@@ -719,7 +807,7 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected color red
-        if (title === 'red') {
+        if (title === "red") {
             setSettings((s) => {
                 return {
                     ...s,
@@ -735,7 +823,7 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected color green
-        if (title === 'green') {
+        if (title === "green") {
             setSettings((s) => {
                 return {
                     ...s,
@@ -751,7 +839,8 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected color yellow
-        if (title === 'yellow') {
+        if (title === "yellow") {
+
             setSettings((s) => {
                 return {
                     ...s,
@@ -767,7 +856,8 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected color grey
-        if (title === 'grey') {
+        if (title === "grey") {
+
             setSettings((s) => {
                 return {
                     ...s,
@@ -783,19 +873,19 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected font smooth
-        if (title === 'smooth') {
-            setFont('aviano-future');
+        if (title === "smooth") {
+            setFont("aviano-future");
             setSettings((s) => {
                 return {
                     ...s,
-                    default: 'aviano-future',
+                    default: "aviano-future",
                     selectionval2: e.target.value,
                 };
             });
         }
         // user selected font default
-        if (title === 'default') {
-            setFont('');
+        if (title === "default") {
+            setFont("");
             setSettings((s) => {
                 return {
                     ...s,
@@ -805,12 +895,12 @@ function userSettingsSelection(setSettings, setFont) {
             });
         }
         // user selected font touristico
-        if (title === 'touristico') {
-            setFont('bookmania');
+        if (title === "touristico") {
+            setFont("bookmania");
             setSettings((s) => {
                 return {
                     ...s,
-                    default: 'bookmania',
+                    default: "bookmania",
                     selectionval2: e.target.value,
                 };
             });
@@ -818,4 +908,271 @@ function userSettingsSelection(setSettings, setFont) {
     };
 }
 
-export { modalHover, btnImgHover, userSettingsSelection, theClicker, navHover, userPageHover, userMenuClick, userFormChange }
+function NavStyling(
+    path,
+    settings,
+    font,
+    styleFont,
+    auth,
+    styleVars,
+    textColor,
+    setUserBorder,
+    setTextColor,
+    setNavStyle
+) {
+    return useEffect(() => {
+        // Set navbar styling by path
+        if (path !== "/" && !settings.light) {
+            setNavStyle((style) => {
+                return {
+                    ...style,
+                    backgroundColor: "black",
+                };
+            });
+        }
+        if (path !== "/home") {
+            setNavStyle((style) => {
+                return {
+                    ...style,
+                    displayItems: "",
+                    class: "nav transition",
+                };
+            });
+        }
+
+        if (path === "/signup") {
+            setNavStyle((s) => {
+                return {
+                    ...s,
+                    borderBottom: `4px solid ${styleVars.color4}`,
+                    boxShadow: `0 0 2rem ${styleVars.color4}`,
+                    color: styleVars.color4,
+                };
+            });
+        } else if (path === "/login") {
+            setNavStyle((style) => {
+                return {
+                    ...style,
+                    backgroundColor: "black",
+                    color: styleVars.color5,
+                    borderBottom: `4px solid ${styleVars.color5}`,
+                    boxShadow: `0 0 2rem ${styleVars.color5}`,
+                };
+            });
+        } else if (path.includes("tour")) {
+            setNavStyle((s) => {
+                return {
+                    ...s,
+                    borderBottom: `4px solid ${styleVars.color3}`,
+                    boxShadow: `0 0 2rem ${styleVars.color3}`,
+                    color: styleVars.color3,
+                };
+            });
+        } else if (path === "/about") {
+            setNavStyle((s) => {
+                return {
+                    ...s,
+                    borderBottom: `4px solid ${styleVars.color1}`,
+                    boxShadow: `0 0 2rem ${styleVars.color1}`,
+                    color: styleVars.color1,
+                };
+            });
+        } else if (path === "/benefits") {
+            setNavStyle((s) => {
+                return {
+                    ...s,
+                    borderBottom: `4px solid ${styleVars.color2}`,
+                    boxShadow: `0 0 2rem ${styleVars.color2}`,
+                    color: styleVars.color2,
+                };
+            });
+        }
+        // Set nav font
+        if (font === "") styleFont.current = "";
+        else if (font === "bookmania") {
+            styleFont.current = { fam: `pill-gothic-900mg`, s: "oblique" };
+        } else if (font === "aviano-future") {
+            styleFont.current = { fam: "ff-good-headline-web-pro-com", s: "italic" };
+        }
+        // user is logged in
+        if (auth.isLoggedIn) {
+            userScrollStyle(1)
+            setUserBorder(styleVars.color5);
+            setNavStyle((style) => {
+                return {
+                    ...style,
+                    borderBottom: `4px solid ${styleVars.color5}`,
+                    boxShadow: `0 0 2rem ${styleVars.color5}`,
+                    color: "inherit",
+                    displayItems: "none",
+                };
+            });
+            // user saved color settings blue
+            if (settings.blue) {
+                userScrollStyle(2)
+                setUserBorder(`${styleVars.color6}`);
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        borderBottom: `4px solid ${styleVars.color6}`,
+                        boxShadow: `0 0 2rem ${styleVars.color6}`,
+                    };
+                });
+            }
+            // user saved color settings purple
+            else if (settings.purple) {
+                userScrollStyle(3)
+                setUserBorder(`${styleVars.color7}`);
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        borderBottom: `4px solid ${styleVars.color7}`,
+                        boxShadow: `0 0 2rem ${styleVars.color7}`,
+                    };
+                });
+            }
+            // user saved color settings yellow
+            else if (settings.yellow) {
+                userScrollStyle(4)
+                setUserBorder(`${styleVars.color8}`);
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        borderBottom: `4px solid ${styleVars.color8}`,
+                        boxShadow: `0 0 2rem ${styleVars.color8}`,
+                    };
+                });
+            }
+            // user saved color settings red
+            else if (settings.red) {
+                userScrollStyle(5)
+                setUserBorder(`${styleVars.color9}`);
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        borderBottom: `4px solid ${styleVars.color9}`,
+                        boxShadow: `0 0 2rem ${styleVars.color9}`,
+                    };
+                });
+            }
+            // user saved color settings green
+            else if (settings.green) {
+                userScrollStyle(6)
+                setUserBorder(`${styleVars.color10}`);
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        borderBottom: `4px solid ${styleVars.color10}`,
+                        boxShadow: `0 0 2rem ${styleVars.color10}`,
+                    };
+                });
+            }
+            // user saved color settings grey
+            else if (settings.grey) {
+                userScrollStyle(7)
+                setUserBorder(`${styleVars.color11}`);
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        borderBottom: `4px solid ${styleVars.color11}`,
+                        boxShadow: `0 0 2rem ${styleVars.color11}`,
+                    };
+                });
+            }
+            // user saved color settings default
+            else if (settings.defaultColor) {
+                userScrollStyle(1)
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        borderBottom: `4px solid ${styleVars.color5}`,
+                        boxShadow: `0 0 2rem ${styleVars.color5}`,
+                    };
+                });
+            }
+            // user saved theme settings light
+            if (settings.light) {
+                setTextColor("black");
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        backgroundColor: "white",
+                        class: "nav transition light",
+                    };
+                });
+            }
+            // user saved theme settings dark
+            else if (settings.dark) {
+                setTextColor("");
+                setNavStyle((style) => {
+                    return {
+                        ...style,
+                        color: textColor,
+                        class: "nav tranistion",
+                    };
+                });
+            }
+        } else if (!auth.isLoggedIn && path === "/home") {
+            // refresh from login
+            setNavStyle((style) => {
+                return {
+                    ...style,
+                    borderBottom: `4px solid ${styleVars.color5}`,
+                    boxShadow: `0 0 2rem ${styleVars.color5}`,
+                };
+            });
+        } else if (!auth.isLoggedIn && path === "/") {
+            // refresh from login
+            setNavStyle((style) => {
+                return {
+                    backgroundColor: "",
+                    borderBottom: "",
+                    boxShadow: "",
+                    color: "",
+                    decoration: "underline",
+                    class: "nav tranistion",
+                    displayItems: "",
+                };
+            });
+        }
+    }, [
+        path,
+        settings,
+        font,
+        styleFont,
+        auth,
+        styleVars,
+        textColor,
+        setUserBorder,
+        setTextColor,
+        setNavStyle,
+    ]);
+}
+function userScrollStyle(num) {
+    const htmlDoc = document.getElementsByTagName("html")[0];
+    htmlDoc.className = `userColor-${num}`
+}
+
+export {
+    NavStyling,
+    modalHover,
+    btnImgHover,
+    userSettingsSelection,
+    theClicker,
+    navHover,
+    userPageHover,
+    userMenuClick,
+    userFormChange,
+    getUserInfo,
+    logOut,
+    userMenuSelected,
+    updateTheData
+};
