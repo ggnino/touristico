@@ -1,8 +1,11 @@
-import React from "react";
-
+import React, { useContext } from "react";
 import "./user-icon-component-styles.scss";
+import { MyContext } from "../../utils/functions/context";
 
 function UserIcon(props) {
+	const state = useContext(MyContext);
+	const { path } = state;
+
 	// Render component
 	return (
 		<div
@@ -12,7 +15,13 @@ function UserIcon(props) {
 			style={props.display ? { display: props.display } : { display: "" }}
 		>
 			<img
-				src={require(`/src/imgs/users/${props.img}`)}
+				src={
+					path === "/home" && !props.img.includes("default")
+						? `/imgs/users/${props.img}`
+						: props.id === "default"
+						? props.img
+						: require(`/src/imgs/users/${props.img}`)
+				}
 				alt={props.id === "guides" ? "tour-guide" : "user"}
 				id={props.id}
 				tabIndex={0}
