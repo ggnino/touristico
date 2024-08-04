@@ -3,7 +3,7 @@ import { getToursWithIn, getDistances, getAllTours, aliasTopTours, getTourStats,
 import { protect, restrictTo } from '../controllers/authController.js';
 import reviewRouter from '../routes/reviewRoutes.js';
 const tourRouter = Router();
-console.log("This Is Router", tourRouter)
+
 // route middleware for tour reviews
 tourRouter.use('/id/:id/reviews', reviewRouter);
 // route for tours with in a radius

@@ -9,6 +9,7 @@
 	"main": "server.js",
 	"scripts": {
 		"first": "npm install & cd client && npm install & cd ..",
+		"devSt": "nodemon server.js",
 		"start": "node server.js & cd client && npm start",
 		"heroku-postbuild": "cd client && npm install && npm run build",
 		"debug": "ndb server.js"
