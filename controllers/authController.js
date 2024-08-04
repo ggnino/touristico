@@ -1,17 +1,19 @@
-const User = require("../models/userModel");
-const { promisify } = require("util");
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-const Email = require("../utils/email");
+import User from "../models/userModel.js";
+import { promisify } from "util";
+import { createHash } from "crypto";
+import pkg from "jsonwebtoken";
+import catchAsync from "../utils/catchAsync.js";
+import AppError from "../utils/appError.js";
+import Email from "../utils/email.js";
+const { create, findOne, findById } = User;
+const { sign, verify } = pkg;
 
 // function for signing web tokens
 function signToken(id) {
   // pass in the user id as the payload
   // pass the 'secret' and expiration info from .env
   // return the signed web token
-  return promisify(jwt.sign)({ id }, process.env.JWT_SECRET, {
+  return promisify(sign)({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 }
@@ -43,12 +45,10 @@ async function sendToken(user, statusCode, res) {
     token
   });
 }
-// function for sending response with web token
-exports.sendToken1 = sendToken;
-// route handler for /signup
-exports.signup = catchAsync(async (req, res, next) => {
+export const sendToken1 = sendToken;
+export const signup = catchAsync(async (req, res, next) => {
   // create new user
-  const newUser = await User.create({
+  const newUser = await create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
@@ -63,8 +63,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   // send response
   sendToken(newUser, 201, res);
 });
-// route handler for /login
-exports.login = catchAsync(async (req, res, next) => {
+export const login = catchAsync(async (req, res, next) => {
   // Destruct user email and password from req.body
   const { email, password } = req.body;
 
@@ -73,7 +72,7 @@ exports.login = catchAsync(async (req, res, next) => {
     throw new AppError("Please provide email and/or password.", 400);
   }
   // find user by email provided, make sure password & active fields are selected
-  const user = await User.findOne({ email }).select("+password +active");
+  const user = await findOne({ email }).select("+password +active");
 
   // throw error if incorrect user email or password
   if (!user || !(await user.correctPassword(password))) {
@@ -90,20 +89,19 @@ exports.login = catchAsync(async (req, res, next) => {
   // send response
   sendToken(user, 200, res);
 });
-// route middleware for protecting routes
-exports.protect = catchAsync(async (req, res, next) => {
+export const protect = catchAsync(async (req, res, next) => {
 
   // check for jwt
   if (req.cookies.jwt) {
 
     // decode paylod from jwt
-    const decodedPayLoad = await promisify(jwt.verify)(
+    const decodedPayLoad = await promisify(verify)(
       req.cookies.jwt,
       process.env.JWT_SECRET
     ).catch(err => { throw new AppError("Log in session expired. Please log in again.", 401) });
 
     // find user by id
-    const currentUser = await User.findById(decodedPayLoad.id);
+    const currentUser = await findById(decodedPayLoad.id);
     // throw error for invalid token
     if (!currentUser)
       throw new AppError("The user does not exist, token is invalid.", 401);
@@ -120,7 +118,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   } else throw new AppError("Access denied! Not logged in.", 401);
 });
 // route middleware for user permissions
-exports.restrictTo = (...roles) => {
+export function restrictTo(...roles) {
   return (req, res, next) => {
     // throw error if user role does not have permission
     if (!roles.includes(req.user.role)) {
@@ -131,11 +129,10 @@ exports.restrictTo = (...roles) => {
     // next middleware in the stack
     next();
   };
-};
-// route handler for /forgotPassword
-exports.forgotPassword = catchAsync(async (req, res, next) => {
+}
+export const forgotPassword = catchAsync(async (req, res, next) => {
   // find user by email
-  const user = await User.findOne({ email: req.body.email });
+  const user = await findOne({ email: req.body.email });
   // throw error when no user exists from the provided email
   if (!user) {
     throw new AppError("No user with that email exists.", 404);
@@ -163,15 +160,13 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // send response
   sendToken(user, 200, res);
 });
-// route handler for /resetPassword
-exports.resetPassword = catchAsync(async (req, res, next) => {
+export const resetPassword = catchAsync(async (req, res, next) => {
   // hash user reset token from params
-  const hashedToken = crypto
-    .createHash("sha256")
+  const hashedToken = createHash("sha256")
     .update(req.params.token)
     .digest("hex");
   // find user by hashed token
-  const user = await User.findOne({
+  const user = await findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
   });
@@ -191,10 +186,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // send response
   sendToken(user, 200, res);
 });
-// route handler for /updatePassword
-exports.updatePassword = catchAsync(async (req, res, next) => {
+export const updatePassword = catchAsync(async (req, res, next) => {
   // Get user from collection and make sure password field is selected
-  const user = await User.findById(req.user.id).select("+password");
+  const user = await findById(req.user.id).select("+password");
   // throw error if current password does not match saved password
   if (!(await user.correctPassword(req.body.passwordCurrent))) {
     throw new AppError("Current password is wrong.", 401);

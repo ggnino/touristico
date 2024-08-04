@@ -1,8 +1,8 @@
-const nodemailer = require("nodemailer");
-const fs = require("fs");
-const { htmlToText } = require("html-to-text");
+import { createTransport as _createTransport } from "nodemailer";
+import { readFileSync } from "fs";
+import { htmlToText } from "html-to-text";
 
-module.exports = class Email {
+export default class Email {
   constructor(user, url) {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
@@ -13,7 +13,7 @@ module.exports = class Email {
   createTransport() {
     // Send emails with SendGrid service in production
     if (process.env.NODE_ENV === "production") {
-      return nodemailer.createTransport({
+      return _createTransport({
         service: "SendGrid",
         auth: {
           user: process.env.SENDGRID_USERNAME,
@@ -22,7 +22,7 @@ module.exports = class Email {
       });
     }
     // Send emails with mailtrap.io service in development
-    return nodemailer.createTransport({
+    return _createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
       auth: {
@@ -34,7 +34,7 @@ module.exports = class Email {
   // Method for sending the actual email
   async send(template, subject) {
     // Read HTML email template
-    let html = fs.readFileSync(`${__dirname}/../templates/template.html`, {
+    let html = readFileSync(`${__dirname}/../templates/template.html`, {
       encoding: 'utf8',
     });
     // Add in user name

@@ -1,18 +1,18 @@
-const express = require("express");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const hpp = require("hpp");
-const xss = require("xss-clean");
-const cors = require("cors");
-const path = require("path");
-const rateLimit = require("express-rate-limit");
-const mongoSanitize = require("express-mongo-sanitize");
-const cookieParser = require("cookie-parser");
-const globalErrHandler = require("./controllers/errorController");
-const tourRouter = require("./routes/tourRoutes");
-const userRouter = require("./routes/userRoutes");
-const reviewRouter = require("./routes/reviewRoutes");
-const AppError = require("./utils/appError");
+import express from "express"
+import helmet from "helmet";
+import morgan from "morgan";
+import hpp from "hpp";
+import xss from "xss-clean";
+import cors from "cors";
+import path from "path";
+import { rateLimit } from "express-rate-limit";
+import mongoSanitize from "express-mongo-sanitize";
+import cookieParser from "cookie-parser";
+import globalErrHandler from "./controllers/errorController.js";
+import tourRouter from "./routes/tourRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import reviewRouter from "./routes/reviewRoutes.js";
+import AppError from "./utils/appError.js";
 const app = express();
 
 // Limit the number of requests from the same IP
@@ -118,4 +118,4 @@ app.use("*", (req, res, next) => {
 });
 app.use(globalErrHandler);
 
-module.exports = app;
+export default app;

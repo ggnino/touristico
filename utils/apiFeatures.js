@@ -90,4 +90,4 @@ class APIFeatures {
 		else value = value.replace(/,/g, ' ');
 	}
 }
-module.exports = APIFeatures;
+export default APIFeatures;

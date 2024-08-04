@@ -1,4 +1,4 @@
-const AppError = require('../utils/appError');
+import AppError from '../utils/appError.js';
 // Only display the necessary info to the client when running in production
 function sendProdErr(err, res) {
 	// Operational errors send message to client
@@ -62,7 +62,7 @@ function handleValidationDB(err) {
 	// error
 	return new AppError(msg, 400);
 }
-module.exports = (err, req, res, next) => {
+export default (err, req, res, next) => {
 	// error status code
 	err.statusCode = err.statusCode || 500;
 	// error status msg

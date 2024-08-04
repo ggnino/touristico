@@ -1,47 +1,34 @@
-const Tour = require('../models/tourModel');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
-const multer = require('multer');
-const sharp = require('sharp');
+import Tour from '../models/tourModel.js';
+import AppError from '../utils/appError.js';
+import catchAsync from '../utils/catchAsync.js';
+import { deleteOne, updateOne, createOne, getOne, getAll, resize, upload } from '../utils/handlerFunctions.js';
 
-const {
-	deleteOne,
-	updateOne,
-	createOne,
-	getOne,
-	getAll,
-	resize,
-	upload,
-} = require('../utils/handlerFunctions');
+const { aggregate, find } = Tour;
 
-// middleware for uploading multiple tour images
-exports.uploadTourImages = upload.fields([
+export const uploadTourImages = upload.fields([
 	{ name: 'imageCover', maxCount: 1 },
 	{ name: 'images', maxCount: 3 },
 ]);
-// middleware for resizing images
-exports.resizePhoto = resize;
+export const resizePhoto = resize;
 
 // middleware for the best 5 cheap tours route
-exports.aliasTopTours = (req, res, next) => {
+export function aliasTopTours(req, res, next) {
 	req.query.limit = '5'; // display only 5 results
 	req.query.sort = '-ratingsAverage price'; // sort by the highest ratingsAverage and cheapest price
 	req.query.fields = 'name price ratingsAverage difficulty duration'; // only display those fields in the document
 
 	next(); // move to the next middleware in the stack
-};
+}
 
-// CRUD route handlers
-exports.getAllTours = getAll(Tour);
-exports.getTour = getOne(Tour);
-exports.createTour = createOne(Tour);
-exports.updateTour = updateOne(Tour);
-exports.deleteTour = deleteOne(Tour);
+export const getAllTours = getAll(Tour);
+export const getTour = getOne(Tour);
+export const createTour = createOne(Tour);
+export const updateTour = updateOne(Tour);
+export const deleteTour = deleteOne(Tour);
 
-// route handler for getting tour statistics
-exports.getTourStats = catchAsync(async (req, res) => {
+export const getTourStats = catchAsync(async (req, res) => {
 	// tour stats
-	const stats = await Tour.aggregate([
+	const stats = await aggregate([
 		{
 			$match: {
 				// match all tour docs by ratingAvg 4.5=<
@@ -75,12 +62,11 @@ exports.getTourStats = catchAsync(async (req, res) => {
 		stats,
 	});
 });
-// route handler for the monthly planner
-exports.getMonthlyPlan = catchAsync(async (req, res) => {
+export const getMonthlyPlan = catchAsync(async (req, res) => {
 	// convert string into number
 	const year = req.params.year * 1;
 	// monthly plan
-	const plan = await Tour.aggregate([
+	const plan = await aggregate([
 		{
 			$unwind: '$startDates', // unpacks the startDates arr
 		},
@@ -122,8 +108,7 @@ exports.getMonthlyPlan = catchAsync(async (req, res) => {
 		plan,
 	});
 });
-// route handler for getting tours with in a certain distance
-exports.getToursWithIn = catchAsync(async (req, res) => {
+export const getToursWithIn = catchAsync(async (req, res) => {
 	// destructoring params obj
 	const { distance, latlng, unit } = req.params;
 
@@ -138,7 +123,7 @@ exports.getToursWithIn = catchAsync(async (req, res) => {
 		);
 	}
 	// execute document query
-	const tours = await Tour.find({
+	const tours = await find({
 		// find tours by start location
 		startLocation: {
 			$geoWithin: {
@@ -154,8 +139,7 @@ exports.getToursWithIn = catchAsync(async (req, res) => {
 		tours,
 	});
 });
-// route handler for getting the actual distance from a certain point
-exports.getDistances = catchAsync(async (req, res) => {
+export const getDistances = catchAsync(async (req, res) => {
 	// destructoring params obj
 	const { latlng, unit } = req.params;
 
@@ -171,7 +155,7 @@ exports.getDistances = catchAsync(async (req, res) => {
 		);
 	}
 	// distances stats
-	const distances = await Tour.aggregate([
+	const distances = await aggregate([
 		{
 			$geoNear: {
 				// the point to start calculating the distance

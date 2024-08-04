@@ -1,12 +1,12 @@
-const AppError = require("./appError");
-const APIFeatures = require("./apiFeatures");
-const catchAsync = require("./catchAsync");
-const sharp = require("sharp");
-const con = require("../controllers/authController");
-const multer = require("multer");
+import AppError from "./appError.js";
+import APIFeatures from "./apiFeatures.js";
+import catchAsync from "./catchAsync.js";
+import sharp from "sharp";
+import { sendToken1 } from "../controllers/authController.js";
+import multer, { memoryStorage } from "multer";
 // handler for deleting one document
-exports.deleteOne = (Model) =>
-  catchAsync(async (req, res) => {
+export function deleteOne(Model) {
+  return catchAsync(async (req, res) => {
     // document found by params.id
     let doc = await Model.findById(req.params.id);
     // check if its the review model
@@ -26,9 +26,10 @@ exports.deleteOne = (Model) =>
       status: "success",
     });
   });
+}
 // handler for updating one document
-exports.updateOne = (Model) =>
-  catchAsync(async (req, res) => {
+export function updateOne(Model) {
+  return catchAsync(async (req, res) => {
     // document found by params.id
     let doc = await Model.findById(req.params.id);
     // check if its the review model
@@ -58,9 +59,10 @@ exports.updateOne = (Model) =>
       [`updated${Model.modelName}`]: doc,
     });
   });
+}
 // handler for creating one document
-exports.createOne = (Model) =>
-  catchAsync(async (req, res) => {
+export function createOne(Model) {
+  return catchAsync(async (req, res) => {
     // create a tour document
     const doc = await Model.create(req.body);
 
@@ -70,9 +72,10 @@ exports.createOne = (Model) =>
       [`new${Model.modelName}`]: doc,
     });
   });
+}
 // handler for getting one document
-exports.getOne = (Model) =>
-  catchAsync(async (req, res, next) => {
+export function getOne(Model) {
+  return catchAsync(async (req, res, next) => {
     // document query found by params.id
     let docQuery = Model.findById(req.params.id);
     // Only when its the Tour model, populate the reviews field
@@ -84,16 +87,17 @@ exports.getOne = (Model) =>
     // throw err that catchAsync will catch and pass to the global err handler
     if (!doc) throw new AppError(`Can not find document with that id.`, 404);
 
-    if (Model.modelName === "User") return con.sendToken1(doc, 200, res);
+    if (Model.modelName === "User") return sendToken1(doc, 200, res);
     // send response
     res.status(200).json({
       status: "success",
       [`${Model.modelName}`]: doc,
     });
   });
+}
 // handler for getting all documents
-exports.getAll = (Model) =>
-  catchAsync(async (req, res) => {
+export function getAll(Model) {
+  return catchAsync(async (req, res) => {
     // add all api features to the query
     const features = new APIFeatures(Model.find(req.body.filter), req.query)
       .filter()
@@ -111,8 +115,8 @@ exports.getAll = (Model) =>
       [`${Model.modelName}s`]: docs,
     });
   });
-// handler for resizing images
-exports.resize = catchAsync(async (req, res, next) => {
+}
+export const resize = catchAsync(async (req, res, next) => {
   // resize a single image
   if (req.file) {
     // user image name
@@ -174,6 +178,5 @@ const multerFilter = (req, file, cb) => {
   else cb(new AppError("File must be a image. Reupload please.", 400), false);
 };
 // multer storage for uploading
-const multerStorage = multer.memoryStorage();
-// upload function
-exports.upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+const multerStorage = memoryStorage();
+export const upload = multer({ storage: multerStorage, fileFilter: multerFilter });

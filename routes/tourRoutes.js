@@ -1,45 +1,45 @@
-const express = require('express');
-const router = express.Router();
-const tourController = require('../controllers/tourController');
-const authController = require('../controllers/authController');
-const reviewRouter = require('../routes/reviewRoutes');
+import { Router } from 'express';
+const router = Router();
+import { getToursWithIn, getDistances, getAllTours, aliasTopTours, getTourStats, getMonthlyPlan, createTour, getTour, uploadTourImages, resizePhoto, updateTour, deleteTour } from '../controllers/tourController.js';
+import { protect, restrictTo } from '../controllers/authController.js';
+import reviewRouter from '../routes/reviewRoutes.js';
 
 // route middleware for tour reviews
 router.use('/id/:id/reviews', reviewRouter);
 // route for tours with in a radius
 router
 	.route('/tours-within/:distance/center/:latlng/unit/:unit')
-	.get(tourController.getToursWithIn);
+	.get(getToursWithIn);
 // route for distances from tours
-router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
+router.route('/distances/:latlng/unit/:unit').get(getDistances);
 
-router.route('/').get(tourController.getAllTours); // get all tours
+router.route('/').get(getAllTours); // get all tours
 
 // Aliasing
 // route for the best 5 cheapest tours
 router
 	.route('/top-5-cheap')
-	.get(tourController.aliasTopTours, tourController.getAllTours);
+	.get(aliasTopTours, getAllTours);
 // route for tour statistics
-router.route('/tour-stats').get(tourController.getTourStats);
+router.route('/tour-stats').get(getTourStats);
 // limited routes to the following user roles
 router.use(
-	authController.protect,
-	authController.restrictTo('admin', 'lead-guide')
+	protect,
+	restrictTo('admin', 'lead-guide')
 );
 // planner route
-router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+router.route('/monthly-plan/:year').get(getMonthlyPlan);
 // general crud tour routes
-router.route('/').post(tourController.createTour); // create a tour
+router.route('/').post(createTour); // create a tour
 
 router
 	.route('/id/:id') // route with tour ID
-	.get(tourController.getTour) // get a tour by ID
+	.get(getTour) // get a tour by ID
 	.patch(
-		tourController.uploadTourImages,
-		tourController.resizePhoto,
-		tourController.updateTour
+		uploadTourImages,
+		resizePhoto,
+		updateTour
 	) // update a tour by ID
-	.delete(tourController.deleteTour); // delete a tour by ID
+	.delete(deleteTour); // delete a tour by ID
 
-module.exports = router;
+export default router;

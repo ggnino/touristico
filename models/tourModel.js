@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
-const strValidator = require('validator');
-const User = require('./userModel');
-const tourSchema = new mongoose.Schema(
+import { Schema, model } from 'mongoose';
+import slugify from 'slugify';
+import pkg from 'validator';
+const { isAlpha } = pkg;
+
+const tourSchema = new Schema(
 	{
 		name: {
 			type: String,
@@ -13,7 +14,7 @@ const tourSchema = new mongoose.Schema(
 			minLength: [10, 'The tour name must have at least 10 characters.'],
 			validate: {
 				validator: function (val) {
-					return strValidator.isAlpha(val, 'en-US', { ignore: ' ' });
+					return isAlpha(val, 'en-US', { ignore: ' ' });
 				},
 				message: 'The tour name must contain only letters.',
 			},
@@ -104,7 +105,7 @@ const tourSchema = new mongoose.Schema(
 		],
 		guides: [
 			{
-				type: mongoose.Schema.Types.ObjectId,
+				type: Schema.Types.ObjectId,
 				ref: 'User',
 			},
 		],
@@ -141,15 +142,7 @@ tourSchema.pre('save', function (next) {
 	// next middleware in the stack
 	next();
 });
-// not needed
-// pre save hook for embedding guide docs
-// tourSchema.pre('save', async function (next) {
-// 	// find tour guides by id, and embed guides
-// 	this.guides = await User.find({ _id: { $in: this.guides } });
 
-// 	// next middleware in the stack
-// 	next();
-// });
 
 // Query middleware
 // pre find hook for embedding guide docs
@@ -167,6 +160,6 @@ tourSchema.post('save', function (doc, next) {
 	next();
 });
 
-const Tour = mongoose.model('Tour', tourSchema);
+const Tour = model('Tour', tourSchema);
 
-module.exports = Tour;
+export default Tour;

@@ -1,7 +1,9 @@
-const { Schema, model } = require('mongoose');
-const validator = require('validator');
-const crypto = require('crypto');
-const bcrypt = require('bcryptjs');
+import { Schema, model } from 'mongoose';
+import pkg from 'validator';
+import { randomBytes, createHash } from 'crypto';
+import pkg2 from 'bcryptjs';
+const { hash, compare } = pkg2;
+const { isEmail } = pkg
 
 const userSchema = new Schema({
 	name: {
@@ -13,7 +15,7 @@ const userSchema = new Schema({
 		unique: true,
 		lowercase: true,
 		required: [true, 'User email is required.'],
-		validate: [validator.isEmail, 'Enter a valid email address.'],
+		validate: [isEmail, 'Enter a valid email address.'],
 	},
 	photo: {
 		type: String,
@@ -55,7 +57,7 @@ userSchema.pre('save', async function (next) {
 	// Only run this function if password was actually modified
 	if (!this.isModified('password')) return next();
 	// hash user password with the cost of 13
-	this.password = await bcrypt.hash(this.password, 13);
+	this.password = await hash(this.password, 13);
 	// delete passwordConfirm field
 	this.passwordConfirm = undefined;
 	// next middleware in the stack
@@ -75,7 +77,7 @@ userSchema.pre('save', function (next) {
 // method for checking if password is correct
 userSchema.methods.correctPassword = async function (userPW) {
 	// compare saved password with user submitted password
-	return await bcrypt.compare(userPW, this.password);
+	return await compare(userPW, this.password);
 };
 // method for checking if password has changed after certain time
 userSchema.methods.changedPasswordAfter = function (timestamp) {
@@ -89,10 +91,9 @@ userSchema.methods.changedPasswordAfter = function (timestamp) {
 // method for resetting user passsword
 userSchema.methods.passwordReset = function () {
 	// create reset password token
-	const resetToken = crypto.randomBytes(32).toString('hex');
+	const resetToken = randomBytes(32).toString('hex');
 	// hash reset password token
-	this.passwordResetToken = crypto
-		.createHash('sha256')
+	this.passwordResetToken = createHash('sha256')
 		.update(resetToken)
 		.digest('hex');
 	// reset password token expires in 10 min. format in milliseconds
@@ -103,4 +104,4 @@ userSchema.methods.passwordReset = function () {
 
 const User = model('User', userSchema);
 
-module.exports = User;
+export default User;

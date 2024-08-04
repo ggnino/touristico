@@ -1,28 +1,28 @@
-const express = require('express');
-const reviewController = require('../controllers/reviewController');
-const authController = require('../controllers/authController');
-const router = express.Router({
+import { Router } from 'express';
+import { filter, getAllReviews, setTourId, createReview, getReview, updateReview, deleteReview } from '../controllers/reviewController.js';
+import { protect, restrictTo } from '../controllers/authController.js';
+const router = Router({
 	mergeParams: true,
 });
 // general CRUD review routes
-router.route('/').get(reviewController.filter, reviewController.getAllReviews);
+router.route('/').get(filter, getAllReviews);
 // protect routes, must be logged in to access them
-router.use(authController.protect);
+router.use(protect);
 // general CRUD review routes
 router
 	.route('/')
-	.get(reviewController.filter, reviewController.getAllReviews) // filter middleware to get all reviews
+	.get(filter, getAllReviews) // filter middleware to get all reviews
 	.post(
-		authController.restrictTo('user'), // restrict to user role only
-		reviewController.setTourId, // set tour ID middleware
-		reviewController.createReview // create a review
+		restrictTo('user'), // restrict to user role only
+		setTourId, // set tour ID middleware
+		createReview // create a review
 	);
 // restrict following routes to admin and user roles only
-router.use(authController.restrictTo('admin', 'user'));
+router.use(restrictTo('admin', 'user'));
 router
 	.route('/id/:id') // review id route
-	.get(reviewController.getReview) // get review by ID
-	.patch(reviewController.updateReview) // update review by ID
-	.delete(reviewController.deleteReview); // delete review by ID
+	.get(getReview) // get review by ID
+	.patch(updateReview) // update review by ID
+	.delete(deleteReview); // delete review by ID
 
-module.exports = router;
+export default router;

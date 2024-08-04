@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
-const Tour = require('./tourModel');
-const reviewSchema = new mongoose.Schema({
+import { Schema, model } from 'mongoose';
+import pkg from './tourModel.js';
+const { findByIdAndUpdate } = pkg;
+const reviewSchema = new Schema({
 	review: {
 		type: String,
 		required: [true, 'Review can not be empty.'],
@@ -12,12 +13,12 @@ const reviewSchema = new mongoose.Schema({
 		default: 3,
 	},
 	tour: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		ref: 'Tour',
 		required: [true, 'Review must belong to a tour!'],
 	},
 	user: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		ref: 'User',
 	},
 });
@@ -60,12 +61,12 @@ reviewSchema.statics.calAvgRatings = async function (tourID) {
 		},
 	]);
 	// uodate tour with new ratings info
-	await Tour.findByIdAndUpdate(tourID, {
+	await findByIdAndUpdate(tourID, {
 		ratingsQuantity: reviewStats[0].numRatings,
 		ratingsAverage: reviewStats[0].avgRating,
 	});
 };
 
-const Review = mongoose.model('Review', reviewSchema);
+const Review = model('Review', reviewSchema);
 
-module.exports = Review;
+export default Review;
