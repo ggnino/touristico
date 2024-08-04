@@ -1,27 +1,27 @@
 import { Router } from 'express';
-const router = Router();
 import { getGuides, getMe, getUser, uploadUserPhoto, resizePhoto, updateMe, deactivateAccount, getAllUsers, createUser, deleteUsers, updateUser, deleteUser } from '../controllers/userController.js';
 import { login, signup, forgotPassword, resetPassword, protect, updatePassword, restrictTo } from '../controllers/authController.js';
+const userRouter = Router();
 
 
-router.route('/guides').get(getGuides);
+userRouter.route('/guides').get(getGuides);
 
 // login route
-router.route('/login').post(login);
+userRouter.route('/login').post(login);
 // sign up route for new users
-router.route('/signup').post(signup);
+userRouter.route('/signup').post(signup);
 // forgot password route
-router.route('/forgotPassword').post(forgotPassword);
+userRouter.route('/forgotPassword').post(forgotPassword);
 // reset password route
-router.route('/resetPassword/:token').patch(resetPassword);
+userRouter.route('/resetPassword/:token').patch(resetPassword);
 // protect middleware for all routes below, must be logged in order to access routes
-router.use(protect);
+userRouter.use(protect);
 // update password route
-router.route('/updatePassword').patch(updatePassword);
-router.route('/me').get(getMe, getUser);
+userRouter.route('/updatePassword').patch(updatePassword);
+userRouter.route('/me').get(getMe, getUser);
 
 // update user data route
-router
+userRouter
 	.route('/updateMe')
 	.patch(
 		uploadUserPhoto,
@@ -29,21 +29,21 @@ router
 		updateMe
 	);
 // deactivate user account
-router.route('/deactivateMe').patch(deactivateAccount);
+userRouter.route('/deactivateMe').patch(deactivateAccount);
 // restrict permissions of the following routes to admin role
-router.use(restrictTo('admin'));
+userRouter.use(restrictTo('admin'));
 
-router
+userRouter
 	.route('/') // users route
 	.get(getAllUsers) // get all users
 	.post(createUser); // create a user
 // admin route to delete all deactivated account
-router.route('/id/deactivated/removeUsers').delete(deleteUsers);
+userRouter.route('/id/deactivated/removeUsers').delete(deleteUsers);
 
-router
+userRouter
 	.route('/id/:id') // user ID route
 	.get(getUser) // get user by ID
 	.patch(updateUser) // update user by ID
 	.delete(deleteUser); // delete user by ID
 
-export default router;
+export default userRouter;

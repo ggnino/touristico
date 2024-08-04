@@ -5,7 +5,7 @@ import app from "./app.js";
 if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: "./config.env" });
 }
-console.log(process.env.NODE_ENV)
+
 // database credentials
 const DB = process.env.DATABASE.replace(
   "<password>",
