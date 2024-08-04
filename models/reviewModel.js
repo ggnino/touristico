@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
-import pkg from './tourModel.js';
-const { findByIdAndUpdate } = pkg;
+import Tour from './tourModel.js';
+
 const reviewSchema = new Schema({
 	review: {
 		type: String,
@@ -61,7 +61,7 @@ reviewSchema.statics.calAvgRatings = async function (tourID) {
 		},
 	]);
 	// uodate tour with new ratings info
-	await findByIdAndUpdate(tourID, {
+	await Tour.findByIdAndUpdate(tourID, {
 		ratingsQuantity: reviewStats[0].numRatings,
 		ratingsAverage: reviewStats[0].avgRating,
 	});

@@ -5,7 +5,7 @@ import pkg from "jsonwebtoken";
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
 import Email from "../utils/email.js";
-const { create, findOne, findById } = User;
+
 const { sign, verify } = pkg;
 
 // function for signing web tokens
@@ -48,7 +48,7 @@ async function sendToken(user, statusCode, res) {
 export const sendToken1 = sendToken;
 export const signup = catchAsync(async (req, res, next) => {
   // create new user
-  const newUser = await create({
+  const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
@@ -72,7 +72,7 @@ export const login = catchAsync(async (req, res, next) => {
     throw new AppError("Please provide email and/or password.", 400);
   }
   // find user by email provided, make sure password & active fields are selected
-  const user = await findOne({ email }).select("+password +active");
+  const user = await User.findOne({ email }).select("+password +active");
 
   // throw error if incorrect user email or password
   if (!user || !(await user.correctPassword(password))) {
@@ -101,7 +101,7 @@ export const protect = catchAsync(async (req, res, next) => {
     ).catch(err => { throw new AppError("Log in session expired. Please log in again.", 401) });
 
     // find user by id
-    const currentUser = await findById(decodedPayLoad.id);
+    const currentUser = await User.findById(decodedPayLoad.id);
     // throw error for invalid token
     if (!currentUser)
       throw new AppError("The user does not exist, token is invalid.", 401);
@@ -132,7 +132,7 @@ export function restrictTo(...roles) {
 }
 export const forgotPassword = catchAsync(async (req, res, next) => {
   // find user by email
-  const user = await findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email });
   // throw error when no user exists from the provided email
   if (!user) {
     throw new AppError("No user with that email exists.", 404);
@@ -166,7 +166,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
     .update(req.params.token)
     .digest("hex");
   // find user by hashed token
-  const user = await findOne({
+  const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
   });
@@ -188,7 +188,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 });
 export const updatePassword = catchAsync(async (req, res, next) => {
   // Get user from collection and make sure password field is selected
-  const user = await findById(req.user.id).select("+password");
+  const user = await User.findById(req.user.id).select("+password");
   // throw error if current password does not match saved password
   if (!(await user.correctPassword(req.body.passwordCurrent))) {
     throw new AppError("Current password is wrong.", 401);

@@ -2,7 +2,7 @@ import User from '../models/userModel.js';
 import AppError from '../utils/appError.js';
 import catchAsync from '../utils/catchAsync.js';
 import { deleteOne, updateOne, createOne, getOne, getAll, resize, upload } from '../utils/handlerFunctions.js';
-const { find, findByIdAndUpdate } = User;
+
 
 export const uploadUserPhoto = upload.single('photo');
 export const resizePhoto = resize;
@@ -16,9 +16,9 @@ export function getMe(req, res, next) {
 }
 export const getGuides = catchAsync(async (req, res) => {
 	// find users by their roles lead-guides
-	const leadGuides = await find({ role: 'lead-guide' });
+	const leadGuides = await User.find({ role: 'lead-guide' });
 	// find users by their roles guides
-	const guides = await find({ role: 'guide' });
+	const guides = await User.find({ role: 'guide' });
 	// arr holding all guides
 	const tourGuides = [...leadGuides, ...guides];
 	// send response
@@ -47,7 +47,7 @@ export const updateMe = catchAsync(async (req, res) => {
 	}
 
 	// find user by ID and update
-	const updatedUser = await findByIdAndUpdate(req.user.id, req.body, {
+	const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
 		new: true,
 		runValidators: true,
 	});
@@ -62,7 +62,7 @@ export const updateMe = catchAsync(async (req, res) => {
 	});
 });
 export const deactivateAccount = catchAsync(async (req, res) => {
-	await findByIdAndUpdate(req.user.id, { active: false });
+	await User.findByIdAndUpdate(req.user.id, { active: false });
 
 	res.status(200).json({
 		status: 'success',

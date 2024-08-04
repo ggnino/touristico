@@ -3,8 +3,6 @@ import AppError from '../utils/appError.js';
 import catchAsync from '../utils/catchAsync.js';
 import { deleteOne, updateOne, createOne, getOne, getAll, resize, upload } from '../utils/handlerFunctions.js';
 
-const { aggregate, find } = Tour;
-
 export const uploadTourImages = upload.fields([
 	{ name: 'imageCover', maxCount: 1 },
 	{ name: 'images', maxCount: 3 },
@@ -28,7 +26,7 @@ export const deleteTour = deleteOne(Tour);
 
 export const getTourStats = catchAsync(async (req, res) => {
 	// tour stats
-	const stats = await aggregate([
+	const stats = await Tour.aggregate([
 		{
 			$match: {
 				// match all tour docs by ratingAvg 4.5=<
@@ -66,7 +64,7 @@ export const getMonthlyPlan = catchAsync(async (req, res) => {
 	// convert string into number
 	const year = req.params.year * 1;
 	// monthly plan
-	const plan = await aggregate([
+	const plan = await Tour.aggregate([
 		{
 			$unwind: '$startDates', // unpacks the startDates arr
 		},
@@ -123,7 +121,7 @@ export const getToursWithIn = catchAsync(async (req, res) => {
 		);
 	}
 	// execute document query
-	const tours = await find({
+	const tours = await Tour.find({
 		// find tours by start location
 		startLocation: {
 			$geoWithin: {
@@ -155,7 +153,7 @@ export const getDistances = catchAsync(async (req, res) => {
 		);
 	}
 	// distances stats
-	const distances = await aggregate([
+	const distances = await Tour.aggregate([
 		{
 			$geoNear: {
 				// the point to start calculating the distance

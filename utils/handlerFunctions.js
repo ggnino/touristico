@@ -3,7 +3,8 @@ import APIFeatures from "./apiFeatures.js";
 import catchAsync from "./catchAsync.js";
 import sharp from "sharp";
 import { sendToken1 } from "../controllers/authController.js";
-import multer, { memoryStorage } from "multer";
+import multer from "multer";
+const { memoryStorage } = multer;
 // handler for deleting one document
 export function deleteOne(Model) {
   return catchAsync(async (req, res) => {
